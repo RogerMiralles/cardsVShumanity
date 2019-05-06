@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">cardsVShumanity</string>
     <string name="cartas_contra_la_humanidad">Cartas Contra La Humanidad</string>
+    <string name="login">Login</string>
+    <string name="nav_header_subtitle" />
+    <string name="nav_header_title" />
+    <string name="nav_header_desc" />
+    <string name="hello_blank_fragment" />
+    <string name="action_settings" />
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
+    <string name="title_activity_menu_nav"/>
 </resources>
