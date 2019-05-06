@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "685686837379",
+    "firebase_url": "https://cardsagainsthumanity-337a1.firebaseio.com",
+    "project_id": "cardsagainsthumanity-337a1",
+    "storage_bucket": "cardsagainsthumanity-337a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685686837379:android:0ca16b84197dc7e4",
+        "android_client_info": {
+          "package_name": "com.example.cardsvshumanity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685686837379-os5vg5qsk091k7vkr1i7qihnmo5isefn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cardsvshumanity",
+            "certificate_hash": "dd2d9c0db94cf2dfd0136f4c186a66ac109d1493"
+          }
+        },
+        {
+          "client_id": "685686837379-j9evg8bvqk9cstnfog2jos5spnd0ggl1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwrpQBHsl3D6fRHReUeV54ef7_M-T0YGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685686837379-j9evg8bvqk9cstnfog2jos5spnd0ggl1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
