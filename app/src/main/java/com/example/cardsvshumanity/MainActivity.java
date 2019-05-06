@@ -1,8 +1,11 @@
 package com.example.cardsvshumanity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
+import com.example.cardsvshumanity.menu.menuNav;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -14,5 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public void onClickJugar(View view) {
+        Intent listSong = new Intent(getApplicationContext(), menuNav.class);
+        startActivity(listSong);
+
     }
 }
