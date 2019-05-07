@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="92dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="60dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_thin"
