@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.cardsvshumanity.jugarPerfil.perfil;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
+import com.example.cardsvshumanity.logReg.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(listSong);
         }
         else{
-            // TODO Cambiar a ventana de inicio de session
+            Intent listSong = new Intent(getApplicationContext(), login.class);
+            startActivity(listSong);
         }
     }
 
