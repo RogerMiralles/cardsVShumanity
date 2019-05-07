@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">cardsVShumanity</string>
-    <string name="cartas_contra_la_humanidad">Cartas Contra La Humanidad</string>
+    <string name="app_name">Cartas Contra la Humanidad</string>
+    <string name="cartas_contra_la_humanidad">Cartas Contra la Humanidad</string>
     <string name="jugar">Jugar</string>
     <string name="nav_header_subtitle" />
     <string name="nav_header_title" />
@@ -12,13 +12,13 @@
     <string name="title_activity_menu_nav" />
     <string name="idioma">Idioma</string>
     <string name="cartas">Cartas</string>
-    <string name="baraja">baraja</string>
+    <string name="baraja">Baraja</string>
+    <string name="todo">To-Do</string>
+    <string name="perfil">Perfil</string>
+    <string name="idiomaboton">Boton de Idioma</string>
     <string name="inicia_session">Inicia Sesión</string>
-    <string name="todo">TODO</string>
-    <string name="perfil">perfil</string>
-    <string name="idiomaboton">idiomaBoton</string>
-    <string name="correo">Correo</string>
-    <string name="contrase_a">Contraseña</string>
-    <string name="registrarse">registrarse</string>
-    <string name="logear">logear</string>
+    <string name="correo" />
+    <string name="contrase_a" />
+    <string name="logear" />
+    <string name="registrarse" />
 </resources>

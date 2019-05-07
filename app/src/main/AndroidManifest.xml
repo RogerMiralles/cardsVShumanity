@@ -22,14 +22,7 @@
         <activity android:name=".partida.cartas" />
         <activity android:name=".jugarPerfil.segundaVentana" />
         <activity android:name=".logReg.registre" />
-        <activity android:name=".logReg.login"
-            tools:ignore="DuplicateActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".logReg.login"/>
     </application>
 
 </manifest>

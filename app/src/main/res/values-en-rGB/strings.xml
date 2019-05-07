@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cards Against Humanity</string>
+    <string name="cartas_contra_la_humanidad">Cartas Contra La Humanidad</string>
+    <string name="jugar">Jugar</string>
+    <string name="nav_header_subtitle" />
+    <string name="nav_header_title" />
+    <string name="nav_header_desc" />
+    <string name="hello_blank_fragment" />
+    <string name="action_settings" />
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
+    <string name="title_activity_menu_nav" />
+    <string name="idioma">Idioma</string>
+    <string name="cartas">Cartas</string>
+    <string name="baraja">baraja</string>
+    <string name="todo">TODO</string>
+    <string name="perfil">perfil</string>
+    <string name="idiomaboton">idiomaBoton</string>
+    <string name="inicia_session">Sign in</string>
+</resources>

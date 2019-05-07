@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private Button mJuegaIniciaSes;
+    private Button mPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +27,14 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mJuegaIniciaSes = findViewById(R.id.btnJugar);
+        mPerfil=findViewById(R.id.btnPerfil);
         if(mUser == null){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
+            mPerfil.setVisibility(View.INVISIBLE);
         }
         else{
             mJuegaIniciaSes.setText(getString(R.string.jugar));
+            mPerfil.setVisibility(View.VISIBLE);
         }
     }
 
