@@ -17,8 +17,8 @@
     <string name="perfil">Perfil</string>
     <string name="idiomaboton">Boton de Idioma</string>
     <string name="inicia_session">Inicia Sesión</string>
-    <string name="correo" />
-    <string name="contrase_a" />
-    <string name="logear" />
-    <string name="registrarse" />
+    <string name="correo">Correo</string>
+    <string name="contrase_a">Contraseña </string>
+    <string name="logear">Entrar </string>
+    <string name="registrarse">Registrarse </string>
 </resources>
