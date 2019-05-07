@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cardsvshumanity">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,13 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-        <activity
-            android:name=".menu.menuNav"
-            android:label="@string/title_activity_menu_nav"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".idioma.Aidioma" />
+        <activity android:name=".jugarPerfil.perfil"></activity>
+        <activity android:name=".partida.barajas" />
+        <activity android:name=".partida.cartas" />
+        <activity android:name=".jugarPerfil.segundaVentana" />
         <activity android:name=".registre" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -26,6 +22,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>
