@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login">
+    tools:context=".logReg.login">
 
     <EditText
         android:id="@+id/eTxtCorreo"
@@ -16,7 +16,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/txtPass"
         app:layout_constraintStart_toStartOf="@+id/txtPass"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        android:importantForAutofill="no" tools:targetApi="o" />
 
     <EditText
         android:id="@+id/eTxtPass"
@@ -28,7 +28,7 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/btnLogear"
         app:layout_constraintStart_toStartOf="parent"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        android:importantForAutofill="no" tools:targetApi="o" />
 
     <TextView
         android:id="@+id/txtCorreo"

@@ -1,12 +1,12 @@
-package com.example.cardsvshumanity;
+package com.example.cardsvshumanity.logReg;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
+import com.example.cardsvshumanity.MainActivity;
+import com.example.cardsvshumanity.R;
 
 public class login extends AppCompatActivity {
 
