@@ -17,4 +17,5 @@
     <string name="todo">To-Do</string>
     <string name="perfil">Peril</string>
     <string name="idiomaboton">Boto de Idioma</string>
+    <string name="inicia_session">Inicia sesio</string>
 </resources>

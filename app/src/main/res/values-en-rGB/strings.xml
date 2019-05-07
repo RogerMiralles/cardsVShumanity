@@ -17,4 +17,5 @@
     <string name="todo">TODO</string>
     <string name="perfil">perfil</string>
     <string name="idiomaboton">idiomaBoton</string>
+    <string name="inicia_session">Sign in</string>
 </resources>
