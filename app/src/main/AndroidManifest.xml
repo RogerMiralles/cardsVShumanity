@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".segundaVentana"></activity>
-        <activity
-            android:name=".menu.menuNav"
-            android:label="@string/title_activity_menu_nav"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".registre" />
         <activity android:name=".MainActivity">
             <intent-filter>
