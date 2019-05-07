@@ -16,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.menu.fragments.fperfil;
-import com.example.cardsvshumanity.menu.fragments.fsala;
 
 public class menuNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,9 +78,9 @@ public class menuNav extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            CargarFragmente(new fperfil());
+
         } else if (id == R.id.nav_gallery) {
-            CargarFragmente(new fsala());
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickJugar(View view) {
-        Intent listSong = new Intent(getApplicationContext(), menuNav.class);
+        Intent listSong = new Intent(getApplicationContext(), segundaVentana.class);
         startActivity(listSong);
-
     }
 }
