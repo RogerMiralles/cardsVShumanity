@@ -10,56 +10,68 @@
         android:id="@+id/eTxtCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="50dp"
         android:ems="10"
         android:importantForAutofill="no"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="161dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtPass"
+        app:layout_constraintStart_toStartOf="@+id/txtPass"
         tools:targetApi="o" />
 
     <EditText
         android:id="@+id/eTxtPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginBottom="52dp"
         android:ems="10"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogear"
+        app:layout_constraintStart_toStartOf="parent"
         tools:targetApi="o" />
 
     <TextView
         android:id="@+id/txtCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="22dp"
         android:text="@string/correo"
         android:textColor="@android:color/black"
-        tools:layout_editor_absoluteX="88dp"
-        tools:layout_editor_absoluteY="120dp" />
+        app:layout_constraintBottom_toTopOf="@+id/eTxtCorreo"
+        app:layout_constraintStart_toStartOf="@+id/eTxtCorreo" />
 
     <TextView
         android:id="@+id/txtPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/contrase_a"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="256dp" />
+        app:layout_constraintBottom_toTopOf="@+id/eTxtPass"
+        app:layout_constraintStart_toStartOf="@+id/eTxtPass" />
 
     <Button
         android:id="@+id/btnLogear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="50dp"
         android:onClick="onClickLogear"
         android:text="@string/logear"
-        tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="398dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnResgistrar"
+        app:layout_constraintStart_toStartOf="@+id/btnResgistrar" />
 
     <Button
         android:id="@+id/btnResgistrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginBottom="60dp"
         android:onClick="onClickRegistrar"
         android:text="@string/registrarse"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="495dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
