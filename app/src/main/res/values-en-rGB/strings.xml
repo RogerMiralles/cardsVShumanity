@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cartas Contra la Humanidad</string>
-    <string name="cartas_contra_la_humanidad">Cartas Contra la Humanidad</string>
+    <string name="app_name">Cards Against Humanity</string>
+    <string name="cartas_contra_la_humanidad">Cartas Contra La Humanidad</string>
     <string name="jugar">Jugar</string>
     <string name="nav_header_subtitle" />
     <string name="nav_header_title" />
@@ -12,8 +13,8 @@
     <string name="title_activity_menu_nav" />
     <string name="idioma">Idioma</string>
     <string name="cartas">Cartas</string>
-    <string name="baraja">Baraja</string>
-    <string name="todo">To-Do</string>
-    <string name="perfil">Perfil</string>
-    <string name="idiomaboton">Boton de Idioma</string>
+    <string name="baraja">baraja</string>
+    <string name="todo">TODO</string>
+    <string name="perfil">perfil</string>
+    <string name="idiomaboton">idiomaBoton</string>
 </resources>

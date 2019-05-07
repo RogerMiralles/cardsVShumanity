@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A5B452"
+    android:background="#e3d87e"
     tools:context=".MainActivity">
 
     <TextView
@@ -33,12 +33,12 @@
         android:layout_height="69dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#03A9F4"
+        android:fontFamily="@font/roboto_thin"
         android:onClick="onClickJugar"
         android:text="@string/jugar"
         android:textAlignment="center"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:fontFamily="@font/roboto_thin"
         app:layout_constraintBottom_toTopOf="@+id/btnPerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -82,7 +82,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
-        android:background="#A5B452"
+        android:background="#e3d87e"
         android:contentDescription="@string/idiomaboton"
         android:onClick="onClickIdioma"
         app:layout_constraintBottom_toBottomOf="parent"
