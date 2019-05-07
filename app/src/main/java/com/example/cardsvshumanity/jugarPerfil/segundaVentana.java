@@ -11,5 +11,6 @@ public class segundaVentana extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_segunda_ventana);
+        this.setTitle("Cartas Contra la Humanidad");
     }
 }

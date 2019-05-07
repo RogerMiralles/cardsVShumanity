@@ -16,4 +16,8 @@
     <string name="todo">TODO</string>
     <string name="perfil">perfil</string>
     <string name="idiomaboton">idiomaBoton</string>
+    <string name="correo">Correo</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="registrarse">registrarse</string>
+    <string name="logear">logear</string>
 </resources>
