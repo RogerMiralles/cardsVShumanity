@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "685686837379-2lcb4trr8iirc6q7qppuhvc982kslpst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cardsvshumanity",
+            "certificate_hash": "05771f0de97177f21bc3b76758c153e79e31ecbd"
+          }
+        },
+        {
           "client_id": "685686837379-os5vg5qsk091k7vkr1i7qihnmo5isefn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
