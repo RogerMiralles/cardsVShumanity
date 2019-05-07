@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".segundaVentana"></activity>
+        <activity android:name=".jugarPerfil.perfil"></activity>
+        <activity android:name=".partida.barajas" />
+        <activity android:name=".partida.cartas" />
+        <activity android:name=".jugarPerfil.segundaVentana" />
         <activity android:name=".registre" />
         <activity android:name=".MainActivity">
             <intent-filter>
