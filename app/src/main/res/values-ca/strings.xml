@@ -15,7 +15,8 @@
     <string name="cartas">Cartes</string>
     <string name="baraja">Baralla</string>
     <string name="todo">To-Do</string>
-    <string name="perfil">Peril</string>
     <string name="idiomaboton">Boto de Idioma</string>
     <string name="inicia_session">Inicia sesio</string>
+    <string name="perfil">Perfil</string>
+    <string name="salida">sortir</string>
 </resources>

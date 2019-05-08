@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cards Against Humanity</string>
+    <string name="cartas_contra_la_humanidad">Cards Against Humanity</string>
+    <string name="inicia_session">Log In</string>
+    <string name="jugar">Play</string>
+    <string name="salida">log out</string>
+</resources>
