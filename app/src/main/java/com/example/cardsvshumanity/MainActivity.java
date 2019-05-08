@@ -27,21 +27,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setTitle("Cartas Contra la Humanidad");
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
         mJuegaIniciaSes = findViewById(R.id.btnJugar);
         mPerfil=findViewById(R.id.btnPerfil);
         mSalir=findViewById(R.id.btnSalida);
-        if(mUser == null){
-            mJuegaIniciaSes.setText(getString(R.string.inicia_session));
-            mPerfil.setVisibility(View.INVISIBLE);
-            mSalir.setVisibility(View.INVISIBLE);
-        }
-        else{
-            mJuegaIniciaSes.setText(getString(R.string.jugar));
-            mPerfil.setVisibility(View.VISIBLE);
-            mSalir.setVisibility(View.VISIBLE);
-        }
+        mAuth = FirebaseAuth.getInstance();
+        ponerCosasVisIn();
     }
 
     public void onClickJugar(View view) {
@@ -66,38 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSalir(View view){
         mAuth.signOut();
-        mUser=mAuth.getCurrentUser();
-        if(mUser == null){
-            mJuegaIniciaSes.setText(getString(R.string.inicia_session));
-            mPerfil.setVisibility(View.INVISIBLE);
-            mSalir.setVisibility(View.INVISIBLE);
-        }
-        else{
-            mJuegaIniciaSes.setText(getString(R.string.jugar));
-            mPerfil.setVisibility(View.VISIBLE);
-            mSalir.setVisibility(View.VISIBLE);
-        }
+        ponerCosasVisIn();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
-            mUser=mAuth.getCurrentUser();
-            if(mUser == null){
-                mJuegaIniciaSes.setText(getString(R.string.inicia_session));
-                mPerfil.setVisibility(View.INVISIBLE);
-                mSalir.setVisibility(View.INVISIBLE);
-            }
-            else{
-                mJuegaIniciaSes.setText(getString(R.string.jugar));
-                mPerfil.setVisibility(View.VISIBLE);
-                mSalir.setVisibility(View.VISIBLE);
-            }
+            ponerCosasVisIn();
         }
     }
 
     public void ponerCosasVisIn(){
+        mUser=mAuth.getCurrentUser();
         if(mUser == null){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mPerfil.setVisibility(View.INVISIBLE);
