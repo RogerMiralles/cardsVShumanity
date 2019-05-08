@@ -36,6 +36,7 @@ public class login extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        setResult(RESULT_OK);
                         finish();
                     }else{
                         Toast.makeText(login.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();

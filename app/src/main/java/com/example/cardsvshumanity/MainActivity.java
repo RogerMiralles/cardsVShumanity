@@ -1,6 +1,7 @@
 package com.example.cardsvshumanity;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mJuegaIniciaSes;
     private Button mPerfil;
     private Button mSalir;
+    private final int codigo=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             Intent listSong = new Intent(getApplicationContext(), login.class);
-            startActivity(listSong);
+            startActivityForResult(listSong,codigo);
         }
     }
 
@@ -64,5 +66,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSalir(View view){
         mAuth.signOut();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(this,"eeeeeeee",Toast.LENGTH_LONG).show();
+        if(resultCode==RESULT_OK){
+            mUser=mAuth.getCurrentUser();
+            if(mUser == null){
+                mJuegaIniciaSes.setText(getString(R.string.inicia_session));
+                mPerfil.setVisibility(View.INVISIBLE);
+                mSalir.setVisibility(View.INVISIBLE);
+            }
+            else{
+                mJuegaIniciaSes.setText(getString(R.string.jugar));
+                mPerfil.setVisibility(View.VISIBLE);
+                mSalir.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

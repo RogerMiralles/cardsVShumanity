@@ -21,5 +21,5 @@
     <string name="contrase_a">Contraseña </string>
     <string name="logear">Entrar </string>
     <string name="registrarse">Registrarse </string>
-    <string name="salida">salida</string>
+    <string name="salida">salir</string>
 </resources>
