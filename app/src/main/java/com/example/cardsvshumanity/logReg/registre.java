@@ -1,5 +1,6 @@
 package com.example.cardsvshumanity.logReg;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +21,7 @@ public class registre extends AppCompatActivity {
 
     private Button mRegistro;
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private EditText correo;
     private EditText contra;
 
@@ -37,7 +40,10 @@ public class registre extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        finish();
+                        mAuth.signInWithEmailAndPassword(correo.getText().toString(),contra.getText().toString());
+                        mUser=mAuth.getCurrentUser();
+                        Intent listSong = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(listSong);
                     }else{
                         Toast.makeText(registre.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
                     }
@@ -46,5 +52,9 @@ public class registre extends AppCompatActivity {
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onClickAtras(View view){
+        finish();
     }
 }
