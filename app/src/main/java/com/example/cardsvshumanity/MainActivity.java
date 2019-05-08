@@ -66,12 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSalir(View view){
         mAuth.signOut();
+        mUser=mAuth.getCurrentUser();
+        if(mUser == null){
+            mJuegaIniciaSes.setText(getString(R.string.inicia_session));
+            mPerfil.setVisibility(View.INVISIBLE);
+            mSalir.setVisibility(View.INVISIBLE);
+        }
+        else{
+            mJuegaIniciaSes.setText(getString(R.string.jugar));
+            mPerfil.setVisibility(View.VISIBLE);
+            mSalir.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(this,"eeeeeeee",Toast.LENGTH_LONG).show();
         if(resultCode==RESULT_OK){
             mUser=mAuth.getCurrentUser();
             if(mUser == null){
@@ -84,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 mPerfil.setVisibility(View.VISIBLE);
                 mSalir.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    public void ponerCosasVisIn(){
+        if(mUser == null){
+            mJuegaIniciaSes.setText(getString(R.string.inicia_session));
+            mPerfil.setVisibility(View.INVISIBLE);
+            mSalir.setVisibility(View.INVISIBLE);
+        }
+        else{
+            mJuegaIniciaSes.setText(getString(R.string.jugar));
+            mPerfil.setVisibility(View.VISIBLE);
+            mSalir.setVisibility(View.VISIBLE);
         }
     }
 }
