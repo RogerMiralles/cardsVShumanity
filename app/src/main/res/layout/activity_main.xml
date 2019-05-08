@@ -87,13 +87,14 @@
         android:background="#e3d87e"
         android:contentDescription="@string/idiomaboton"
         android:onClick="onClickIdioma"
+        android:src="@drawable/idioma"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/catalonia" />
+        tools:srcCompat="@drawable/spain" />
 
     <Button
         android:id="@+id/btnSalida"
