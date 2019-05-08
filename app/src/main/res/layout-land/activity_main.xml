@@ -7,6 +7,20 @@
     android:background="#e3d87e"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btnSalida2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="onClickSalir"
+        android:text="@string/salida"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgJuego"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPerfil" />
+
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="0dp"
@@ -67,11 +81,10 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="32dp"
         android:fontFamily="@font/roboto_thin"
         android:onClick="onClickPerfil"
         android:text="@string/perfil"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalida2"
         app:layout_constraintEnd_toStartOf="@+id/imgJuego"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnJugar" />

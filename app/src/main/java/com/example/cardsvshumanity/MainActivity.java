@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private Button mJuegaIniciaSes;
     private Button mPerfil;
+    private Button mSalir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +29,16 @@ public class MainActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         mJuegaIniciaSes = findViewById(R.id.btnJugar);
         mPerfil=findViewById(R.id.btnPerfil);
+        mSalir=findViewById(R.id.btnSalida);
         if(mUser == null){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mPerfil.setVisibility(View.INVISIBLE);
+            mSalir.setVisibility(View.INVISIBLE);
         }
         else{
             mJuegaIniciaSes.setText(getString(R.string.jugar));
             mPerfil.setVisibility(View.VISIBLE);
+            mSalir.setVisibility(View.VISIBLE);
         }
     }
 
@@ -56,5 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickIdioma(View view){
         Toast.makeText(getApplicationContext(),"Todavia no",Toast.LENGTH_LONG).show();
+    }
+
+    public void onClickSalir(View view){
+        mAuth.signOut();
     }
 }
