@@ -6,4 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".jugarPerfil.perfil">
 
+    <TextView
+        android:id="@+id/txtPass2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="34dp"
+        android:text="@string/contrase_a"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/eTxtPass2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTxtCorreo2" />
+
+    <EditText
+        android:id="@+id/eTxtPass2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPass2"
+        tools:targetApi="o" />
+
+    <TextView
+        android:id="@+id/txtCorreo2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="34dp"
+        android:text="@string/correo"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/eTxtCorreo2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTxtNombreU2" />
+
+    <EditText
+        android:id="@+id/eTxtCorreo2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/txtPass2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreo2"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/eTxtNombreU2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="34dp"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCorreo2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreU2"
+        tools:targetApi="o" />
+
+    <TextView
+        android:id="@+id/txtNombreU2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="34dp"
+        android:text="@string/nombre_de_usuario"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/eTxtNombreU2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgUsuario2" />
+
+    <ImageView
+        android:id="@+id/imgUsuario2"
+        android:layout_width="188dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/imagenusuario"
+        app:layout_constraintBottom_toTopOf="@+id/txtNombreU2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </android.support.constraint.ConstraintLayout>

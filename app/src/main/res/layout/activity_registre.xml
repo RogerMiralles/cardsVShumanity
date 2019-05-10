@@ -135,18 +135,22 @@
         android:layout_marginEnd="8dp"
         android:text="@string/foto_perfil"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/imgUsuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTxtPass3" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="42dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="120dp"
         android:contentDescription="@string/imagenusuario"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSelecImg"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtImagen"
         tools:srcCompat="@tools:sample/avatars" />
@@ -160,6 +164,6 @@
         android:text="@string/selecciona_imagen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgUsuario"
         app:layout_constraintTop_toBottomOf="@+id/txtImagen" />
 </android.support.constraint.ConstraintLayout>
