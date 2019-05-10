@@ -57,6 +57,10 @@ public class registre extends AppCompatActivity {
         }
     }
 
+    public void onClickImagen(View view){
+        Toast.makeText(this,"no todavia",Toast.LENGTH_LONG).show();
+    }
+
     public void onClickAtras(View view){
         finish();
     }
