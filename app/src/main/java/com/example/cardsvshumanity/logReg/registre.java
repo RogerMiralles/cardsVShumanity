@@ -24,6 +24,7 @@ public class registre extends AppCompatActivity {
     private FirebaseUser mUser;
     private EditText correo;
     private EditText contra;
+    private EditText nom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +32,13 @@ public class registre extends AppCompatActivity {
         setContentView(R.layout.activity_registre);
         correo=findViewById(R.id.eTxtCorreo3);
         contra=findViewById(R.id.eTxtPass3);
+        nom=findViewById(R.id.eTxtNombreU);
         mAuth = FirebaseAuth.getInstance();
     }
 
     public void onClickRegistrarse(View view){
-        if(correo.getText()!=null&&contra.getText()!=null&&correo.getText().toString().isEmpty()!=true||contra.getText().toString().isEmpty()!=true){
+        if(correo.getText()!=null&&contra.getText()!=null&&correo.getText().toString().isEmpty()!=true&&contra.getText().toString().isEmpty()!=true
+        &&nom.getText().toString().isEmpty()!=true){
             mAuth.createUserWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {

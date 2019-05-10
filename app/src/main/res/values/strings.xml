@@ -14,4 +14,8 @@
     <string name="registrarse">Registrarse </string>
     <string name="salida">salir</string>
     <string name="imagenatras" translatable="false">imagenAtras</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="foto_perfil">Foto perfil</string>
+    <string name="selecciona_imagen">Selecciona Imagen</string>
+    <string name="imagenusuario">imagenUsuario</string>
 </resources>
