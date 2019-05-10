@@ -120,13 +120,13 @@
         android:layout_marginEnd="34dp"
         android:text="@string/partidas_ganadas"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/eTxtPartGana"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTxtPass2" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/eTxtPartGana"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
