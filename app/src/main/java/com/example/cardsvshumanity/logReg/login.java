@@ -31,7 +31,7 @@ public class login extends AppCompatActivity {
     }
 
     public void onClickLogear(View view) {
-        if(correo.getText()!=null||contra.getText()!=null){
+        if(correo.getText()!=null&&contra.getText()!=null&&correo.getText().toString().isEmpty()!=true||contra.getText().toString().isEmpty()!=true){
             mAuth.signInWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
