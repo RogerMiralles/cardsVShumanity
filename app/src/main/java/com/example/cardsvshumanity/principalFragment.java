@@ -22,8 +22,6 @@ import android.widget.Toast;
 
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 import java.util.Objects;
