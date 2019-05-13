@@ -116,20 +116,27 @@ public class principalFragment extends Fragment {
                 if(i==0){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
                     setLocale("es");
-                    getActivity().recreate();
+                    //getActivity().recreate();
+                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    getActivity().finish();
+                    startActivity(in);
                 }
                 else if(i==1){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
                     setLocale("ca");
-                    getActivity().recreate();
+                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    getActivity().finish();
+                    startActivity(in);
                 }
                 else if(i==2){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
                     setLocale("en");
-                    getActivity().recreate();
-                }
-                else{
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
+                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    getActivity().finish();
+                    startActivity(in);
                 }
                 dialogInterface.dismiss();
             }

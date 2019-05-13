@@ -12,4 +12,11 @@
     <string name="logear">Sign in</string>
     <string name="perfil">Profile</string>
     <string name="baraja">Deck</string>
+    <string name="ajustes_nav">Settings</string>
+    <string name="nombre_de_usuario">User name</string>
+    <string name="perfil_nav">Profile</string>
+    <string name="selecciona_imagen">Select image</string>
+    <string name="principal_nav">First</string>
+    <string name="partidas_ganadas">Wins</string>
+    <string name="foto_perfil">Profile\'s photo</string>
 </resources>
