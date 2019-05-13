@@ -18,4 +18,5 @@
     <string name="selecciona_imagen">Selecciona Imatge</string>
     <string name="principal_nav">Principal</string>
     <string name="partidas_ganadas">Partides guanyades</string>
+    <string name="foto_perfil">Foto de perfil</string>
 </resources>

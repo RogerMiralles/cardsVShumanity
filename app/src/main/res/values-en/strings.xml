@@ -18,4 +18,5 @@
     <string name="selecciona_imagen">Select image</string>
     <string name="principal_nav">First</string>
     <string name="partidas_ganadas">Wins</string>
+    <string name="foto_perfil">Profile\'s photo</string>
 </resources>

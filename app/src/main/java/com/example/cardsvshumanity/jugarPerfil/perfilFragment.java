@@ -66,6 +66,7 @@ public class perfilFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                         Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), MainActivity.class);
+                        getActivity().finish();
                         startActivity(intent);
                     }
                 });
