@@ -128,9 +128,6 @@ public class principalFragment extends Fragment {
                     setLocale("en");
                     getActivity().recreate();
                 }
-                else{
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
-                }
                 dialogInterface.dismiss();
             }
         });
