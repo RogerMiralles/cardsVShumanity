@@ -163,11 +163,10 @@ public class principalFragment extends Fragment {
             case "en":
                 mIbtn.setImageResource(R.drawable.uk);
                 break;
-                default:
-                    mIbtn.setImageResource(R.drawable.idioma);
-                    break;
+            default:
+                mIbtn.setImageResource(R.drawable.idioma);
+                break;
         }
         setLocale(language);
     }
-
 }
