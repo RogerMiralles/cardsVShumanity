@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_songs"
+        android:title="Principal"/>
+
+    <item
+        android:id="@+id/navigation_albums"
+        android:title="Perfil"/>
+
+    <item
+        android:id="@+id/navigation_artists"
+        android:title="Ajustes"/>
+
+</menu>

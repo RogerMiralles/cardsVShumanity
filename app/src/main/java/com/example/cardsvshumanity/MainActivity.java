@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
-import java.util.prefs.Preferences;
 
 public class MainActivity extends AppCompatActivity {
 
