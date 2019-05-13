@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,9 +16,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class registre extends AppCompatActivity {
 
-    private Button mRegistro;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private EditText correo;
@@ -37,8 +37,8 @@ public class registre extends AppCompatActivity {
     }
 
     public void onClickRegistrarse(View view){
-        if(correo.getText()!=null&&contra.getText()!=null&&correo.getText().toString().isEmpty()!=true&&contra.getText().toString().isEmpty()!=true
-        &&nom.getText().toString().isEmpty()!=true){
+        if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
+        && !nom.getText().toString().isEmpty()){
             mAuth.createUserWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -48,7 +48,7 @@ public class registre extends AppCompatActivity {
                         Intent listSong = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(listSong);
                     }else{
-                        Toast.makeText(registre.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(registre.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                     }
                 }
             });
