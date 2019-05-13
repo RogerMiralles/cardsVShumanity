@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Connection.crearCon();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setTitle("CCH");
