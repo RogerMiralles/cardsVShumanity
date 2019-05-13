@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,26 +118,44 @@ public class principalFragment extends Fragment {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     //getActivity().recreate();
-                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    getActivity().finish();
-                    startActivity(in);
+                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //getActivity().finish();
+                    //startActivity(in);
+
+                    Fragment fragment = principalFragment.this;
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.detach(fragment);
+                    ft.attach(fragment);
+                    ft.commit();
                 }
                 else if(i==1){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
                     setLocale("ca");
-                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    getActivity().finish();
-                    startActivity(in);
+                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //getActivity().finish();
+                    //startActivity(in);
+
+                    Fragment fragment = principalFragment.this;
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.detach(fragment);
+                    ft.attach(fragment);
+                    ft.commit();
                 }
                 else if(i==2){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
                     setLocale("en");
-                    Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    getActivity().finish();
-                    startActivity(in);
+                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //getActivity().finish();
+                    //startActivity(in);
+
+                    Fragment fragment = principalFragment.this;
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.detach(fragment);
+                    ft.attach(fragment);
+                    ft.commit();
                 }
                 dialogInterface.dismiss();
             }
@@ -147,11 +166,20 @@ public class principalFragment extends Fragment {
 
     private void setLocale(String s) {
         Locale locale=new Locale(s);
-        Locale.setDefault(locale);
+        /*Locale.setDefault(locale);
         Configuration config =new Configuration();
         config.locale=locale;
         Objects.requireNonNull(getActivity()).getBaseContext().getResources().updateConfiguration(config,getActivity().getBaseContext().getResources().getDisplayMetrics());
         getActivity().getBaseContext();
+        */
+        Locale.setDefault(locale);
+        Configuration config = getActivity().getBaseContext().getResources().getConfiguration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(
+                config,
+                getActivity().getBaseContext().getResources().getDisplayMetrics()
+        );
+
         SharedPreferences.Editor editor=getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
         editor.putString("My_Lang",s);
         editor.apply();
