@@ -3,11 +3,13 @@ package com.example.cardsvshumanity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
+import java.util.Objects;
 
 
 /**
@@ -44,12 +47,12 @@ public class principalFragment extends Fragment {
     private TextView txt;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_principal, container, false);
         //loadLocale();
         mUser=null;
-        mSalir=(Button)rootView.findViewById(R.id.btnSalida);
+        mSalir= rootView.findViewById(R.id.btnSalida);
         mSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,28 +60,28 @@ public class principalFragment extends Fragment {
                 ponerCosasVisIn();
             }
         });
-        mIbtn=(ImageButton)rootView.findViewById(R.id.imBtnIdioma);
+        mIbtn= rootView.findViewById(R.id.imBtnIdioma);
         mIbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showChangeLanguageDialog();
             }
         });
-        mJuegaIniciaSes=(Button)rootView.findViewById(R.id.btnJugar);
+        mJuegaIniciaSes= rootView.findViewById(R.id.btnJugar);
         mJuegaIniciaSes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mUser != null) {
-                    Intent listSong = new Intent(getActivity().getApplicationContext(), segundaVentana.class);
+                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), segundaVentana.class);
                     startActivity(listSong);
                 }
                 else{
-                    Intent listSong = new Intent(getActivity().getApplicationContext(), login.class);
+                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
                     startActivityForResult(listSong,codigo);
                 }
             }
         });
-        txt=(TextView)rootView.findViewById(R.id.txtTitulo);
+        txt= rootView.findViewById(R.id.txtTitulo);
         loadLocale();
         ponerCosasVisIn();
         return rootView;
@@ -87,7 +90,8 @@ public class principalFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==getActivity().RESULT_OK){
+        getActivity();
+        if(resultCode== Activity.RESULT_OK){
             ponerCosasVisIn();
         }
     }
@@ -112,22 +116,22 @@ public class principalFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){
-                    Toast.makeText(getActivity().getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     getActivity().recreate();
                 }
                 else if(i==1){
-                    Toast.makeText(getActivity().getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     getActivity().recreate();
                 }
                 else if(i==2){
-                    Toast.makeText(getActivity().getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     getActivity().recreate();
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
                 }
                 dialogInterface.dismiss();
             }
@@ -141,14 +145,15 @@ public class principalFragment extends Fragment {
         Locale.setDefault(locale);
         Configuration config =new Configuration();
         config.locale=locale;
-        getActivity().getBaseContext().getResources().updateConfiguration(config,getActivity().getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor=getActivity().getSharedPreferences("Settings", getActivity().getBaseContext().MODE_PRIVATE).edit();
+        Objects.requireNonNull(getActivity()).getBaseContext().getResources().updateConfiguration(config,getActivity().getBaseContext().getResources().getDisplayMetrics());
+        getActivity().getBaseContext();
+        SharedPreferences.Editor editor=getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
         editor.putString("My_Lang",s);
         editor.apply();
 
     }
     public void loadLocale(){
-        SharedPreferences prefs =getActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language=prefs.getString("My_Lang","");
         switch(language){
             case "ca":
