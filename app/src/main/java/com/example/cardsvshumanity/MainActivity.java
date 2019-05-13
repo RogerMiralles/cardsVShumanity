@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.example.cardsvshumanity.jugarPerfil.ajustesFragment;
 import com.example.cardsvshumanity.jugarPerfil.perfilFragment;
-import com.google.firebase.auth.FirebaseAuth;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //loadLocale();
         this.setTitle("CCH");
         BottomNavigationView navView = findViewById(R.id.navigationView);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

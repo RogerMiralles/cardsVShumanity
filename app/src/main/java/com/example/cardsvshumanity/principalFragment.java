@@ -35,8 +35,8 @@ public class principalFragment extends Fragment {
     public principalFragment() {
         // Required empty public constructor
     }
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
+
+    private String mUser;
     private Button mJuegaIniciaSes;
     private Button mSalir;
     private final int codigo=0;
@@ -48,12 +48,12 @@ public class principalFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_principal, container, false);
         //loadLocale();
-        mAuth = FirebaseAuth.getInstance();
+        mUser=null;
         mSalir=(Button)rootView.findViewById(R.id.btnSalida);
         mSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
+                mUser=null;
                 ponerCosasVisIn();
             }
         });
@@ -79,6 +79,8 @@ public class principalFragment extends Fragment {
             }
         });
         txt=(TextView)rootView.findViewById(R.id.txtTitulo);
+        loadLocale();
+        ponerCosasVisIn();
         return rootView;
     }
 
@@ -92,7 +94,6 @@ public class principalFragment extends Fragment {
 
     public void ponerCosasVisIn(){
         txt.setText(getString(R.string.cartas_contra_la_humanidad));
-        mUser=mAuth.getCurrentUser();
         if(mUser == null){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mSalir.setVisibility(View.INVISIBLE);
@@ -125,6 +126,9 @@ public class principalFragment extends Fragment {
                     setLocale("en");
                     getActivity().recreate();
                 }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(),"hola",Toast.LENGTH_LONG).show();
+                }
                 dialogInterface.dismiss();
             }
         });
@@ -144,7 +148,7 @@ public class principalFragment extends Fragment {
 
     }
     public void loadLocale(){
-        SharedPreferences prefs =getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        SharedPreferences prefs =getActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language=prefs.getString("My_Lang","");
         switch(language){
             case "ca":
@@ -156,6 +160,9 @@ public class principalFragment extends Fragment {
             case "en":
                 mIbtn.setImageResource(R.drawable.uk);
                 break;
+                default:
+                    mIbtn.setImageResource(R.drawable.idioma);
+                    break;
         }
         setLocale(language);
     }
