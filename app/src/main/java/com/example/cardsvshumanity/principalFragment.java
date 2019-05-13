@@ -47,7 +47,7 @@ public class principalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_principal, container, false);
-        loadLocale();
+        //loadLocale();
         mAuth = FirebaseAuth.getInstance();
         mSalir=(Button)rootView.findViewById(R.id.btnSalida);
         mSalir.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +144,7 @@ public class principalFragment extends Fragment {
 
     }
     public void loadLocale(){
-        SharedPreferences prefs =getActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        SharedPreferences prefs =getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         String language=prefs.getString("My_Lang","");
         switch(language){
             case "ca":
