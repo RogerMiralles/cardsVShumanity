@@ -98,9 +98,6 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), MainActivity.class);
-                        getActivity().finish();
-                        startActivity(intent);
                     }
                 });
 
@@ -147,7 +144,8 @@ public class ajustesFragment extends Fragment {
                     setLocale("es");
                     //getActivity().recreate();
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
+                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     //getActivity().finish();
                     //startActivity(in);
 

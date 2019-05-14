@@ -11,13 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cardsvshumanity.MainActivity;
+
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.logReg.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,8 +69,12 @@ public class perfilFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), MainActivity.class);
+                        Intent intent= Objects.requireNonNull(getActivity()).getIntent();
+                        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_NO_ANIMATION);
+                        getActivity().overridePendingTransition(0,0);
                         getActivity().finish();
+
+                        getActivity().overridePendingTransition(0,0);
                         startActivity(intent);
                     }
                 });
