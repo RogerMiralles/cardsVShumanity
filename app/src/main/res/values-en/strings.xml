@@ -19,4 +19,7 @@
     <string name="principal_nav">First</string>
     <string name="partidas_ganadas">Wins</string>
     <string name="foto_perfil">Profile\'s photo</string>
+    <string name="cambiar_idioma">Change language</string>
+    <string name="limpiar_datos">Clean data</string>
+    <string name="borrar_cuenta">Delete account</string>
 </resources>

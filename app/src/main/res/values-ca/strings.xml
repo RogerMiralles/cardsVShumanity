@@ -19,4 +19,7 @@
     <string name="principal_nav">Principal</string>
     <string name="partidas_ganadas">Partides guanyades</string>
     <string name="foto_perfil">Foto de perfil</string>
+    <string name="cambiar_idioma">Canviar idioma</string>
+    <string name="limpiar_datos">Netejar dades</string>
+    <string name="borrar_cuenta">Borrar conta</string>
 </resources>

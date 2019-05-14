@@ -48,7 +48,7 @@ public class perfilFragment extends Fragment {
     private void noUsuari(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage("No tienes usuario, quieres iniciar tu sesion?");
-        builder1.setCancelable(true);
+        builder1.setCancelable(false);
 
         builder1.setPositiveButton(
                 "Yes",

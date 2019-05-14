@@ -17,10 +17,13 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="foto_perfil">Foto perfil</string>
     <string name="selecciona_imagen">Selecciona Imagen</string>
-    <string name="imagenusuario">imagenUsuario</string>
+    <string name="imagenusuario" translatable="false">imagenUsuario</string>
     <string name="partidas_ganadas">Partidas ganadas</string>
     <string name="perfil_nav">Perfil</string>
     <string name="ajustes_nav">Ajustes</string>
     <string name="principal_nav">Principal</string>
+    <string name="cambiar_idioma">Cambiar idioma</string>
+    <string name="limpiar_datos">Limpiar datos</string>
+    <string name="borrar_cuenta">Borrar cuenta</string>
 
 </resources>
