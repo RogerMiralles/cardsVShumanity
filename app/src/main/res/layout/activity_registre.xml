@@ -143,8 +143,8 @@
 
     <ImageView
         android:id="@+id/imgUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:layout_marginStart="42dp"
         android:layout_marginTop="20dp"
         android:contentDescription="@string/imagenusuario"
@@ -153,8 +153,9 @@
         app:layout_constraintEnd_toStartOf="@+id/btnSelecImg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtImagen"
+        app:srcCompat="@drawable/ic_person_black_24dp"
         tools:src="@tools:sample/avatars"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/ic_person_black_24dp" />
 
     <Button
         android:id="@+id/btnSelecImg"

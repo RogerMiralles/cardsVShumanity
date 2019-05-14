@@ -33,5 +33,7 @@
     <string name="lDatos">Se han borrado los datos</string>
     <string name="tituloAjustes">Ajustes</string>
     <string name="tituloPerfil">Perfil</string>
+    <string name="galeria">Galeria</string>
+    <string name="camara">Camara</string>
 
 </resources>

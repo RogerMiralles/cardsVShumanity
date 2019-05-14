@@ -1,11 +1,16 @@
 package com.example.cardsvshumanity.logReg;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.MainActivity;
@@ -25,6 +30,9 @@ public class registre extends AppCompatActivity {
     private EditText correo;
     private EditText contra;
     private EditText nom;
+    private ImageView iUsuari;
+    private Uri imagenSeleccionada;
+    private static final int PICK_IMAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +66,55 @@ public class registre extends AppCompatActivity {
     }
 
     public void onClickImagen(View view){
-        Toast.makeText(this,"no todavia",Toast.LENGTH_LONG).show();
+        seleccionar();
     }
+
+    private void galeria(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    private void camara(){
+        //Intent camera=new Intent(Intent.ACTION_PICK);
+        //startActivityForResult(camera,PICK_IMAGE);
+        Toast.makeText(getApplicationContext(),"falta codigo",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imagenSeleccionada = data.getData();
+            iUsuari.setImageURI(imagenSeleccionada);
+        }
+    }
+
+    private void seleccionar(){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(getString(R.string.confirmar));
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                getString(R.string.galeria),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        galeria();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                getString(R.string.camara),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        camara();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
 
     public void onClickAtras(View view){
         finish();
