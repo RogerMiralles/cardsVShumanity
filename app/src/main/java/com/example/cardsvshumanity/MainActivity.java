@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.navigationView);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CargarFragmente(new principalFragment());
-        navView.getMenu().getItem(0).setChecked(true);
+        navView.getMenu().getItem(1).setChecked(true);
     }
 
 
