@@ -41,6 +41,7 @@ public class registre extends AppCompatActivity {
         correo=findViewById(R.id.eTxtCorreo3);
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
+        iUsuari=findViewById(R.id.imgUsuario);
         mAuth = FirebaseAuth.getInstance();
     }
 
