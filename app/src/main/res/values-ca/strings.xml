@@ -28,4 +28,6 @@
     <string name="espanol">Traduint al castella</string>
     <string name="ingles">Traduint al angles</string>
     <string name="lDatos">S\'han esborrat les dades</string>
+    <string name="tituloAjustes">Configuració</string>
+    <string name="tituloPerfil">Perfil</string>
 </resources>

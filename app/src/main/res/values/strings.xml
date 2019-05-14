@@ -31,5 +31,7 @@
     <string name="ingles">Traduciendo al ingles</string>
     <string name="bCuenta">Cuenta borrada</string>
     <string name="lDatos">Se han borrado los datos</string>
+    <string name="tituloAjustes">Ajustes</string>
+    <string name="tituloPerfil">Perfil</string>
 
 </resources>

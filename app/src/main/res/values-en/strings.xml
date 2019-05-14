@@ -28,4 +28,6 @@
     <string name="espanol">Translating to spanish</string>
     <string name="ingles">Translating to english</string>
     <string name="lDatos">The datas has been erased</string>
+    <string name="tituloAjustes">Settings</string>
+    <string name="tituloPerfil">Profile</string>
 </resources>

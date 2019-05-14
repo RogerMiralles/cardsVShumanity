@@ -43,6 +43,7 @@ public class ajustesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_ajustes, container, false);
+        Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloAjustes));
         mUser=null;
         mIdioma= rootView.findViewById(R.id.btnIdioma);
         mIdioma.setOnClickListener(new View.OnClickListener() {

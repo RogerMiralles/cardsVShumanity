@@ -39,14 +39,14 @@ public class perfilFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //this.setTitle("Cartas Contra la Humanidad");
+        final View rootView=inflater.inflate(R.layout.fragment_perfil, container, false);
+        Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
         mAuth = FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
         if(mUser==null){
             noUsuari();
         }
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        return rootView;
     }
 
     private void noUsuari(){
