@@ -5,7 +5,6 @@
     <string name="cartas">Cartas</string>
     <string name="baraja">Baraja</string>
     <string name="todo" translatable="false">To-Do</string>
-    <string name="perfil">Perfil</string>
     <string name="idiomaboton" translatable="false">Boton de Idioma</string>
     <string name="inicia_session">Inicia Sesión</string>
     <string name="correo">Correo</string>
