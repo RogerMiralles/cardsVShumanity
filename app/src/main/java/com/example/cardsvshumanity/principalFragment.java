@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,28 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 
 /**
@@ -33,6 +54,8 @@ import java.util.Objects;
  */
 public class principalFragment extends Fragment {
 
+
+    public static final String RSA_ECB_OAEPWITHSHA_256_ANDMGF_1_PADDING = "RSA/ECB/PKCS1PADDING";
 
     public principalFragment() {
         // Required empty public constructor
@@ -75,8 +98,34 @@ public class principalFragment extends Fragment {
                     startActivity(listSong);
                 }
                 else{
-                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
-                    startActivityForResult(listSong,codigo);
+                    //Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
+                    //startActivityForResult(listSong,codigo);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //Crea Socket
+                                Socket sk = new Socket("192.168.137.1", 55555);
+                                DataInputStream dis = new DataInputStream(sk.getInputStream());
+                                DataOutputStream dos = new DataOutputStream(sk.getOutputStream());
+
+                                //Lee clave publica
+                                byte[] publicKeyEncoded = fromHex(dis.readUTF());
+                                PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(publicKeyEncoded));
+
+                                KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+                                SecretKey secretKey = keyGen.generateKey();
+                                byte[] rawKey = secretKey.getEncoded();
+
+                                Cipher c = Cipher.getInstance(RSA_ECB_OAEPWITHSHA_256_ANDMGF_1_PADDING);
+                                c.init(Cipher.ENCRYPT_MODE, publicKey);
+                                byte[] asdfadsf = c.doFinal(rawKey);
+                                dos.writeUTF(toHex(asdfadsf));
+                            } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+                                Log.d("InternetClass", e.getMessage());
+                            }
+                        }
+                    }).start();
                 }
             }
         });
@@ -203,5 +252,86 @@ public class principalFragment extends Fragment {
                 break;
         }
         setLocale(language);
+    }
+
+
+    public static byte[] fromHex(String hex){
+        int length = hex.length()/2;
+        byte[] array = new byte[length];
+        for(int i = 0; i<length; i++){
+            String firstPart = hex.charAt(i*2)+"", secondPart = hex.charAt(i*2+1)+"";
+            byte by = 0;
+            try{
+                by = (byte) (Integer.parseInt(firstPart)*16);
+            }catch(NumberFormatException e){
+                switch(firstPart){
+                    case "a":
+                        by = (byte) (10*16);
+                        break;
+                    case "b":
+                        by = (byte) (11*16);
+                        break;
+                    case "c":
+                        by = (byte) (12*16);
+                        break;
+                    case "d":
+                        by = (byte) (13*16);
+                        break;
+                    case "e":
+                        by = (byte) (14*16);
+                        break;
+                    case "f":
+                        by = (byte) (15*16);
+                        break;
+                }
+            }
+            try{
+                by += (byte)(Integer.parseInt(secondPart));
+            }catch(NumberFormatException e){
+                switch(secondPart){
+                    case "a":
+                        by += 10;
+                        break;
+                    case "b":
+                        by += 11;
+                        break;
+                    case "c":
+                        by += 12;
+                        break;
+                    case "d":
+                        by += 13;
+                        break;
+                    case "e":
+                        by += 14;
+                        break;
+                    case "f":
+                        by += 15;
+                        break;
+                }
+            }
+            array[i] = by;
+        }
+        return array;
+    }
+
+    public static String toHex(byte[] array){
+        StringBuilder str = new StringBuilder();
+
+        for(int i = 0; i<array.length; i++){
+            int a = array[i] & 0xf;
+            int b = (array[i] & 0xf0) >> 4;
+            if(b < 10){
+                str.append(b);
+            }else{
+                str.append(Integer.toHexString(b));
+            }
+            if(a < 10){
+                str.append(a);
+            }else{
+                str.append(Integer.toHexString(a));
+            }
+        }
+
+        return str.toString();
     }
 }
