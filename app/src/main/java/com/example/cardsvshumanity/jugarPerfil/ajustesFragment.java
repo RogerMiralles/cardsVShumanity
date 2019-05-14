@@ -57,6 +57,7 @@ public class ajustesFragment extends Fragment {
         mDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //codigo a ejecutar
                 Toast.makeText(getActivity().getApplicationContext(),"Se han borrado los datos(falta codigo)",Toast.LENGTH_LONG).show();
             }
         });
