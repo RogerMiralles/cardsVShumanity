@@ -90,7 +90,7 @@ public class registre extends AppCompatActivity {
 
     private void seleccionar(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage(getString(R.string.confirmar));
+        builder1.setMessage(getString(R.string.selecciona));
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
