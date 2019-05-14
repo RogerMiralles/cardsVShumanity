@@ -18,7 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".jugarPerfil.perfil" android:screenOrientation="portrait"/>
         <activity android:name=".partida.barajas"/>
         <activity android:name=".partida.cartas"/>
         <activity android:name=".jugarPerfil.segundaVentana"/>
