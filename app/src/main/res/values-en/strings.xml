@@ -21,7 +21,12 @@
     <string name="borrar_cuenta">Delete account</string>
     <string name="no">no</string>
     <string name="si">yes</string>
-    <string name="eligeIdioma">choose language....</string>
-    <string name="confirmar">are you sure?</string>
+    <string name="eligeIdioma">Choose language....</string>
+    <string name="confirmar">Are you sure?</string>
     <string name="noUsuari">You don\'t have a user, do you want to log in?</string>
+    <string name="bCuenta">Deleted account</string>
+    <string name="catalan">Translating to catalan</string>
+    <string name="espanol">Translating to spanish</string>
+    <string name="ingles">Translating to english</string>
+    <string name="lDatos">The datas has been erased</string>
 </resources>

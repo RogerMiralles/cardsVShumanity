@@ -22,6 +22,11 @@
     <string name="no">no</string>
     <string name="si">si</string>
     <string name="eligeIdioma">Escolleix idioma....</string>
-    <string name="confirmar">estas segur?</string>
+    <string name="confirmar">Estas segur?</string>
     <string name="noUsuari">No tens usuari, vols iniciar la teva sessió?</string>
+    <string name="bCuenta">Conta esborrada</string>
+    <string name="catalan">Traduint al catala</string>
+    <string name="espanol">Traduint al castella</string>
+    <string name="ingles">Traduint al angles</string>
+    <string name="lDatos">S\'han esborrat les dades</string>
 </resources>

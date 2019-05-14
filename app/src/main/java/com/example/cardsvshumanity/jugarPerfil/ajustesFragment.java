@@ -18,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.logReg.login;
-import com.example.cardsvshumanity.principalFragment;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -58,7 +56,8 @@ public class ajustesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //codigo a ejecutar
-                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Se han borrado los datos(falta codigo)",Toast.LENGTH_LONG).show();
+                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.lDatos),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
             }
         });
         mCuenta= rootView.findViewById(R.id.btnCuenta);
@@ -116,7 +115,8 @@ public class ajustesFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                             //codigo a ejecutar
-                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Cuenta borrada(falta codigo)",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -140,7 +140,7 @@ public class ajustesFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     //getActivity().recreate();
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
@@ -156,7 +156,7 @@ public class ajustesFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==1){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -170,7 +170,7 @@ public class ajustesFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==2){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

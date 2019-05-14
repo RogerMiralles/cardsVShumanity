@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.jugarPerfil.ajustesFragment;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
 
@@ -115,11 +116,12 @@ public class principalFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     //getActivity().recreate();
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
+                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     //getActivity().finish();
                     //startActivity(in);
 
@@ -130,7 +132,7 @@ public class principalFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==1){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -144,7 +146,7 @@ public class principalFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==2){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

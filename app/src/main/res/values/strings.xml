@@ -27,5 +27,10 @@
     <string name="si">si</string>
     <string name="no">no</string>
     <string name="confirmar">Estas seguro?</string>
+    <string name="espanol">Traduciendo al castellano</string>
+    <string name="catalan">Traduciendo al catalan</string>
+    <string name="ingles">Traduciendo al ingles</string>
+    <string name="bCuenta">Cuenta borrada</string>
+    <string name="lDatos">Se han borrado los datos</string>
 
 </resources>
