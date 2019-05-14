@@ -64,7 +64,13 @@ public class ajustesFragment extends Fragment {
         mCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmar(mUser);
+                if(mUser != null) {
+                    confirmar();
+                }
+                else{
+                    noUsuari();
+                }
+
             }
         });
         loadLocale();
@@ -101,7 +107,7 @@ public class ajustesFragment extends Fragment {
         alert11.show();
     }
 
-    private void confirmar(final String User){
+    private void confirmar(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage("Estas seguro?");
         builder1.setCancelable(false);
@@ -111,13 +117,8 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        if(User != null) {
                             //codigo a ejecutar
                             Toast.makeText(getActivity().getApplicationContext(),"Cuenta borrada(falta codigo)",Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            noUsuari();
-                        }
                     }
                 });
 
