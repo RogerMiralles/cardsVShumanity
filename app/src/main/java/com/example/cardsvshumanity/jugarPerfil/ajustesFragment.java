@@ -18,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.logReg.login;
-import com.example.cardsvshumanity.principalFragment;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -45,6 +43,7 @@ public class ajustesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_ajustes, container, false);
+        Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloAjustes));
         mUser=null;
         mIdioma= rootView.findViewById(R.id.btnIdioma);
         mIdioma.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +57,8 @@ public class ajustesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //codigo a ejecutar
-                Toast.makeText(getActivity().getApplicationContext(),"Se han borrado los datos(falta codigo)",Toast.LENGTH_LONG).show();
+                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.lDatos),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
             }
         });
         mCuenta= rootView.findViewById(R.id.btnCuenta);
@@ -80,11 +80,11 @@ public class ajustesFragment extends Fragment {
 
     private void noUsuari(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("No tienes usuario, quieres iniciar tu sesion?");
+        builder1.setMessage(getString(R.string.noUsuari));
         builder1.setCancelable(false);
 
         builder1.setPositiveButton(
-                "Yes",
+                getString(R.string.si),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -94,13 +94,10 @@ public class ajustesFragment extends Fragment {
                 });
 
         builder1.setNegativeButton(
-                "No",
+                getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), MainActivity.class);
-                        getActivity().finish();
-                        startActivity(intent);
                     }
                 });
 
@@ -110,21 +107,22 @@ public class ajustesFragment extends Fragment {
 
     private void confirmar(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("Estas seguro?");
+        builder1.setMessage(getString(R.string.confirmar));
         builder1.setCancelable(false);
 
         builder1.setPositiveButton(
-                "Yes",
+                getString(R.string.si),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                             //codigo a ejecutar
-                            Toast.makeText(getActivity().getApplicationContext(),"Cuenta borrada(falta codigo)",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
                     }
                 });
 
         builder1.setNegativeButton(
-                "No",
+                getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -138,16 +136,17 @@ public class ajustesFragment extends Fragment {
     private void showChangeLanguageDialog() {
         final String[] listItems={"Castellano","Catalan","English"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
-        mBuilder.setTitle("Elige Idioma.....");
+        mBuilder.setTitle(getString(R.string.eligeIdioma));
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     //getActivity().recreate();
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
+                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     //getActivity().finish();
                     //startActivity(in);
 
@@ -158,7 +157,7 @@ public class ajustesFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==1){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -172,7 +171,7 @@ public class ajustesFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==2){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -201,7 +200,7 @@ public class ajustesFragment extends Fragment {
         getActivity().getBaseContext();
         */
         Locale.setDefault(locale);
-        Configuration config = getActivity().getBaseContext().getResources().getConfiguration();
+        Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(
                 config,

@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.jugarPerfil.ajustesFragment;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
 
@@ -98,34 +99,8 @@ public class principalFragment extends Fragment {
                     startActivity(listSong);
                 }
                 else{
-                    //Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
-                    //startActivityForResult(listSong,codigo);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                //Crea Socket
-                                Socket sk = new Socket("192.168.137.1", 55555);
-                                DataInputStream dis = new DataInputStream(sk.getInputStream());
-                                DataOutputStream dos = new DataOutputStream(sk.getOutputStream());
-
-                                //Lee clave publica
-                                byte[] publicKeyEncoded = fromHex(dis.readUTF());
-                                PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(publicKeyEncoded));
-
-                                KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-                                SecretKey secretKey = keyGen.generateKey();
-                                byte[] rawKey = secretKey.getEncoded();
-
-                                Cipher c = Cipher.getInstance(RSA_ECB_OAEPWITHSHA_256_ANDMGF_1_PADDING);
-                                c.init(Cipher.ENCRYPT_MODE, publicKey);
-                                byte[] asdfadsf = c.doFinal(rawKey);
-                                dos.writeUTF(toHex(asdfadsf));
-                            } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-                                Log.d("InternetClass", e.getMessage());
-                            }
-                        }
-                    }).start();
+                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
+                    startActivityForResult(listSong,codigo);
                 }
             }
         });
@@ -159,16 +134,17 @@ public class principalFragment extends Fragment {
     private void showChangeLanguageDialog() {
         final String[] listItems={"Castellano","Catalan","English"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
-        mBuilder.setTitle("Elige Idioma.....");
+        mBuilder.setTitle(getString(R.string.eligeIdioma));
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al castellano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     //getActivity().recreate();
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
+                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     //getActivity().finish();
                     //startActivity(in);
 
@@ -179,7 +155,7 @@ public class principalFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==1){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al catalan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -193,7 +169,7 @@ public class principalFragment extends Fragment {
                     ft.commit();
                 }
                 else if(i==2){
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Traduciendo al ingles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
                     //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -222,7 +198,7 @@ public class principalFragment extends Fragment {
         getActivity().getBaseContext();
         */
         Locale.setDefault(locale);
-        Configuration config = getActivity().getBaseContext().getResources().getConfiguration();
+        Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(
                 config,
@@ -252,86 +228,5 @@ public class principalFragment extends Fragment {
                 break;
         }
         setLocale(language);
-    }
-
-
-    public static byte[] fromHex(String hex){
-        int length = hex.length()/2;
-        byte[] array = new byte[length];
-        for(int i = 0; i<length; i++){
-            String firstPart = hex.charAt(i*2)+"", secondPart = hex.charAt(i*2+1)+"";
-            byte by = 0;
-            try{
-                by = (byte) (Integer.parseInt(firstPart)*16);
-            }catch(NumberFormatException e){
-                switch(firstPart){
-                    case "a":
-                        by = (byte) (10*16);
-                        break;
-                    case "b":
-                        by = (byte) (11*16);
-                        break;
-                    case "c":
-                        by = (byte) (12*16);
-                        break;
-                    case "d":
-                        by = (byte) (13*16);
-                        break;
-                    case "e":
-                        by = (byte) (14*16);
-                        break;
-                    case "f":
-                        by = (byte) (15*16);
-                        break;
-                }
-            }
-            try{
-                by += (byte)(Integer.parseInt(secondPart));
-            }catch(NumberFormatException e){
-                switch(secondPart){
-                    case "a":
-                        by += 10;
-                        break;
-                    case "b":
-                        by += 11;
-                        break;
-                    case "c":
-                        by += 12;
-                        break;
-                    case "d":
-                        by += 13;
-                        break;
-                    case "e":
-                        by += 14;
-                        break;
-                    case "f":
-                        by += 15;
-                        break;
-                }
-            }
-            array[i] = by;
-        }
-        return array;
-    }
-
-    public static String toHex(byte[] array){
-        StringBuilder str = new StringBuilder();
-
-        for(int i = 0; i<array.length; i++){
-            int a = array[i] & 0xf;
-            int b = (array[i] & 0xf0) >> 4;
-            if(b < 10){
-                str.append(b);
-            }else{
-                str.append(Integer.toHexString(b));
-            }
-            if(a < 10){
-                str.append(a);
-            }else{
-                str.append(Integer.toHexString(a));
-            }
-        }
-
-        return str.toString();
     }
 }

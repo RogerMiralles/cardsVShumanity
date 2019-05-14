@@ -10,7 +10,6 @@
     <string name="registrarse">Register</string>
     <string name="inicia_session">Log in</string>
     <string name="logear">Sign in</string>
-    <string name="perfil">Profile</string>
     <string name="baraja">Deck</string>
     <string name="nombre_de_usuario">User name</string>
     <string name="selecciona_imagen">Select image</string>
@@ -19,4 +18,16 @@
     <string name="cambiar_idioma">Change language</string>
     <string name="limpiar_datos">Clean data</string>
     <string name="borrar_cuenta">Delete account</string>
+    <string name="no">no</string>
+    <string name="si">yes</string>
+    <string name="eligeIdioma">Choose language....</string>
+    <string name="confirmar">Are you sure?</string>
+    <string name="noUsuari">You don\'t have a user, do you want to log in?</string>
+    <string name="bCuenta">Deleted account</string>
+    <string name="catalan">Translating to catalan</string>
+    <string name="espanol">Translating to spanish</string>
+    <string name="ingles">Translating to english</string>
+    <string name="lDatos">The datas has been erased</string>
+    <string name="tituloAjustes">Settings</string>
+    <string name="tituloPerfil">Profile</string>
 </resources>

@@ -5,7 +5,6 @@
     <string name="cartas">Cartas</string>
     <string name="baraja">Baraja</string>
     <string name="todo" translatable="false">To-Do</string>
-    <string name="perfil">Perfil</string>
     <string name="idiomaboton" translatable="false">Boton de Idioma</string>
     <string name="inicia_session">Inicia Sesión</string>
     <string name="correo">Correo</string>
@@ -22,5 +21,20 @@
     <string name="cambiar_idioma">Cambiar idioma</string>
     <string name="limpiar_datos">Limpiar datos</string>
     <string name="borrar_cuenta">Borrar cuenta</string>
+    <string name="eligeIdioma">Elige Idioma.....</string>
+    <string name="noUsuari">No tienes usuario, quieres iniciar tu sesion?</string>
+    <string name="si">si</string>
+    <string name="no">no</string>
+    <string name="confirmar">Estas seguro?</string>
+    <string name="espanol">Traduciendo al castellano</string>
+    <string name="catalan">Traduciendo al catalan</string>
+    <string name="ingles">Traduciendo al ingles</string>
+    <string name="bCuenta">Cuenta borrada</string>
+    <string name="lDatos">Se han borrado los datos</string>
+    <string name="tituloAjustes">Ajustes</string>
+    <string name="tituloPerfil">Perfil</string>
+    <string name="selecciona">Que prefieres?</string>
+    <string name="galeria">Galeria</string>
+    <string name="camara">Camara</string>
 
 </resources>
