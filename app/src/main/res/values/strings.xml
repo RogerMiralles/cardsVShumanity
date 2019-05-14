@@ -22,5 +22,10 @@
     <string name="cambiar_idioma">Cambiar idioma</string>
     <string name="limpiar_datos">Limpiar datos</string>
     <string name="borrar_cuenta">Borrar cuenta</string>
+    <string name="eligeIdioma">Elige Idioma.....</string>
+    <string name="noUsuari">No tienes usuario, quieres iniciar tu sesion?</string>
+    <string name="si">si</string>
+    <string name="no">no</string>
+    <string name="confirmar">Estas seguro?</string>
 
 </resources>

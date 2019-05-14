@@ -51,11 +51,11 @@ public class perfilFragment extends Fragment {
 
     private void noUsuari(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("No tienes usuario, quieres iniciar tu sesion?");
+        builder1.setMessage(getString(R.string.noUsuari));
         builder1.setCancelable(false);
 
         builder1.setPositiveButton(
-                "Yes",
+                getString(R.string.si),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -65,7 +65,7 @@ public class perfilFragment extends Fragment {
                 });
 
         builder1.setNegativeButton(
-                "No",
+                getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

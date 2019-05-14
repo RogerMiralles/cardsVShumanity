@@ -19,4 +19,9 @@
     <string name="cambiar_idioma">Change language</string>
     <string name="limpiar_datos">Clean data</string>
     <string name="borrar_cuenta">Delete account</string>
+    <string name="no">no</string>
+    <string name="si">yes</string>
+    <string name="eligeIdioma">choose language....</string>
+    <string name="confirmar">are you sure?</string>
+    <string name="noUsuari">You don\'t have a user, do you want to log in?</string>
 </resources>

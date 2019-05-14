@@ -5,7 +5,7 @@
     <string name="jugar">Jugar</string>
     <string name="cartas">Cartes</string>
     <string name="baraja">Baralla</string>
-    <string name="inicia_session">Inicia sesio</string>
+    <string name="inicia_session">Inicia sessió</string>
     <string name="perfil">Perfil</string>
     <string name="salida">sortir</string>
     <string name="contrase_a">Contrasenya</string>
@@ -18,5 +18,10 @@
     <string name="foto_perfil">Foto de perfil</string>
     <string name="cambiar_idioma">Canviar idioma</string>
     <string name="limpiar_datos">Netejar dades</string>
-    <string name="borrar_cuenta">Borrar conta</string>
+    <string name="borrar_cuenta">Esborrar conta</string>
+    <string name="no">no</string>
+    <string name="si">si</string>
+    <string name="eligeIdioma">Escolleix idioma....</string>
+    <string name="confirmar">estas segur?</string>
+    <string name="noUsuari">No tens usuari, vols iniciar la teva sessió?</string>
 </resources>

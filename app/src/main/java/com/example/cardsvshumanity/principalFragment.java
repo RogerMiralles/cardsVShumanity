@@ -110,7 +110,7 @@ public class principalFragment extends Fragment {
     private void showChangeLanguageDialog() {
         final String[] listItems={"Castellano","Catalan","English"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
-        mBuilder.setTitle("Elige Idioma.....");
+        mBuilder.setTitle(getString(R.string.eligeIdioma));
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -173,7 +173,7 @@ public class principalFragment extends Fragment {
         getActivity().getBaseContext();
         */
         Locale.setDefault(locale);
-        Configuration config = getActivity().getBaseContext().getResources().getConfiguration();
+        Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(
                 config,

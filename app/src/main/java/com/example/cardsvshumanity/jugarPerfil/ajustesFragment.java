@@ -58,7 +58,7 @@ public class ajustesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //codigo a ejecutar
-                Toast.makeText(getActivity().getApplicationContext(),"Se han borrado los datos(falta codigo)",Toast.LENGTH_LONG).show();
+                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Se han borrado los datos(falta codigo)",Toast.LENGTH_LONG).show();
             }
         });
         mCuenta= rootView.findViewById(R.id.btnCuenta);
@@ -80,11 +80,11 @@ public class ajustesFragment extends Fragment {
 
     private void noUsuari(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("No tienes usuario, quieres iniciar tu sesion?");
+        builder1.setMessage(getString(R.string.noUsuari));
         builder1.setCancelable(false);
 
         builder1.setPositiveButton(
-                "Yes",
+                getString(R.string.si),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -94,7 +94,7 @@ public class ajustesFragment extends Fragment {
                 });
 
         builder1.setNegativeButton(
-                "No",
+                getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -107,21 +107,21 @@ public class ajustesFragment extends Fragment {
 
     private void confirmar(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("Estas seguro?");
+        builder1.setMessage(getString(R.string.confirmar));
         builder1.setCancelable(false);
 
         builder1.setPositiveButton(
-                "Yes",
+                getString(R.string.si),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                             //codigo a ejecutar
-                            Toast.makeText(getActivity().getApplicationContext(),"Cuenta borrada(falta codigo)",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Cuenta borrada(falta codigo)",Toast.LENGTH_LONG).show();
                     }
                 });
 
         builder1.setNegativeButton(
-                "No",
+                getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -135,7 +135,7 @@ public class ajustesFragment extends Fragment {
     private void showChangeLanguageDialog() {
         final String[] listItems={"Castellano","Catalan","English"};
         AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
-        mBuilder.setTitle("Elige Idioma.....");
+        mBuilder.setTitle(getString(R.string.eligeIdioma));
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -199,7 +199,7 @@ public class ajustesFragment extends Fragment {
         getActivity().getBaseContext();
         */
         Locale.setDefault(locale);
-        Configuration config = getActivity().getBaseContext().getResources().getConfiguration();
+        Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(
                 config,
