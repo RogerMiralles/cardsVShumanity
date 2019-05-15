@@ -2,7 +2,6 @@
     <string name="app_name">Cartas Contra la Humanidad</string>
     <string name="cartas_contra_la_humanidad">Cartas Contra la Humanidad</string>
     <string name="jugar">Jugar</string>
-    <string name="cartas">Cartas</string>
     <string name="baraja">Baraja</string>
     <string name="todo" translatable="false">To-Do</string>
     <string name="idiomaboton" translatable="false">Boton de Idioma</string>
@@ -37,5 +36,11 @@
     <string name="selecciona">Que prefieres?</string>
     <string name="galeria">Galeria</string>
     <string name="camara">Camara</string>
+    <string name="crear_partida">Crear partida</string>
+    <string name="unirse_partida">Unirse partida</string>
+    <string name="mensajeBaraja"></string>
+    <string name="respuesta1Baraja"></string>
+    <string name="respuesta2Baraja"></string>
+
 
 </resources>
