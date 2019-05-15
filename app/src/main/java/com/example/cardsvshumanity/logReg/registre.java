@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,7 +66,7 @@ public class registre extends AppCompatActivity {
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
             Connection.getInstance().RegistrarUsuario(null, correo.getText().toString(),
-                    contra.getText().toString(), nom.getText().toString());
+                    contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }

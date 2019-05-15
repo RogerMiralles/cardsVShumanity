@@ -1,5 +1,14 @@
 package com.example.cardsvshumanity;
 
+import android.os.Environment;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -81,6 +90,70 @@ public class Codification {
             e.printStackTrace();
         }
         return str;
+    }
+
+    public static File encodeFileWithSymmetricKey(File rawFile, String path, SecretKey symmetricKey){
+        File output = null;
+        DataInputStream disfile = null;
+        DataOutputStream dosfile = null;
+        try {
+            output = new File(Environment.getExternalStorageDirectory(),path);
+            if(output.exists()){
+                output.delete();
+            }
+
+            output.createNewFile();
+
+            dosfile = new DataOutputStream(new FileOutputStream(output));
+            disfile = new DataInputStream(new FileInputStream(rawFile));
+
+            long length = rawFile.length();
+            long actual = 0;
+
+            Cipher c = Cipher.getInstance(SIMETRIC_FORMAT_CIPHER);
+            c.init(Cipher.ENCRYPT_MODE, symmetricKey);
+
+            byte[] array = new byte[Connection.BLOCK_SIZE];
+            while (length > actual){
+                int leido;
+                if(length - actual > Connection.BLOCK_SIZE){
+                    leido = disfile.read(array, 0, Connection.BLOCK_SIZE);
+                }
+                else{
+                    leido = disfile.read(array, 0, (int) (length-actual));
+                }
+                actual+=leido;
+                dosfile.write(c.update(array, 0, leido));
+            }
+            dosfile.write(c.doFinal());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                disfile.close();
+            }catch(NullPointerException | IOException e){
+            }
+            try{
+                dosfile.close();
+            }catch(NullPointerException | IOException e){
+            }
+
+        }
+
+        return output;
     }
 
     public static SecretKey generateNewSimetricKey(){
