@@ -1,5 +1,6 @@
 package com.example.cardsvshumanity;
 
+import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -182,5 +183,19 @@ public class Codification {
         }
 
         return str.toString();
+    }
+
+    public static String parseLongToHex(long number){
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong(number);
+        return toHex(buffer.array());
+    }
+
+    public static long parseHexToLong(String hex) {
+        byte[] array = fromHex(hex);
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.put(array);
+        buffer.flip();
+        return buffer.getLong();
     }
 }

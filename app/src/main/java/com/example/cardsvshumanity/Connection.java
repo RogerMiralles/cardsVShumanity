@@ -66,6 +66,9 @@ public class Connection {
                             , secretKey
                             )
                     );
+
+
+                    //dos.writeUTF(Codification.encodeWithSimetricKey(Codification.parseLongToHex()));
                     Log.d(Connection.class.getSimpleName(), Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8))));
                     dos.writeUTF(Codification.encodeWithSimetricKey(name.getBytes(StandardCharsets.UTF_8), secretKey));
 
