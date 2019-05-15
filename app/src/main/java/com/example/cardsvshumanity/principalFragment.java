@@ -21,7 +21,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cardsvshumanity.jugarPerfil.ajustesFragment;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
 
@@ -51,6 +50,7 @@ public class principalFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_principal, container, false);
         //loadLocale();
+        getActivity().setTitle(getString(R.string.cch));
         mUser=null;
         mSalir= rootView.findViewById(R.id.btnSalida);
         mSalir.setOnClickListener(new View.OnClickListener() {
