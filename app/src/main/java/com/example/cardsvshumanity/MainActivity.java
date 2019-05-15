@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //Connection.crearCon();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.setTitle("CCH");
+        this.setTitle(getString(R.string.cch));
         BottomNavigationView navView = findViewById(R.id.navigationView);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CargarFragmente(new principalFragment());
