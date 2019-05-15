@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFBBBAB5"
-    tools:context=".principalFragment">
+    tools:context=".principalFragment"
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/txtTitulo"

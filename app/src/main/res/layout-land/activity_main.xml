@@ -22,7 +22,7 @@
         android:id="@+id/navigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/colorPrimary"
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/colores_para_iconos"
         app:itemTextColor="@android:color/white"
