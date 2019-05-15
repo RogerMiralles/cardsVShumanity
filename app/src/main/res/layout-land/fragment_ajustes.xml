@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BBBAB5"
+    android:background="#e3d87e"
     tools:context=".jugarPerfil.ajustesFragment">
 
 

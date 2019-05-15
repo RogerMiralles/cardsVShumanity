@@ -3,7 +3,6 @@
     <string name="app_name">Cartes Contra la Humanitat</string>
     <string name="cartas_contra_la_humanidad">Cartes Contra la Humanitat</string>
     <string name="jugar">Jugar</string>
-    <string name="cartas">Cartes</string>
     <string name="baraja">Baralla</string>
     <string name="inicia_session">Inicia sessió</string>
     <string name="salida">sortir</string>
@@ -30,4 +29,12 @@
     <string name="lDatos">S\'han esborrat les dades</string>
     <string name="tituloAjustes">Configuració</string>
     <string name="tituloPerfil">Perfil</string>
+    <string name="mensajeBaraja">Que vols fer?</string>
+    <string name="selecciona">Que prefereixes?</string>
+    <string name="respuesta2Baraja">Modificar baralla</string>
+    <string name="respuesta1Baraja">Crear nova baralla</string>
+    <string name="crear_partida">Crear partida</string>
+    <string name="camara">Càmera</string>
+    <string name="galeria">Galeria</string>
+    <string name="unirse_partida">Unir-se a partida</string>
 </resources>

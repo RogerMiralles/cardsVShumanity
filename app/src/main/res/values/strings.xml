@@ -2,29 +2,28 @@
     <string name="app_name">Cartas Contra la Humanidad</string>
     <string name="cartas_contra_la_humanidad">Cartas Contra la Humanidad</string>
     <string name="jugar">Jugar</string>
-    <string name="cartas">Cartas</string>
     <string name="baraja">Baraja</string>
     <string name="todo" translatable="false">To-Do</string>
     <string name="idiomaboton" translatable="false">Boton de Idioma</string>
-    <string name="inicia_session">Inicia Sesión</string>
+    <string name="inicia_session">Iniciar Sesión</string>
     <string name="correo">Correo</string>
     <string name="contrase_a">Contraseña </string>
     <string name="logear">Entrar </string>
     <string name="registrarse">Registrarse </string>
-    <string name="salida">salir</string>
+    <string name="salida">Salir</string>
     <string name="imagenatras" translatable="false">imagenAtras</string>
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="foto_perfil">Foto perfil</string>
-    <string name="selecciona_imagen">Selecciona Imagen</string>
-    <string name="imagenusuario" translatable="false">imagenUsuario</string>
+    <string name="selecciona_imagen">Seleccionar imagen</string>
+    <string name="imagenusuario" translatable="false">imagen usuario</string>
     <string name="partidas_ganadas">Partidas ganadas</string>
     <string name="cambiar_idioma">Cambiar idioma</string>
     <string name="limpiar_datos">Limpiar datos</string>
     <string name="borrar_cuenta">Borrar cuenta</string>
-    <string name="eligeIdioma">Elige Idioma.....</string>
+    <string name="eligeIdioma">Elige idioma...</string>
     <string name="noUsuari">No tienes usuario, quieres iniciar tu sesion?</string>
-    <string name="si">si</string>
-    <string name="no">no</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
     <string name="confirmar">Estas seguro?</string>
     <string name="espanol">Traduciendo al castellano</string>
     <string name="catalan">Traduciendo al catalan</string>
@@ -35,7 +34,13 @@
     <string name="tituloPerfil">Perfil</string>
     <string name="cch" translatable="false">CCH</string>
     <string name="selecciona">Que prefieres?</string>
-    <string name="galeria">Galeria</string>
-    <string name="camara">Camara</string>
+    <string name="galeria">Galería</string>
+    <string name="camara">Cámara</string>
+    <string name="crear_partida">Crear partida</string>
+    <string name="unirse_partida">Unirse a partida</string>
+    <string name="respuesta1Baraja">Crear mazo nuevo</string>
+    <string name="respuesta2Baraja">Editar mazo</string>
+    <string name="mensajeBaraja">Que quieres hacer?</string>
+
 
 </resources>
