@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,28 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
 import com.example.cardsvshumanity.logReg.login;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 
 /**
@@ -33,6 +54,8 @@ import java.util.Objects;
  */
 public class principalFragment extends Fragment {
 
+
+    public static final String RSA_ECB_OAEPWITHSHA_256_ANDMGF_1_PADDING = "RSA/ECB/PKCS1PADDING";
 
     public principalFragment() {
         // Required empty public constructor

@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.Codification;
+import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,8 +39,6 @@ import java.util.Objects;
 
 public class registre extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     private EditText correo;
     private EditText contra;
     private EditText nom;
@@ -57,25 +57,13 @@ public class registre extends AppCompatActivity {
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
         iUsuari=findViewById(R.id.imgUsuario);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     public void onClickRegistrarse(View view){
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
-            mAuth.createUserWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        mAuth.signInWithEmailAndPassword(correo.getText().toString(),contra.getText().toString());
-                        mUser=mAuth.getCurrentUser();
-                        Intent listSong = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(listSong);
-                    }else{
-                        Toast.makeText(registre.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            Connection.getInstance().RegistrarUsuario(null, correo.getText().toString(),
+                    contra.getText().toString(), nom.getText().toString());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
