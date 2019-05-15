@@ -29,7 +29,7 @@ public class segundaVentana extends AppCompatActivity {
         startActivity(in);
     }
 
-    public void onClickBaraja(View view){
+    public void onClickBarajas(View view){
         Intent in=new Intent(getApplicationContext(), barajas.class);
         startActivity(in);
     }

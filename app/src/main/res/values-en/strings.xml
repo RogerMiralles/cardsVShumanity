@@ -29,4 +29,12 @@
     <string name="lDatos">The datas has been erased</string>
     <string name="tituloAjustes">Settings</string>
     <string name="tituloPerfil">Profile</string>
+    <string name="camara">Camera</string>
+    <string name="galeria">Gallery</string>
+    <string name="crear_partida">Create game</string>
+    <string name="respuesta1Baraja">Create new deck</string>
+    <string name="respuesta2Baraja">Edit deck</string>
+    <string name="selecciona">What do you prefer?</string>
+    <string name="unirse_partida">Join game</string>
+    <string name="mensajeBaraja">What do you want?</string>
 </resources>

@@ -29,4 +29,12 @@
     <string name="lDatos">S\'han esborrat les dades</string>
     <string name="tituloAjustes">Configuració</string>
     <string name="tituloPerfil">Perfil</string>
+    <string name="mensajeBaraja">Que vols fer?</string>
+    <string name="selecciona">Que prefereixes?</string>
+    <string name="respuesta2Baraja">Modificar baralla</string>
+    <string name="respuesta1Baraja">Crear nova baralla</string>
+    <string name="crear_partida">Crear partida</string>
+    <string name="camara">Càmera</string>
+    <string name="galeria">Galeria</string>
+    <string name="unirse_partida">Unir-se a partida</string>
 </resources>

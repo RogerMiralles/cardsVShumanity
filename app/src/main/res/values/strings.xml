@@ -34,13 +34,13 @@
     <string name="tituloPerfil">Perfil</string>
     <string name="cch" translatable="false">CCH</string>
     <string name="selecciona">Que prefieres?</string>
-    <string name="galeria">Galeria</string>
-    <string name="camara">Camara</string>
+    <string name="galeria">Galería</string>
+    <string name="camara">Cámara</string>
     <string name="crear_partida">Crear partida</string>
-    <string name="unirse_partida">Unirse partida</string>
-    <string name="mensajeBaraja"></string>
-    <string name="respuesta1Baraja"></string>
-    <string name="respuesta2Baraja"></string>
+    <string name="unirse_partida">Unirse a partida</string>
+    <string name="respuesta1Baraja">Crear mazo nuevo</string>
+    <string name="respuesta2Baraja">Editar mazo</string>
+    <string name="mensajeBaraja">Que quieres hacer?</string>
 
 
 </resources>
