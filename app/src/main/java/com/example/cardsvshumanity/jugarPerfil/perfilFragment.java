@@ -52,7 +52,7 @@ public class perfilFragment extends Fragment {
     private void noUsuari(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage(getString(R.string.noUsuari));
-        builder1.setCancelable(false);
+        builder1.setCancelable(true);
 
         builder1.setPositiveButton(
                 getString(R.string.si),
