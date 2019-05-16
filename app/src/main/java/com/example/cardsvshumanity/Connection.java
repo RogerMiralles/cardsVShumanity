@@ -1,12 +1,16 @@
 package com.example.cardsvshumanity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 
@@ -18,8 +22,10 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import javax.crypto.SecretKey;
 
@@ -32,7 +38,7 @@ public class Connection {
     public static final int BLOCK_SIZE = 1024;
 
     private static Connection INSTANCE;
-
+    private Context context;
     static {
         try {
             INSTANCE = new Connection();
@@ -46,6 +52,12 @@ public class Connection {
         }
     }
 
+    public static Connection getInstance(Context context){
+        if(context != null)
+            INSTANCE.context = context;
+        return INSTANCE;
+    }
+
     public static Connection getInstance(){
         return INSTANCE;
     }
@@ -55,8 +67,12 @@ public class Connection {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Socket sk = null;
                 try{
-                    Socket sk = new Socket("192.168.137.1",55555);
+                    if(context == null)
+                        throw new Exception("No context added");
+
+                    sk = new Socket("192.168.137.1",55555);
                     DataInputStream dis;
                     DataOutputStream dos;
 
@@ -90,19 +106,21 @@ public class Connection {
                     ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOutput);
 
-                    File f = new File(Environment.getExternalStorageDirectory(), "image");
+
+                    File f = new File(context.getExternalFilesDir(null), "image");
                     if(!f.exists()){
                         f.createNewFile();
                     }
 
                     DataOutputStream fileDos = new DataOutputStream(new FileOutputStream(f));
 
-                    fileDos.write(streamOutput.toByteArray());
+
+                    streamOutput.writeTo(fileDos);
                     fileDos.flush();
                     fileDos.close();
 
                     //codifica la imagen
-                    File imagenCodificada = Codification.encodeFileWithSymmetricKey(f, "encodedImage", secretKey);
+                    File imagenCodificada = Codification.encodeFileWithSymmetricKey(context, f, "encodedImage", secretKey);
 
                     //envia la imagen
                     ///Primero se envia el Formato y longitud
@@ -133,16 +151,29 @@ public class Connection {
                         actual+=leido;
                         dos.write(datos, 0, leido);
                     }
-                    
-                    dis.readInt();
 
-                    sk.close();
+                    final int result = dis.readInt();
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(result == 1){
+                                    Toast.makeText(context, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(context, "Error al registrarte", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
                 }catch (Exception e){
-                    Log.d("Connection", "ha fallado");
+                    Log.d("Connection", "ha fallado: "+ e.getMessage()
+                    );
                     e.printStackTrace();
                 }
                 finally {
+                    try{
+                        sk.close();
+                    } catch (IOException | NullPointerException e) {}
                     if(runnable != null)
                         runnable.run();
                 }

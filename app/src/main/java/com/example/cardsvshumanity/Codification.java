@@ -1,5 +1,6 @@
 package com.example.cardsvshumanity;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.DataInputStream;
@@ -92,12 +93,12 @@ public class Codification {
         return str;
     }
 
-    public static File encodeFileWithSymmetricKey(File rawFile, String path, SecretKey symmetricKey){
+    public static File encodeFileWithSymmetricKey(Context context, File rawFile, String path, SecretKey symmetricKey){
         File output = null;
         DataInputStream disfile = null;
         DataOutputStream dosfile = null;
         try {
-            output = new File(Environment.getExternalStorageDirectory(),path);
+            output = new File(context.getExternalFilesDir(null),path);
             if(output.exists()){
                 output.delete();
             }

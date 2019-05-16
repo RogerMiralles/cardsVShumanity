@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -56,7 +57,7 @@ public class registre extends AppCompatActivity {
     public void onClickRegistrarse(View view){
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
-            Connection.getInstance().RegistrarUsuario(null, correo.getText().toString(),
+            Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
                     contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
