@@ -4,10 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +25,8 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -53,8 +57,8 @@ public class registre extends AppCompatActivity {
     public void onClickRegistrarse(View view){
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
-            Connection.getInstance().RegistrarUsuario(null, correo.getText().toString(),
-                    contra.getText().toString(), nom.getText().toString());
+            Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
+                    contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
