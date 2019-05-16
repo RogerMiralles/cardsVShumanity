@@ -6,138 +6,162 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".jugarPerfil.perfilFragment">
 
-    <EditText
-        android:id="@+id/eTxtNombreU2"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="15dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCorreo2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreU2"
-        tools:targetApi="o" />
-
-    <TextView
-        android:id="@+id/txtNombreU2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/nombre_de_usuario"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/eTxtNombreU2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgUsuario2"
-        android:layout_width="188dp"
-        android:layout_height="192dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/imagenusuario"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/eTxtNombreU2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person_black_24dp"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/txtPass2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/contrase_a"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/eTxtPass2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtCorreo2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/eTxtPass2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/txtPartGana"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/txtPass2"
-        tools:targetApi="o" />
+            <ImageView
+                android:id="@+id/imgUsuario3"
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/imagenusuario"
+                app:layout_constraintBottom_toTopOf="@+id/txtNombreU3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_person_black_24dp"
+                tools:src="@tools:sample/avatars"
+                tools:targetApi="o" />
 
-    <TextView
-        android:id="@+id/txtCorreo2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/correo"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/eTxtCorreo2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtNombreU2" />
+            <TextView
+                android:id="@+id/txtNombreU3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="34dp"
+                android:text="@string/nombre_de_usuario"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@id/eTxtNombreU3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgUsuario3" />
 
-    <EditText
-        android:id="@+id/eTxtCorreo2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/txtPass2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/txtCorreo2"
-        tools:targetApi="o" />
+            <EditText
+                android:id="@+id/eTxtNombreU3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="34dp"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/txtCorreo4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtNombreU3"
+                tools:targetApi="o" />
 
-    <TextView
-        android:id="@+id/txtPartGana"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/partidas_ganadas"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/eTxtPartGana"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtPass2" />
+            <TextView
+                android:id="@+id/txtCorreo4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="34dp"
+                android:text="@string/correo"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@id/eTxtCorreo4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eTxtNombreU3" />
 
-    <EditText
-        android:id="@+id/eTxtPartGana"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario2"
-        app:layout_constraintTop_toBottomOf="@+id/txtPartGana"
-        tools:targetApi="o" />
+            <EditText
+                android:id="@+id/eTxtCorreo4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="34dp"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toTopOf="@+id/txtPass4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtCorreo4"
+                tools:targetApi="o" />
 
+            <TextView
+                android:id="@+id/txtPass4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="34dp"
+                android:text="@string/contrase_a"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@+id/eTxtPass4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eTxtCorreo4" />
+
+            <EditText
+                android:id="@+id/eTxtPass4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="34dp"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toTopOf="@+id/txtPartGana2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPass4"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/txtPartGana2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="34dp"
+                android:text="@string/partidas_ganadas"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@+id/eTxtPartGana2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eTxtPass4" />
+
+            <EditText
+                android:id="@+id/eTxtPartGana2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="34dp"
+                android:layout_marginBottom="100dp"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPartGana2"
+                tools:targetApi="o" />
+
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
