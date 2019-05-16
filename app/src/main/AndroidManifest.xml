@@ -31,12 +31,8 @@
         </activity>
         <activity android:name=".partida.barajas" />
         <activity android:name=".jugarPerfil.segundaVentana" />
-        <activity
-            android:name=".logReg.registre"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".logReg.login"
-            android:screenOrientation="portrait" />
+        <activity android:name=".logReg.registre" />
+        <activity android:name=".logReg.login" />
     </application>
 
 </manifest>
