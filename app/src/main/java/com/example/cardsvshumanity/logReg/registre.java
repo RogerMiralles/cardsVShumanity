@@ -4,12 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,8 +23,6 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -52,6 +48,7 @@ public class registre extends AppCompatActivity {
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
         iUsuari=findViewById(R.id.imgUsuario);
+
     }
 
     public void onClickRegistrarse(View view){
@@ -105,7 +102,8 @@ public class registre extends AppCompatActivity {
             Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagenSeleccionada);
-                iUsuari.setImageBitmap(bitmap);
+                //iUsuari.setImageBitmap(bitmap);
+                iUsuari.setImageURI(imagenSeleccionada);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -169,5 +167,17 @@ public class registre extends AppCompatActivity {
 
     public void onClickAtras(View view){
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //savedInstanceState.
     }
 }
