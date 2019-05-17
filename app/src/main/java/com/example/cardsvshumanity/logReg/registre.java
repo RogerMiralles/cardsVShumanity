@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,8 +25,6 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -60,6 +56,7 @@ public class registre extends AppCompatActivity {
 
             iUsuari.setImageDrawable(drContainer.drawable);
         }
+
     }
 
     public void onClickRegistrarse(View view){
@@ -113,7 +110,8 @@ public class registre extends AppCompatActivity {
             Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagenSeleccionada);
-                iUsuari.setImageBitmap(bitmap);
+                //iUsuari.setImageBitmap(bitmap);
+                iUsuari.setImageURI(imagenSeleccionada);
             } catch (IOException e) {
                 e.printStackTrace();
             }
