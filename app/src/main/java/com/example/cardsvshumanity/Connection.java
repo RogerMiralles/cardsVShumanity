@@ -153,6 +153,7 @@ public class Connection {
                     }
 
                     final int result = dis.readInt();
+                    final int error = (result == 1)? 0 : dis.readInt();
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -160,7 +161,22 @@ public class Connection {
                                     Toast.makeText(context, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    Toast.makeText(context, "Error al registrarte", Toast.LENGTH_SHORT).show();
+                                    String message;
+                                    switch(error){
+                                        case -1:
+                                            message = context.getString(R.string.error_existing_email);
+                                            break;
+                                        case -2:
+                                            message = context.getString(R.string.error_invalid_email);
+                                            break;
+                                        case -3:
+                                            message = context.getString(R.string.error_invalid_parameters);
+                                            break;
+                                        default:
+                                            message = context.getString(R.string.error_unknown_error);
+                                            break;
+                                    }
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

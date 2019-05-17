@@ -41,6 +41,8 @@
     <string name="respuesta1Baraja">Crear mazo nuevo</string>
     <string name="respuesta2Baraja">Editar mazo</string>
     <string name="mensajeBaraja">Que quieres hacer?</string>
-
-
+    <string name="error_existing_email">El correo que has indicado ya está registrado</string>
+    <string name="error_invalid_email">El correo que has indicado no es válido</string>
+    <string name="error_invalid_parameters">Uno o varios parametros indicados no son válidos</string>
+    <string name="error_unknown_error">Error desconocido</string>
 </resources>
