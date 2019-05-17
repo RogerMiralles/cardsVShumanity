@@ -198,7 +198,7 @@ public class registre extends AppCompatActivity {
             this.drawable = drawable;
         }
     }
-    
+
     private void chivato(String mensajes){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(mensajes);
