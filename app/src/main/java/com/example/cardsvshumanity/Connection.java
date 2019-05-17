@@ -175,6 +175,7 @@ public class Connection {
                         sk.close();
                     } catch (IOException | NullPointerException e) {}
                     if(runnable != null)
+                        //Toast.makeText(context, "hola", Toast.LENGTH_SHORT).show();
                         runnable.run();
                 }
 
