@@ -13,27 +13,27 @@
         android:required="true" />
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".partida.unirsePartida"></activity>
-        <activity android:name=".partida.crearPartida" />
+        <activity android:name=".partida.unirsePartida" android:screenOrientation="landscape"></activity>
+        <activity android:name=".partida.crearPartida" android:screenOrientation="landscape" />
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".partida.barajas" />
-        <activity android:name=".jugarPerfil.segundaVentana" />
-        <activity android:name=".logReg.registre" />
-        <activity android:name=".logReg.login" />
+        <activity android:name=".partida.barajas" android:screenOrientation="landscape"/>
+        <activity android:name=".jugarPerfil.segundaVentana" android:screenOrientation="landscape" />
+        <activity android:name=".logReg.registre" android:screenOrientation="landscape" />
+        <activity android:name=".logReg.login" android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
