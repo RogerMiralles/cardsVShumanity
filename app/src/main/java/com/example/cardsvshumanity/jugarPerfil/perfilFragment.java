@@ -28,22 +28,22 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
  */
 public class perfilFragment extends Fragment {
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
 
     public perfilFragment() {
         // Required empty public constructor
     }
-
+    private AlertDialog alertDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_perfil, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
-        mAuth = FirebaseAuth.getInstance();
-        mUser=mAuth.getCurrentUser();
-        if(mUser==null){
+        if(savedInstanceState != null){
+            if(savedInstanceState.getBoolean("first", true))
+                noUsuari();
+        }
+        else{
             noUsuari();
         }
         return rootView;
@@ -79,8 +79,13 @@ public class perfilFragment extends Fragment {
                     }
                 });
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        alertDialog = builder1.create();
+        alertDialog.show();
     }
 
+    @Override
+    public void onDestroy() {
+        alertDialog.dismiss();
+        super.onDestroy();
+    }
 }

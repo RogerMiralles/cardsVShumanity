@@ -14,6 +14,8 @@ import android.graphics.drawable.DrawableContainer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -54,12 +56,6 @@ public class registre extends AppCompatActivity {
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
         iUsuari=findViewById(R.id.imgUsuario);
-        DrawableContainer drContainer;
-        if(savedInstanceState != null && (drContainer = (DrawableContainer) savedInstanceState.get("drawable")) != null){
-
-            iUsuari.setImageDrawable(drContainer.drawable);
-        }
-
     }
 
     public void onClickRegistrarse(View view){
@@ -186,17 +182,20 @@ public class registre extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putSerializable("drawable", new DrawableContainer(iUsuari.getDrawable()));
+    protected void onSaveInstanceState(Bundle outState) {
 
-        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString("uri", imagenSeleccionada.toString());
+
+        super.onSaveInstanceState(outState);
     }
 
-    private class DrawableContainer implements Serializable{
-        private Drawable drawable;
-        private DrawableContainer(Drawable drawable){
-            this.drawable = drawable;
-        }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        try {
+            imagenSeleccionada = Uri.parse(savedInstanceState.getString("uri"));
+            iUsuari.setImageURI(imagenSeleccionada);
+        }catch(NullPointerException ignored){}
     }
 
     private void chivato(String mensajes){
