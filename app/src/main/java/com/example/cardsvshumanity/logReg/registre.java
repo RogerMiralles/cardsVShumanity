@@ -8,9 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +28,7 @@ import com.example.cardsvshumanity.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -48,6 +52,11 @@ public class registre extends AppCompatActivity {
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
         iUsuari=findViewById(R.id.imgUsuario);
+        DrawableContainer drContainer;
+        if(savedInstanceState != null && (drContainer = (DrawableContainer) savedInstanceState.get("drawable")) != null){
+
+            iUsuari.setImageDrawable(drContainer.drawable);
+        }
 
     }
 
@@ -170,14 +179,16 @@ public class registre extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putSerializable("drawable", new DrawableContainer(iUsuari.getDrawable()));
 
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //savedInstanceState.
+    private class DrawableContainer implements Serializable{
+        private Drawable drawable;
+        private DrawableContainer(Drawable drawable){
+            this.drawable = drawable;
+        }
     }
 }
