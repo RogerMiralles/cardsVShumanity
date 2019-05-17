@@ -45,4 +45,8 @@
     <string name="error_invalid_email">El correo que has indicado no es válido</string>
     <string name="error_invalid_parameters">Uno o varios parametros indicados no son válidos</string>
     <string name="error_unknown_error">Error desconocido</string>
+    <string name="noError">Te has registrado correctamente</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="mCarac">Has superado el maximo de caracteres. Maximo 15.</string>
+    <string name="camposVacios">Campos vacios</string>
 </resources>
