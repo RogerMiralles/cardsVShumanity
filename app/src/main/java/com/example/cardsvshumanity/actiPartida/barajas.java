@@ -1,23 +1,25 @@
 package com.example.cardsvshumanity.actiPartida;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiLogReg.login;
 
 public class barajas extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barajas);
+
+
     }
 
+
+
+/*
     public void onClickBaraja(View view){
         seleccionar();
     }
@@ -49,5 +51,5 @@ public class barajas extends AppCompatActivity {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
-    }
+    }*/
 }

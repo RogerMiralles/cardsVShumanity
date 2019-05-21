@@ -57,14 +57,16 @@ public class registre extends AppCompatActivity {
         && !nom.getText().toString().isEmpty()){
             if(nom.getText().toString().getBytes(StandardCharsets.UTF_8).length>15){
                 mensajePAlert=getString(R.string.mCarac);
+                chivato(mensajePAlert);
             }else{
                 Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
             }
         }else{
             mensajePAlert=getString(R.string.camposVacios);
+            chivato(mensajePAlert);
         }
-        chivato(mensajePAlert);
+
     }
 
     public void onClickImagen(View view){
