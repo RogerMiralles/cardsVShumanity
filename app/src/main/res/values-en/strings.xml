@@ -50,4 +50,6 @@
     <string name="camposVacios">Empty</string>
     <string name="contrase_a_partida">Game\'s password</string>
     <string name="error_unknown_error">Unknow error</string>
+    <string name="tituloRegistro">Register</string>
+    <string name="tituloLogin">Log in</string>
 </resources>

@@ -23,6 +23,7 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         correo=findViewById(R.id.eTxtCorreo);
         contra=findViewById(R.id.eTxtPass);
+        setTitle(getString(R.string.tituloLogin));
     }
 
     public void onClickLogear(View view) {

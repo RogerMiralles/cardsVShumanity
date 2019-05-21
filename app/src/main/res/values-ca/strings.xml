@@ -50,4 +50,6 @@
     <string name="nombre_partida">Nombre partida</string>
     <string name="contrase_a_partida">Contrasenya Partida</string>
     <string name="camposVacios">Camps buits</string>
+    <string name="tituloRegistro">Registre</string>
+    <string name="tituloLogin">Inici sessio</string>
 </resources>

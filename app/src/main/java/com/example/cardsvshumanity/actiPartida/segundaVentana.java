@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiPartida.barajas;
-import com.example.cardsvshumanity.actiPartida.crearPartida;
-import com.example.cardsvshumanity.actiPartida.unirsePartida;
 
 public class segundaVentana extends AppCompatActivity {
 
@@ -16,7 +13,7 @@ public class segundaVentana extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_segunda_ventana);
-        this.setTitle("Cartas Contra la Humanidad");
+        this.setTitle(getString(R.string.cch));
     }
 
     public void onClickCrearPartida(View view){
