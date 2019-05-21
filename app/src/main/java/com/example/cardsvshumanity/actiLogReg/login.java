@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.javaConCod.Connection;
@@ -23,9 +22,11 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         correo=findViewById(R.id.eTxtCorreo);
         contra=findViewById(R.id.eTxtPass);
+        setTitle(getString(R.string.tituloLogin));
     }
 
     public void onClickLogear(View view) {
+        String mensajePAlert=null;
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()){
             Connection.getInstance(this).LogInUsuario(new Runnable() {
                 @Override
@@ -34,9 +35,10 @@ public class login extends AppCompatActivity {
                 }
             }, correo.getText().toString(), contra.getText().toString());
         }else{
-            Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
+            mensajePAlert=getString(R.string.camposVacios);
+            //Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
-        //chivato(mensajePAlert);
+        chivato(mensajePAlert);
     }
 
     public void onClickRegistrar(View view) {

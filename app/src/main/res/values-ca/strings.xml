@@ -40,14 +40,16 @@
     <string name="error_existing_email">El correo que has indicado ya está registrado</string>
     <string name="error_invalid_email">El correo que has indicado no es válido</string>
     <string name="error_invalid_parameters">Uno o varios parametros indicados no son válidos</string>
-    <string name="error_unknown_error">Error desconocido</string>
+    <string name="error_unknown_error">Error desconegut</string>
     <string name="noError">Te has registrado correctamente</string>
     <string name="mCarac">Has superado el maximo de caracteres. Maximo 15.</string>
-    <string name="camposVacios">Campos vacios</string>
-    <string name="unirse_a_partida">Unirse a partida</string>
+    <string name="unirse_a_partida">Unir-se a partida</string>
     <string name="nombre_de_la_partida">Nombre de la partida</string>
     <string name="textview">TextView</string>
     <string name="checkbox">CheckBox</string>
     <string name="nombre_partida">Nombre partida</string>
-    <string name="contrase_a_partida">Contraseña Partida</string>
+    <string name="contrase_a_partida">Contrasenya Partida</string>
+    <string name="camposVacios">Camps buits</string>
+    <string name="tituloRegistro">Registre</string>
+    <string name="tituloLogin">Inici sessio</string>
 </resources>

@@ -55,4 +55,6 @@
     <string name="checkbox">CheckBox</string>
     <string name="nombre_partida">Nombre partida</string>
     <string name="contrase_a_partida">Contraseña Partida</string>
+    <string name="tituloLogin">Inicio sesion</string>
+    <string name="tituloRegistro">Registro</string>
 </resources>

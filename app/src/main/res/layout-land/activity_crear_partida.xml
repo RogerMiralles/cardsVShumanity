@@ -19,7 +19,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/editText4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" tools:targetApi="o"/>
 
     <EditText
         android:id="@+id/editText4"
@@ -34,7 +34,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" tools:targetApi="o"/>
 
     <ScrollView
         android:id="@+id/scrollView2"

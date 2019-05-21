@@ -48,6 +48,7 @@ public class registre extends AppCompatActivity {
         contra=findViewById(R.id.eTxtPass3);
         nom=findViewById(R.id.eTxtNombreU);
         iUsuari=findViewById(R.id.imgUsuario);
+        setTitle(getString(R.string.tituloRegistro));
     }
 
     public void onClickRegistrarse(View view){
@@ -103,14 +104,7 @@ public class registre extends AppCompatActivity {
                 imagenSeleccionada = data.getData();
                 iUsuari.setImageURI(imagenSeleccionada);
         }else if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK) {
-            Bitmap bitmap;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagenSeleccionada);
-                //iUsuari.setImageBitmap(bitmap);
-                iUsuari.setImageURI(imagenSeleccionada);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            iUsuari.setImageURI(imagenSeleccionada);
         }
     }
 
