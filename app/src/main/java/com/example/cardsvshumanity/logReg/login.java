@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +19,6 @@ import java.util.Objects;
 
 public class login extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     private EditText correo;
     private EditText contra;
 
@@ -28,22 +28,16 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         correo=findViewById(R.id.eTxtCorreo);
         contra=findViewById(R.id.eTxtPass);
-        mAuth=FirebaseAuth.getInstance();
     }
 
     public void onClickLogear(View view) {
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()){
-            mAuth.signInWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            Connection.getInstance(this).LogInUsuario(new Runnable() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        setResult(RESULT_OK);
-                        finish();
-                    }else{
-                        Toast.makeText(login.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                    }
+                public void run() {
+                    finish();
                 }
-            });
+            }, correo.toString(), contra.toString());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
@@ -54,6 +48,4 @@ public class login extends AppCompatActivity {
         Intent listSong = new Intent(getApplicationContext(), registre.class);
         startActivity(listSong);
     }
-
-
 }

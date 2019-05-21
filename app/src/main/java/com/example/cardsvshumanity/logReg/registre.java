@@ -183,7 +183,6 @@ public class registre extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
         outState.putString("uri", imagenSeleccionada.toString());
 
         super.onSaveInstanceState(outState);
