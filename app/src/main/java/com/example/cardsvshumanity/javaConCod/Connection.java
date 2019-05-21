@@ -153,6 +153,8 @@ public class Connection {
                             String message;
                             if(result == OK){
                                 message=context.getString(R.string.noError);
+                                if(runnable != null)
+                                    runnable.run();
                             }
                             else{
                                 switch(error){
@@ -183,8 +185,6 @@ public class Connection {
                     try{
                         sk.close();
                     } catch (IOException | NullPointerException e) {}
-                    if(runnable != null)
-                        runnable.run();
                 }
 
             }
