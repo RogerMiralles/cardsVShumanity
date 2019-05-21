@@ -31,9 +31,11 @@ public class login extends AppCompatActivity {
             Connection.getInstance(this).LogInUsuario(new Runnable() {
                 @Override
                 public void run() {
+                    setResult(RESULT_OK);
                     finish();
                 }
             }, correo.getText().toString(), contra.getText().toString());
+            mensajePAlert = getString(R.string.internet_dialog_cargando);
         }else{
             mensajePAlert=getString(R.string.camposVacios);
             //Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
