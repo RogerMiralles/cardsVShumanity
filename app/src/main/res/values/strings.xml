@@ -57,4 +57,5 @@
     <string name="contrase_a_partida">Contraseña Partida</string>
     <string name="tituloLogin">Inicio sesion</string>
     <string name="tituloRegistro">Registro</string>
+    <string name="internet_dialog_cargando">Cargando...</string>
 </resources>

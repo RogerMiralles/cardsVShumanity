@@ -100,7 +100,7 @@ public class principalFragment extends Fragment {
 
     public void ponerCosasVisIn(){
         txt.setText(getString(R.string.cartas_contra_la_humanidad));
-        if(Connection.getInstance().isLogined()){
+        if(!Connection.getInstance().isLogined()){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mSalir.setVisibility(View.INVISIBLE);
         }

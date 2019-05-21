@@ -1,6 +1,7 @@
 package com.example.cardsvshumanity.javaConCod;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -137,19 +138,9 @@ public class Codification {
                 dosfile.write(c.update(array, 0, leido));
             }
             dosfile.write(c.doFinal());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
+        } catch (IOException | NoSuchPaddingException | NoSuchAlgorithmException
+                | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            Log.e(Codification.class.getSimpleName(), e.getMessage());
             e.printStackTrace();
         }
         finally {
