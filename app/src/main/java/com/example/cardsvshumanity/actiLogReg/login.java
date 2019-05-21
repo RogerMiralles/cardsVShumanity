@@ -4,23 +4,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
 public class login extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     private EditText correo;
     private EditText contra;
 
@@ -30,28 +23,20 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         correo=findViewById(R.id.eTxtCorreo);
         contra=findViewById(R.id.eTxtPass);
-        mAuth=FirebaseAuth.getInstance();
     }
 
     public void onClickLogear(View view) {
-        String mensajePAlert=null;
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()){
-            mAuth.signInWithEmailAndPassword(correo.getText().toString(),contra.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            Connection.getInstance(this).LogInUsuario(new Runnable() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        setResult(RESULT_OK);
-                        finish();
-                    }else{
-                        //mensajePAlert= Objects.requireNonNull(task.getException()).getMessage();
-                        Toast.makeText(login.this, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                    }
+                public void run() {
+                    finish();
                 }
-            });
+            }, correo.toString(), contra.toString());
         }else{
-            mensajePAlert=getString(R.string.camposVacios);
+            Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
-        chivato(mensajePAlert);
+        //chivato(mensajePAlert);
     }
 
     public void onClickRegistrar(View view) {

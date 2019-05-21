@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * 
+     *
      * @param bool
      */
     private void UpdateFragment(boolean bool){

@@ -77,11 +77,12 @@ public class Codification {
         return toHex(encodedData);
     }
 
-    public static String encodeWithSimetricKey(byte[] bytes, SecretKey key){
+    public static String encodeWithSimetricKey(byte[] bytes, SecretKey key, boolean encode){
         String str = null;
+        int mode = (encode)? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
         try {
             Cipher encrypter = Cipher.getInstance(SIMETRIC_ALGORITHM);
-            encrypter.init(Cipher.ENCRYPT_MODE, key);
+            encrypter.init(mode, key);
             str = toHex(encrypter.doFinal(bytes));
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
                 BadPaddingException | IllegalBlockSizeException e) {
@@ -90,7 +91,19 @@ public class Codification {
         return str;
     }
 
-    public static File encodeFileWithSymmetricKey(Context context, File rawFile, String path, SecretKey symmetricKey){
+    /**
+     *  This method decodifies/codifies a file with a symmetric key
+     * @param context that is running
+     * @param rawFile that has the raw/codified data
+     * @param path Path that leads to the file to save the final data
+     * @param symmetricKey Secret key used to decode/encode
+     * @param encode true to encode, false to decode
+     * @return The codified file
+     */
+    public static File encodeFileWithSymmetricKey(Context context, File rawFile, String path, SecretKey symmetricKey, boolean encode){
+
+        int mode = (encode)? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
+
         File output = null;
         DataInputStream disfile = null;
         DataOutputStream dosfile = null;
@@ -109,7 +122,7 @@ public class Codification {
             long actual = 0;
 
             Cipher c = Cipher.getInstance(SIMETRIC_FORMAT_CIPHER);
-            c.init(Cipher.ENCRYPT_MODE, symmetricKey);
+            c.init(mode, symmetricKey);
 
             byte[] array = new byte[Connection.BLOCK_SIZE];
             while (length > actual){
@@ -148,7 +161,6 @@ public class Codification {
                 dosfile.close();
             }catch(NullPointerException | IOException e){
             }
-
         }
 
         return output;

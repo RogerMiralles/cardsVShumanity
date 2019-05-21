@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 
@@ -19,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
@@ -27,12 +29,16 @@ public class Connection {
 
     private static final int OK = 1;
     private static final int NO = -1;
+    private static final int PORT = 55555;
 
     private static final int CREATE_USER = 101;
+    private static final int LOGIN_USER = 102;
     public static final int BLOCK_SIZE = 1024;
 
     private static Connection INSTANCE;
     private Context context;
+
+    private Usuario user;
     static {
         try {
             INSTANCE = new Connection();
@@ -66,7 +72,7 @@ public class Connection {
                     if(context == null)
                         throw new Exception("No context added");
 
-                    sk = new Socket("192.168.137.1",55555);
+                    sk = new Socket("192.168.137.1",PORT);
                     DataInputStream dis;
                     DataOutputStream dos;
 
@@ -87,13 +93,13 @@ public class Connection {
                     dos.writeUTF(secretKeyCoded);
 
                     //envia email contrasenya y nombre codificados con clave simetrica
-                    dos.writeUTF(Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey));
+                    dos.writeUTF(Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true));
                     dos.writeUTF(Codification.encodeWithSimetricKey(
                             Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8))
-                            , secretKey
+                            , secretKey, true
                             )
                     );
-                    dos.writeUTF(Codification.encodeWithSimetricKey(name.getBytes(StandardCharsets.UTF_8), secretKey));
+                    dos.writeUTF(Codification.encodeWithSimetricKey(name.getBytes(StandardCharsets.UTF_8), secretKey, true));
 
                     //Coge la imagen y crea un fichero;
                     Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
@@ -114,11 +120,11 @@ public class Connection {
                     fileDos.close();
 
                     //codifica la imagen
-                    File imagenCodificada = Codification.encodeFileWithSymmetricKey(context, f, "encodedImage", secretKey);
+                    File imagenCodificada = Codification.encodeFileWithSymmetricKey(context, f, "encodedImage", secretKey, true);
 
                     //envia la imagen
                     ///Primero se envia el Formato y longitud
-                    dos.writeUTF(Codification.encodeWithSimetricKey(".jpeg".getBytes(StandardCharsets.UTF_8), secretKey));
+                    dos.writeUTF(Codification.encodeWithSimetricKey(".jpeg".getBytes(StandardCharsets.UTF_8), secretKey, true));
                     dos.writeUTF(
                             Codification.encodeWithSimetricKey(
                                     Codification.fromHex(
@@ -126,7 +132,7 @@ public class Connection {
                                                     imagenCodificada.length()
                                             )
                                     )
-                                    , secretKey
+                                    , secretKey, true
                             )
                     );
 
@@ -146,34 +152,41 @@ public class Connection {
                         dos.write(datos, 0, leido);
                     }
 
+                    imagenCodificada.delete();
+
                     final int result = dis.readInt();
-                    final int error = (result == 1)? 0 : dis.readInt();
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String message;
-                                if(result == 1){
-                                    message=context.getString(R.string.noError);
-                                }
-                                else{
-                                    switch(error){
-                                        case -1:
-                                            message = context.getString(R.string.error_existing_email);
-                                            break;
-                                        case -2:
-                                            message = context.getString(R.string.error_invalid_email);
-                                            break;
-                                        case -3:
-                                            message = context.getString(R.string.error_invalid_parameters);
-                                            break;
-                                        default:
-                                            message = context.getString(R.string.error_unknown_error);
-                                            break;
-                                    }
-                                }
-                                chivato(message);
+                    final int error = (result == OK)? 0 : dis.readInt();
+
+                    if(result == OK){
+                        user = new Usuario(email, password, name, f);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String message;
+                            if(result == OK){
+                                message=context.getString(R.string.noError);
                             }
-                        });
+                            else{
+                                switch(error){
+                                    case -1:
+                                        message = context.getString(R.string.error_existing_email);
+                                        break;
+                                    case -2:
+                                        message = context.getString(R.string.error_invalid_email);
+                                        break;
+                                    case -3:
+                                        message = context.getString(R.string.error_invalid_parameters);
+                                        break;
+                                    default:
+                                        message = context.getString(R.string.error_unknown_error);
+                                        break;
+                                }
+                            }
+                            chivato(message);
+                        }
+                    });
 
                 }catch (Exception e){
                     Log.d("Connection", "ha fallado: "+ e.getMessage()
@@ -191,6 +204,7 @@ public class Connection {
             }
         }).start();
     }
+
     private void chivato(String mensajes){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(mensajes);
@@ -209,6 +223,143 @@ public class Connection {
         alert11.show();
     }
 
+    public void LogInUsuario(final Runnable runnable, final String email, final String password){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket sk = null;
+                try {
+                    if (context == null)
+                        throw new Exception("No context added");
+
+                    Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
+
+                    sk = new Socket("192.168.137.1", PORT);
+                    DataInputStream dis;
+                    DataOutputStream dos;
+
+                    dis = new DataInputStream(sk.getInputStream());
+                    dos = new DataOutputStream(sk.getOutputStream());
+
+                    //Envia orden
+                    dos.writeInt(LOGIN_USER);
+
+                    //Lee clave publica
+                    String pkHex = dis.readUTF();
+
+                    //Genera simmetric key y codifica
+                    SecretKey secretKey = Codification.generateNewSimetricKey();
+                    String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
+
+                    //Envia simmetric key
+                    dos.writeUTF(secretKeyCoded);
+
+                    //envia email contrasenya y nombre codificados con clave simetrica
+                    dos.writeUTF(Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true));
+                    dos.writeUTF(Codification.encodeWithSimetricKey(
+                            Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8))
+                            , secretKey, true
+                            )
+                    );
+
+                    int i = dis.readInt();
+                    if(i == OK){
+                        String name;
+                        File imageTemp, image;
+
+                        name = new String(Codification.fromHex(
+                                Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey, false))
+                        );
+
+                        long fileLength = Codification.parseHexToLong(
+                                Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
+                        );
+
+                        if(fileLength != 0) {
+                            File f = context.getExternalFilesDir(null);
+                            imageTemp = new File(f, "imageEncoded");
+
+                            if(!imageTemp.exists()){
+                                imageTemp.createNewFile();
+                            }
+
+                            DataOutputStream dosFile = new DataOutputStream(new FileOutputStream(imageTemp));
+
+                            long count = 0;
+                            byte[] dataReader = new byte[BLOCK_SIZE];
+                            while (fileLength > count) {
+                                int readed;
+                                if (fileLength - count > BLOCK_SIZE) {
+                                    readed = dis.read(dataReader, 0, BLOCK_SIZE);
+                                } else {
+                                    readed = dis.read(dataReader, 0, (int) (fileLength - count));
+                                }
+                                count += readed;
+                                dosFile.write(dataReader, 0, readed);
+                            }
+                            dosFile.flush();
+                            dosFile.close();
+
+                            image = Codification.encodeFileWithSymmetricKey(context, imageTemp, "image", secretKey, false);
+                            imageTemp.delete();
+                        }
+                        else{
+                            image = null;
+                        }
+
+                        user = new Usuario(email, password, name, image);
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    Log.d(Connection.class.getSimpleName(), "Acaba -- LogIn");
+                    try{
+                        runnable.run();
+                        sk.close();
+                    }catch(NullPointerException | IOException e){}
+                }
+            }
+        }).start();
+    }
+
+    public boolean isLogined(){
+        return user != null;
+    }
+
+    public String getEmail(){
+        return (user == null)?  null : user.email;
+    }
+
+    public File getImage(){
+        return (user == null)?  null : user.drawable;
+    }
+
+    public String getName(){
+        return (user == null)?  null : user.name;
+    }
+
+    private class Usuario {
+        private String email, password, name;
+        private File drawable;
+
+        private Usuario(String email, String password, String name, File drawable){
+            this.email = email;
+            this.name = name;
+            this.password = password;
+            this.drawable = drawable;
+        }
+    }
 }
 
 
