@@ -4,12 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,15 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,13 +51,19 @@ public class registre extends AppCompatActivity {
     }
 
     public void onClickRegistrarse(View view){
+        String mensajePAlert=null;
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
-            Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
-                    contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
+            if(nom.getText().toString().getBytes(StandardCharsets.UTF_8).length>15){
+                mensajePAlert=getString(R.string.mCarac);
+            }else{
+                Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
+                        contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
+            }
         }else{
-            Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
+            mensajePAlert=getString(R.string.camposVacios);
         }
+        chivato(mensajePAlert);
     }
 
     public void onClickImagen(View view){
@@ -88,7 +90,6 @@ public class registre extends AppCompatActivity {
                 values.put(MediaStore.Images.Media.DESCRIPTION, "Photo taken on " + System.currentTimeMillis());
                 imagenSeleccionada = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 pCamara.putExtra(MediaStore.EXTRA_OUTPUT, imagenSeleccionada);
-                Toast.makeText(this,"a llegado",Toast.LENGTH_LONG).show();
                 startActivityForResult(pCamara, TAKE_PHOTO);
             }
         }
@@ -105,7 +106,8 @@ public class registre extends AppCompatActivity {
             Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagenSeleccionada);
-                iUsuari.setImageBitmap(bitmap);
+                //iUsuari.setImageBitmap(bitmap);
+                iUsuari.setImageURI(imagenSeleccionada);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -169,5 +171,40 @@ public class registre extends AppCompatActivity {
 
     public void onClickAtras(View view){
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(imagenSeleccionada!=null)
+        outState.putString("uri", imagenSeleccionada.toString());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        try {
+            imagenSeleccionada = Uri.parse(savedInstanceState.getString("uri"));
+            iUsuari.setImageURI(imagenSeleccionada);
+        }catch(NullPointerException ignored){}
+    }
+
+    private void chivato(String mensajes){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(mensajes);
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }

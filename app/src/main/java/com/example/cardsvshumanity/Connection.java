@@ -1,7 +1,9 @@
 package com.example.cardsvshumanity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.logReg.registre;
 import com.google.android.gms.tasks.Task;
 
 import java.io.ByteArrayInputStream;
@@ -153,15 +156,31 @@ public class Connection {
                     }
 
                     final int result = dis.readInt();
+                    final int error = (result == 1)? 0 : dis.readInt();
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                String message;
                                 if(result == 1){
-                                    Toast.makeText(context, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
+                                    message=context.getString(R.string.noError);
                                 }
                                 else{
-                                    Toast.makeText(context, "Error al registrarte", Toast.LENGTH_SHORT).show();
+                                    switch(error){
+                                        case -1:
+                                            message = context.getString(R.string.error_existing_email);
+                                            break;
+                                        case -2:
+                                            message = context.getString(R.string.error_invalid_email);
+                                            break;
+                                        case -3:
+                                            message = context.getString(R.string.error_invalid_parameters);
+                                            break;
+                                        default:
+                                            message = context.getString(R.string.error_unknown_error);
+                                            break;
+                                    }
                                 }
+                                chivato(message);
                             }
                         });
 
@@ -181,4 +200,24 @@ public class Connection {
             }
         }).start();
     }
+    private void chivato(String mensajes){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(mensajes);
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                context.getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
 }
+
+

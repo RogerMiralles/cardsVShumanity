@@ -55,7 +55,7 @@ import javax.crypto.SecretKey;
 public class principalFragment extends Fragment {
 
 
-    public static final String RSA_ECB_OAEPWITHSHA_256_ANDMGF_1_PADDING = "RSA/ECB/PKCS1PADDING";
+    public static final String ASYMMETRIC_CIPHER_MODE = "RSA/ECB/PKCS1PADDING";
 
     public principalFragment() {
         // Required empty public constructor
