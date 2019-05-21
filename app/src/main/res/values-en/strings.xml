@@ -52,4 +52,6 @@
     <string name="error_unknown_error">Unknow error</string>
     <string name="tituloRegistro">Register</string>
     <string name="tituloLogin">Log in</string>
+    <string name="registroCorrecto">Te has registrado correctamente</string>
+    <string name="internet_dialog_cargando">Cargando...</string>
 </resources>

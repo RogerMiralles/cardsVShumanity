@@ -52,4 +52,6 @@
     <string name="camposVacios">Camps buits</string>
     <string name="tituloRegistro">Registre</string>
     <string name="tituloLogin">Inici sessio</string>
+    <string name="registroCorrecto">Te has registrado correctamente</string>
+    <string name="internet_dialog_cargando">Cargando...</string>
 </resources>
