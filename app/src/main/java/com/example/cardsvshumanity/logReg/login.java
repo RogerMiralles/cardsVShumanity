@@ -1,5 +1,7 @@
 package com.example.cardsvshumanity.logReg;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,11 +43,30 @@ public class login extends AppCompatActivity {
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
-
+        //chivato(mensajePAlert);
     }
 
     public void onClickRegistrar(View view) {
         Intent listSong = new Intent(getApplicationContext(), registre.class);
         startActivity(listSong);
     }
+
+    private void chivato(String mensajes){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(mensajes);
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
 }

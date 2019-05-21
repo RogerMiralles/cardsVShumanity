@@ -8,15 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,14 +18,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.cardsvshumanity.Connection;
 import com.example.cardsvshumanity.R;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -183,6 +175,7 @@ public class registre extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        if(imagenSeleccionada!=null)
         outState.putString("uri", imagenSeleccionada.toString());
 
         super.onSaveInstanceState(outState);
@@ -196,7 +189,7 @@ public class registre extends AppCompatActivity {
             iUsuari.setImageURI(imagenSeleccionada);
         }catch(NullPointerException ignored){}
     }
-    
+
     private void chivato(String mensajes){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(mensajes);
