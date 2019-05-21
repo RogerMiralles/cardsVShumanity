@@ -57,6 +57,7 @@ public class principalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Connection.getInstance().isLogined()){
+                    Toast.makeText(getActivity().getApplicationContext(), "falta codigo para salir de la cuenta", Toast.LENGTH_SHORT).show();
                     ponerCosasVisIn();
                 }
             }
