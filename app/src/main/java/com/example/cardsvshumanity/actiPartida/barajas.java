@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.partida;
+package com.example.cardsvshumanity.actiPartida;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.logReg.login;
+import com.example.cardsvshumanity.actiLogReg.login;
 
 public class barajas extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.jugarPerfil;
+package com.example.cardsvshumanity.actiPartida;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.partida.barajas;
-import com.example.cardsvshumanity.partida.crearPartida;
-import com.example.cardsvshumanity.partida.unirsePartida;
+import com.example.cardsvshumanity.actiPartida.barajas;
+import com.example.cardsvshumanity.actiPartida.crearPartida;
+import com.example.cardsvshumanity.actiPartida.unirsePartida;
 
 public class segundaVentana extends AppCompatActivity {
 

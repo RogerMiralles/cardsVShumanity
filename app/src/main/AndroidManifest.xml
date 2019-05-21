@@ -20,8 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".partida.unirsePartida" android:screenOrientation="landscape"></activity>
-        <activity android:name=".partida.crearPartida" android:screenOrientation="landscape" />
+        <activity android:name=".actiPartida.unirsePartida" android:screenOrientation="landscape"></activity>
+        <activity android:name=".actiPartida.crearPartida" android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity" android:screenOrientation="landscape">
             <intent-filter>
@@ -30,10 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".partida.barajas" android:screenOrientation="landscape"/>
-        <activity android:name=".jugarPerfil.segundaVentana" android:screenOrientation="landscape" />
-        <activity android:name=".logReg.registre" android:screenOrientation="landscape" />
-        <activity android:name=".logReg.login" android:screenOrientation="landscape"/>
+        <activity android:name=".actiPartida.barajas" android:screenOrientation="landscape"/>
+        <activity android:name=".actiPartida.segundaVentana" android:screenOrientation="landscape" />
+        <activity android:name=".actiLogReg.registre" android:screenOrientation="landscape" />
+        <activity android:name=".actiLogReg.login" android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

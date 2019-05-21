@@ -1,7 +1,6 @@
-package com.example.cardsvshumanity;
+package com.example.cardsvshumanity.javaConCod;
 
 import android.content.Context;
-import android.os.Environment;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,7 +14,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
@@ -26,7 +24,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 public class Codification {
 

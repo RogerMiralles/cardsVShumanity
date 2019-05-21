@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.jugarPerfil;
+package com.example.cardsvshumanity.fragsBar;
 
 
 import android.app.AlertDialog;
@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.logReg.login;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.cardsvshumanity.actiLogReg.login;
 
 import java.util.Objects;
 

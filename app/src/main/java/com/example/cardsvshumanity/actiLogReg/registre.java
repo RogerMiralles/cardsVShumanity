@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.logReg;
+package com.example.cardsvshumanity.actiLogReg;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.cardsvshumanity.Connection;
+import com.example.cardsvshumanity.javaConCod.Connection;
 import com.example.cardsvshumanity.R;
 
 import java.io.File;

@@ -1,25 +1,17 @@
-package com.example.cardsvshumanity;
+package com.example.cardsvshumanity.javaConCod;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.cardsvshumanity.logReg.registre;
-import com.google.android.gms.tasks.Task;
+import com.example.cardsvshumanity.R;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -28,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import javax.crypto.SecretKey;
 

@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.jugarPerfil;
+package com.example.cardsvshumanity.fragsBar;
 
 
 import android.app.Activity;
@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.logReg.login;
+import com.example.cardsvshumanity.actiLogReg.login;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -143,13 +143,6 @@ public class ajustesFragment extends Fragment {
                 if(i==0){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
-                    //getActivity().recreate();
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
-                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    //getActivity().finish();
-                    //startActivity(in);
-
                     Fragment fragment = ajustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
@@ -159,11 +152,6 @@ public class ajustesFragment extends Fragment {
                 else if(i==1){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //getActivity().finish();
-                    //startActivity(in);
-
                     Fragment fragment = ajustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
@@ -173,11 +161,6 @@ public class ajustesFragment extends Fragment {
                 else if(i==2){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //getActivity().finish();
-                    //startActivity(in);
-
                     Fragment fragment = ajustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
@@ -193,12 +176,6 @@ public class ajustesFragment extends Fragment {
 
     private void setLocale(String s) {
         Locale locale=new Locale(s);
-        /*Locale.setDefault(locale);
-        Configuration config =new Configuration();
-        config.locale=locale;
-        Objects.requireNonNull(getActivity()).getBaseContext().getResources().updateConfiguration(config,getActivity().getBaseContext().getResources().getDisplayMetrics());
-        getActivity().getBaseContext();
-        */
         Locale.setDefault(locale);
         Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
@@ -215,20 +192,6 @@ public class ajustesFragment extends Fragment {
     public void loadLocale(){
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language=prefs.getString("My_Lang","");
-        /*switch(language){
-            case "ca":
-                mIbtn.setImageResource(R.drawable.catalonia);
-                break;
-            case "es":
-                mIbtn.setImageResource(R.drawable.spain);
-                break;
-            case "en":
-                mIbtn.setImageResource(R.drawable.uk);
-                break;
-            default:
-                mIbtn.setImageResource(R.drawable.idioma);
-                break;
-        }*/
         setLocale(language);
     }
 }

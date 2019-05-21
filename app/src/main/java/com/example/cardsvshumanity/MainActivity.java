@@ -8,8 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.cardsvshumanity.jugarPerfil.ajustesFragment;
-import com.example.cardsvshumanity.jugarPerfil.perfilFragment;
+import com.example.cardsvshumanity.fragsBar.ajustesFragment;
+import com.example.cardsvshumanity.fragsBar.perfilFragment;
+import com.example.cardsvshumanity.fragsBar.principalFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         UpdateFragment(bool);
     }
 
+
+    /**
+     * 
+     * @param bool
+     */
     private void UpdateFragment(boolean bool){
         switch (window){
             case 0:
@@ -78,11 +84,24 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    /**
+     * Nombre: CargarFragmente
+     * Desc: Remplaza el contenido de un Relative Layout llamado "contenedorFragmento"
+     *       por el contenido de un fragment
+     * @param fragment
+     */
     private void CargarFragmente(Fragment fragment){
         FragmentManager manager=getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.contendedorFragmento,fragment).commit();
     }
 
+
+    /**
+     * Nombre: onSaveInstanceState
+     * Desc:
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("window", window);

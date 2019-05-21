@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity;
+package com.example.cardsvshumanity.fragsBar;
 
 
 import android.app.Activity;
@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,31 +21,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cardsvshumanity.jugarPerfil.segundaVentana;
-import com.example.cardsvshumanity.logReg.login;
+import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.actiLogReg.login;
+import com.example.cardsvshumanity.actiPartida.segundaVentana;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 
 
 /**
@@ -141,12 +121,6 @@ public class principalFragment extends Fragment {
                 if(i==0){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
-                    //getActivity().recreate();
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK
-                    //                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    //getActivity().finish();
-                    //startActivity(in);
 
                     Fragment fragment = principalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -157,10 +131,6 @@ public class principalFragment extends Fragment {
                 else if(i==1){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //getActivity().finish();
-                    //startActivity(in);
 
                     Fragment fragment = principalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -171,10 +141,6 @@ public class principalFragment extends Fragment {
                 else if(i==2){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
-                    //Intent in=new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //getActivity().finish();
-                    //startActivity(in);
 
                     Fragment fragment = principalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -191,12 +157,6 @@ public class principalFragment extends Fragment {
 
     private void setLocale(String s) {
         Locale locale=new Locale(s);
-        /*Locale.setDefault(locale);
-        Configuration config =new Configuration();
-        config.locale=locale;
-        Objects.requireNonNull(getActivity()).getBaseContext().getResources().updateConfiguration(config,getActivity().getBaseContext().getResources().getDisplayMetrics());
-        getActivity().getBaseContext();
-        */
         Locale.setDefault(locale);
         Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;

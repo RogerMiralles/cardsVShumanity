@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.logReg;
+package com.example.cardsvshumanity.actiLogReg;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
