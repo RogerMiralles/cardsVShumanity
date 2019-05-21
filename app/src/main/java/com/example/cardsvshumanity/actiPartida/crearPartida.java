@@ -11,5 +11,6 @@ public class crearPartida extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_partida);
+        setTitle(getString(R.string.crear_partida));
     }
 }

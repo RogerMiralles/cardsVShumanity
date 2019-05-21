@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     *
+     * Nombre: UpdateFragment
+     * Desc: Usa la funcion CargarFragmente para enseñar el fragment correspondiente
      * @param bool
      */
     private void UpdateFragment(boolean bool){

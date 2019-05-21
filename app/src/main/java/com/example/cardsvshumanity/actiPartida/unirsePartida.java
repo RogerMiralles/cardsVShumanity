@@ -11,5 +11,6 @@ public class unirsePartida extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unirse_partida);
+        setTitle(getString(R.string.unirse_a_partida));
     }
 }
