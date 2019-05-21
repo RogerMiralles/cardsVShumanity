@@ -34,32 +34,18 @@ public class Connection {
     private static final int CREATE_USER = 101;
     private static final int LOGIN_USER = 102;
     public static final int BLOCK_SIZE = 1024;
-
-    private static Connection INSTANCE;
     private Context context;
 
-    private Usuario user;
-    static {
-        try {
-            INSTANCE = new Connection();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-    private Connection() throws IllegalAccessException {
-        if(INSTANCE != null){
-            throw new IllegalAccessException("Only one instance of connection must exists");
-        }
-    }
+    private static Usuario user;
 
     public static Connection getInstance(Context context){
-        if(context != null)
-            INSTANCE.context = context;
-        return INSTANCE;
+        Connection connection = new Connection();
+            connection.context = context;
+        return connection;
     }
 
     public static Connection getInstance(){
-        return INSTANCE;
+        return new Connection();
     }
 
     public void RegistrarUsuario(final Runnable runnable, final String email, final String password,
@@ -271,9 +257,11 @@ public class Connection {
                                 Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey, false))
                         );
 
+                        String encodedLength = dis.readUTF();
                         long fileLength = Codification.parseHexToLong(
-                                Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
+                                Codification.encodeWithSimetricKey(Codification.fromHex(encodedLength), secretKey, false)
                         );
+                        Log.d(Connection.class.getSimpleName(), "Encoded length: " +encodedLength + " || Calculated long: "+ fileLength);
 
                         if(fileLength != 0) {
                             File f = context.getExternalFilesDir(null);
@@ -294,14 +282,18 @@ public class Connection {
                                 } else {
                                     readed = dis.read(dataReader, 0, (int) (fileLength - count));
                                 }
-                                count += readed;
-                                dosFile.write(dataReader, 0, readed);
+                                if(readed != -1) {
+                                    count += readed;
+                                    dosFile.write(dataReader, 0, readed);
+                                }
                             }
                             dosFile.flush();
                             dosFile.close();
 
                             image = Codification.encodeFileWithSymmetricKey(context, imageTemp, "image", secretKey, false);
                             imageTemp.delete();
+                            Log.d(Connection.class.getSimpleName(), "Imagen recibida");
+                            Log.d(Connection.class.getSimpleName(), "La imagen recibida no es null?: " + Boolean.toString(image != null));
                         }
                         else{
                             image = null;
@@ -312,22 +304,34 @@ public class Connection {
                             @Override
                             public void run() {
                                 Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show();
+                                if(runnable != null)
+                                    runnable.run();
+                            }
+                        });
+                    }
+                    else{
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "NO", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (UnknownHostException e) {
+                    Log.e(Connection.class.getSimpleName(), e.getMessage());
                     e.printStackTrace();
                 } catch (IOException e) {
+                    Log.e(Connection.class.getSimpleName(), e.getMessage());
                     e.printStackTrace();
                 } catch (Exception e) {
+                    Log.e(Connection.class.getSimpleName(), e.getMessage());
                     e.printStackTrace();
                 }
                 finally {
                     Log.d(Connection.class.getSimpleName(), "Acaba -- LogIn");
                     try{
-                        runnable.run();
                         sk.close();
-                    }catch(NullPointerException | IOException e){}
+                    }catch(NullPointerException | IOException ignored){}
                 }
             }
         }).start();

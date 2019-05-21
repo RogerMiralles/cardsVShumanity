@@ -32,7 +32,7 @@ public class login extends AppCompatActivity {
                 public void run() {
                     finish();
                 }
-            }, correo.toString(), contra.toString());
+            }, correo.getText().toString(), contra.getText().toString());
         }else{
             Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
         }
