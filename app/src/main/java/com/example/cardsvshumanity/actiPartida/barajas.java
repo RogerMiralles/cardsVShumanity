@@ -7,17 +7,11 @@ import com.example.cardsvshumanity.R;
 
 public class barajas extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barajas);
-
-
     }
-
-
 
 /*
     public void onClickBaraja(View view){
