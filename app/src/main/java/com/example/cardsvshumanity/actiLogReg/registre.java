@@ -60,12 +60,16 @@ public class registre extends AppCompatActivity {
                 mensajePAlert=getString(R.string.mCarac);
                 chivato(mensajePAlert);
             }else{
-                Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
+                Connection.getInstance(this).RegistrarUsuario(new Runnable() {
+                                                                  @Override
+                                                                  public void run() {
+                                                                      if(Connection.getInstance().isLogined()) {
+                                                                          Intent intent = new Intent(registre.this, login.class);
+                                                                          startActivity(intent);
+                                                                      }
+                                                                  }
+                                                              }, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
-                Intent intent = new Intent(registre.this, login.class);
-                startActivity(intent);
-                Toast mensajeCorrecto = Toast.makeText(getApplicationContext(),R.string.registroCorrecto, Toast.LENGTH_SHORT);
-                mensajeCorrecto.show();
             }
         }else{
             mensajePAlert=getString(R.string.camposVacios);
