@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiLogReg.login;
 import com.example.cardsvshumanity.actiPartida.segundaVentana;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -34,14 +35,12 @@ import java.util.Objects;
  */
 public class principalFragment extends Fragment {
 
-
     public static final String ASYMMETRIC_CIPHER_MODE = "RSA/ECB/PKCS1PADDING";
 
     public principalFragment() {
         // Required empty public constructor
     }
 
-    private String mUser;
     private Button mJuegaIniciaSes;
     private Button mSalir;
     private final int codigo=0;
@@ -52,15 +51,14 @@ public class principalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_principal, container, false);
-        //loadLocale();
         getActivity().setTitle(getString(R.string.cch));
-        mUser=null;
         mSalir= rootView.findViewById(R.id.btnSalida);
         mSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUser=null;
-                ponerCosasVisIn();
+                if(Connection.getInstance().isLogined()){
+                    ponerCosasVisIn();
+                }
             }
         });
         mIbtn= rootView.findViewById(R.id.imBtnIdioma);
@@ -74,7 +72,7 @@ public class principalFragment extends Fragment {
         mJuegaIniciaSes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mUser != null) {
+                if(Connection.getInstance().isLogined()) {
                     Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), segundaVentana.class);
                     startActivity(listSong);
                 }
@@ -101,7 +99,7 @@ public class principalFragment extends Fragment {
 
     public void ponerCosasVisIn(){
         txt.setText(getString(R.string.cartas_contra_la_humanidad));
-        if(mUser == null){
+        if(Connection.getInstance().isLogined()){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mSalir.setVisibility(View.INVISIBLE);
         }
