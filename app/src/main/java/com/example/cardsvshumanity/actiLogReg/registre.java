@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.cardsvshumanity.javaConCod.Connection;
 import com.example.cardsvshumanity.R;
@@ -61,6 +62,10 @@ public class registre extends AppCompatActivity {
             }else{
                 Connection.getInstance(this).RegistrarUsuario(null, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
+                Intent intent = new Intent(registre.this, login.class);
+                startActivity(intent);
+                Toast mensajeCorrecto = Toast.makeText(getApplicationContext(),R.string.registroCorrecto, Toast.LENGTH_SHORT);
+                mensajeCorrecto.show();
             }
         }else{
             mensajePAlert=getString(R.string.camposVacios);
