@@ -31,7 +31,6 @@ import java.util.Objects;
  */
 public class ajustesFragment extends Fragment {
 
-    private String mUser;
     private Button mIdioma;
     private Button mDatos;
     private Button mCuenta;
@@ -46,7 +45,6 @@ public class ajustesFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_ajustes, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloAjustes));
-        mUser=null;
         mIdioma= rootView.findViewById(R.id.btnIdioma);
         mIdioma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +64,7 @@ public class ajustesFragment extends Fragment {
         mCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mUser != null) {
+                if(Connection.getInstance().isLogined()) {
                     confirmar();
                 }
                 else{
