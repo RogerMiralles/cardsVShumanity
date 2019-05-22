@@ -42,7 +42,7 @@ public class login extends AppCompatActivity {
                 @Override
                 public void run() {
                     alertDialog.dismiss();
-                    AlertDialog.Builder builder = chivato(getString(R.string.jugar));
+                    AlertDialog.Builder builder = chivato(getString(R.string.loginCorrecto));
                     builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -54,7 +54,13 @@ public class login extends AppCompatActivity {
                     builder.create().show();
                 }
             });
-
+            thread.setRunNo(new Runnable() {
+                @Override
+                public void run() {
+                    alertDialog.dismiss();
+                    alertDialog.setMessage(getString(R.string.error_unknown_error));
+                }
+            });
             thread.start();
         }else{
             alertDialog.setMessage(getString(R.string.camposVacios));

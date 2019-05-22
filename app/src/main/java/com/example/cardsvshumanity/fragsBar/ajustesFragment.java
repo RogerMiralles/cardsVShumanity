@@ -138,8 +138,9 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Connection.borrarCuenta(getActivity());
+                        //Connection.borrarCuenta(getActivity());
                         Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "todavia no", Toast.LENGTH_SHORT).show();
                     }
                 });
 

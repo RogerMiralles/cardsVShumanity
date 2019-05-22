@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.javaConCod.Connection;
 import com.example.cardsvshumanity.R;
 
@@ -53,19 +54,51 @@ public class registre extends AppCompatActivity {
     }
 
     public void onClickRegistrarse(View view){
-        String mensajePAlert=null;
+        final AlertDialog alertDialog = chivato("Hola").create();
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
             if(nom.getText().toString().getBytes(StandardCharsets.UTF_8).length>15){
-                mensajePAlert=getString(R.string.mCarac);
-                chivato(mensajePAlert);
+                alertDialog.setMessage(getString(R.string.mCarac));
+                alertDialog.show();
             }else{
-                Connection.RegistrarUsuario(this, correo.getText().toString(),
+                Connection.ConnectionThread thread =Connection.RegistrarUsuario(this, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
+                thread.setRunBegin(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.setMessage(getString(R.string.internet_dialog_cargando));
+                        alertDialog.show();
+                    }
+                });
+                thread.setRunOk(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.dismiss();
+                        AlertDialog.Builder builder = chivato(getString(R.string.registroCorrecto));
+                        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                setResult(RESULT_OK);
+                                Intent in=new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(in);
+                            }
+                        });
+                        builder.create().show();
+                    }
+                });
+                thread.setRunNo(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.dismiss();
+                        alertDialog.setMessage(getString(R.string.error_unknown_error));
+                    }
+                });
+                thread.start();
             }
         }else{
-            mensajePAlert=getString(R.string.camposVacios);
-            chivato(mensajePAlert);
+            alertDialog.setMessage(getString(R.string.camposVacios));
+            alertDialog.show();
         }
 
     }
@@ -187,21 +220,12 @@ public class registre extends AppCompatActivity {
         }catch(NullPointerException ignored){}
     }
 
-    private void chivato(String mensajes){
+    private AlertDialog.Builder chivato(String mensajes){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(mensajes);
         builder1.setCancelable(false);
 
-        builder1.setPositiveButton(
-                getString(R.string.ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+        return builder1;
 
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
     }
 }

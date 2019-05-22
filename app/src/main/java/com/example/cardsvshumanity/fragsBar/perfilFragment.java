@@ -44,6 +44,8 @@ public class perfilFragment extends Fragment {
         ImageView imageView = rootView.findViewById(R.id.imgUsuario3);
         EditText eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
         EditText eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
+        EditText eTxtPass=rootView.findViewById(R.id.eTxtPass4);
+        EditText eTxtPartGan=rootView.findViewById(R.id.eTxtPartGana2);
         if(Connection.isLogined()){
             if(Connection.getImage() != null) {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(Connection.getImage().getAbsolutePath()));
@@ -58,6 +60,10 @@ public class perfilFragment extends Fragment {
             if(Connection.getEmail()!=null){
                 eTxtCorreu.setText(Connection.getEmail());
             }
+
+            eTxtPass.setText("****");
+            eTxtPartGan.setText("0");
+
         }
         else{
             imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
