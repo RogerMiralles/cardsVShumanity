@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.cardsvshumanity.R;
@@ -26,21 +27,39 @@ public class login extends AppCompatActivity {
     }
 
     public void onClickLogear(View view) {
-        String mensajePAlert=null;
+        final AlertDialog alertDialog = chivato("Hola").create();
+
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()){
-            Connection.getInstance(this).LogInUsuario(new Runnable() {
+            Connection.ConnectionThread thread = Connection.LogInUsuario(this, correo.getText().toString(), contra.getText().toString());
+            thread.setRunBegin(new Runnable() {
                 @Override
                 public void run() {
-                    setResult(RESULT_OK);
-                    finish();
+                    alertDialog.setMessage(getString(R.string.internet_dialog_cargando));
+                    alertDialog.show();
                 }
-            }, correo.getText().toString(), contra.getText().toString());
-            mensajePAlert = getString(R.string.internet_dialog_cargando);
+            });
+            thread.setRunOk(new Runnable() {
+                @Override
+                public void run() {
+                    alertDialog.dismiss();
+                    AlertDialog.Builder builder = chivato(getString(R.string.jugar));
+                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+                }
+            });
+
+            thread.start();
         }else{
-            mensajePAlert=getString(R.string.camposVacios);
-            //Toast.makeText(this,"campos vacios",Toast.LENGTH_LONG).show();
+            alertDialog.setMessage(getString(R.string.camposVacios));
+            alertDialog.show();
         }
-        chivato(mensajePAlert);
     }
 
     public void onClickRegistrar(View view) {
@@ -48,22 +67,13 @@ public class login extends AppCompatActivity {
         startActivity(listSong);
     }
 
-    private void chivato(String mensajes){
+    private AlertDialog.Builder chivato(String mensajes){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(mensajes);
         builder1.setCancelable(false);
 
-        builder1.setPositiveButton(
-                getString(R.string.ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+        return builder1;
 
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
     }
 
 }

@@ -56,8 +56,8 @@ public class principalFragment extends Fragment {
         mSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Connection.getInstance().isLogined()){
-                    Connection.getInstance().logOut();
+                if(Connection.isLogined()){
+                    Connection.logOut();
                     ponerCosasVisIn();
                 }
             }
@@ -73,7 +73,7 @@ public class principalFragment extends Fragment {
         mJuegaIniciaSes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Connection.getInstance().isLogined()) {
+                if(Connection.isLogined()) {
                     Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), segundaVentana.class);
                     startActivity(listSong);
                 }
@@ -100,7 +100,7 @@ public class principalFragment extends Fragment {
 
     public void ponerCosasVisIn(){
         txt.setText(getString(R.string.cartas_contra_la_humanidad));
-        if(!Connection.getInstance().isLogined()){
+        if(!Connection.isLogined()){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
             mSalir.setVisibility(View.INVISIBLE);
         }

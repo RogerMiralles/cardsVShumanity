@@ -60,15 +60,7 @@ public class registre extends AppCompatActivity {
                 mensajePAlert=getString(R.string.mCarac);
                 chivato(mensajePAlert);
             }else{
-                Connection.getInstance(this).RegistrarUsuario(new Runnable() {
-                                                                  @Override
-                                                                  public void run() {
-                                                                      if(Connection.getInstance().isLogined()) {
-                                                                          Intent intent = new Intent(registre.this, login.class);
-                                                                          startActivity(intent);
-                                                                      }
-                                                                  }
-                                                              }, correo.getText().toString(),
+                Connection.RegistrarUsuario(this, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
             }
         }else{

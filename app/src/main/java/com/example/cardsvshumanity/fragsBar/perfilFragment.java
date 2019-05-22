@@ -41,23 +41,22 @@ public class perfilFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_perfil, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
-        Connection connection = Connection.getInstance();
         ImageView imageView = rootView.findViewById(R.id.imgUsuario3);
         EditText eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
         EditText eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
-        if(connection.isLogined()){
-            if(connection.getImage() != null) {
-                imageView.setImageBitmap(BitmapFactory.decodeFile(connection.getImage().getAbsolutePath()));
+        if(Connection.isLogined()){
+            if(Connection.getImage() != null) {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(Connection.getImage().getAbsolutePath()));
             }
             else{
                 imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
             }
-            if(connection.getName()!=null){
-                eTxtNom.setText(connection.getName().toString());
+            if(Connection.getName()!=null){
+                eTxtNom.setText(Connection.getName());
             }
 
-            if(connection.getEmail()!=null){
-                eTxtCorreu.setText(connection.getEmail().toString());
+            if(Connection.getEmail()!=null){
+                eTxtCorreu.setText(Connection.getEmail());
             }
         }
         else{
