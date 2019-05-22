@@ -337,6 +337,14 @@ public class Connection {
         }).start();
     }
 
+    public boolean logOut(){
+        if(user!=null){
+            user=null;
+            return true;
+        }
+        return false;
+    }
+
     public boolean isLogined(){
         return user != null;
     }

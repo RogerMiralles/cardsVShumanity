@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
@@ -42,12 +43,21 @@ public class perfilFragment extends Fragment {
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
         Connection connection = Connection.getInstance();
         ImageView imageView = rootView.findViewById(R.id.imgUsuario3);
+        EditText eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
+        EditText eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
         if(connection.isLogined()){
             if(connection.getImage() != null) {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(connection.getImage().getAbsolutePath()));
             }
             else{
                 imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
+            }
+            if(connection.getName()!=null){
+                eTxtNom.setText(connection.getName().toString());
+            }
+
+            if(connection.getEmail()!=null){
+                eTxtCorreu.setText(connection.getEmail().toString());
             }
         }
         else{
