@@ -64,7 +64,7 @@ public class ajustesFragment extends Fragment {
         mCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Connection.getInstance().isLogined()) {
+                if(Connection.isLogined()) {
                     confirmar();
                 }
                 else{
