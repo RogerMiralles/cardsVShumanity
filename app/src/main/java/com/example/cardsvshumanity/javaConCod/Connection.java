@@ -345,6 +345,10 @@ public class Connection {
         return false;
     }
 
+    public void borrarCuenta(){
+        Toast.makeText(context, "no acabado. MSG desde Connection", Toast.LENGTH_SHORT).show();
+    }
+
     public boolean isLogined(){
         return user != null;
     }

@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiLogReg.login;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -56,9 +58,8 @@ public class ajustesFragment extends Fragment {
         mDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //codigo a ejecutar
+                deleteCache(getActivity());
                 Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.lDatos),Toast.LENGTH_LONG).show();
-                Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
             }
         });
         mCuenta= rootView.findViewById(R.id.btnCuenta);
@@ -76,6 +77,30 @@ public class ajustesFragment extends Fragment {
         });
         loadLocale();
         return rootView;
+    }
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 
     private void noUsuari(){
@@ -115,9 +140,8 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                            //codigo a ejecutar
-                            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
-                            Toast.makeText(getActivity().getApplicationContext(),"no acabado",Toast.LENGTH_LONG).show();
+                        Connection.getInstance().borrarCuenta();
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
                     }
                 });
 
