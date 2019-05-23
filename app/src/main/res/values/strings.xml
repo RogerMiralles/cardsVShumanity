@@ -7,7 +7,7 @@
     <string name="idiomaboton" translatable="false">Boton de Idioma</string>
     <string name="inicia_session">Iniciar Sesión</string>
     <string name="correo">Correo</string>
-    <string name="contrase_a">Contraseña </string>
+    <string name="contrase_a">Contraseña</string>
     <string name="logear">Entrar </string>
     <string name="registrarse">Registrarse </string>
     <string name="salida">Salir</string>
@@ -60,4 +60,8 @@
     <string name="registroCorrecto">Te has registrado correctamente</string>
     <string name="internet_dialog_cargando">Cargando...</string>
     <string name="loginCorrecto">Has iniciado sesion correctamente</string>
+    <string name="cancel">Cancelar</string>
+    <string name="error_password_diff">La contraseña no coincide</string>
+    <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
+    <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
 </resources>

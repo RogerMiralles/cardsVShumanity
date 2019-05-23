@@ -33,17 +33,20 @@ public class Connection {
     public static final int OK = 1;
     public static final int NO = -1;
     private static final int PORT = 55555;
-
-    private static final int CREATE_USER = 101;
-    private static final int LOGIN_USER = 102;
     public static final int BLOCK_SIZE = 1024;
 
+    //ORDENES
+    private static final int CREATE_USER = 101;
+    private static final int LOGIN_USER = 102;
+    private static final int ERASE_USER = 103;
 
     //ERRORES
+    public static final int SOCKET_DISCONNECTED = Integer.MIN_VALUE;
     public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
     public static final int CREATE_USER_ERROR_INVALID_EMAIL = -2;
     public static final int CREATE_USER_ERROR_INVALID_PARAMETERS = -3;
-    public static final int SOCKET_DISCONNECTED = Integer.MIN_VALUE;
+    public static final int ERASE_USER_ERROR_INVALID_PASSWORD = -4;
+    public static final int ERASE_USER_ERROR_NON_EXISTANT_USER = -5;
 
     private static Usuario user;
 
@@ -65,8 +68,8 @@ public class Connection {
         return false;
     }
 
-    public static void borrarCuenta(Context context){
-        Toast.makeText(context, "no acabado. MSG desde Connection", Toast.LENGTH_SHORT).show();
+    public static ConnectionThread borrarCuenta(Activity context, String password){
+        return new ConnectionThread(ERASE_USER, context, password);
     }
 
     public static boolean isLogined(){
@@ -136,6 +139,10 @@ public class Connection {
 
                 case LOGIN_USER:
                     run = getRunLogIn();
+                    break;
+
+                case ERASE_USER:
+                    run = getRunEraseUser();
                     break;
 
                 default:
@@ -420,6 +427,84 @@ public class Connection {
             };
         }
 
+        private Runnable getRunEraseUser(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket socket = null;
+                    DataInputStream dis = null;
+                    DataOutputStream dos = null;
+                    try{
+                        socket = new Socket();
+                        try {
+                            ConnectSocket(socket);
+                        } catch (IOException e) {
+                            if(runNo != null){
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+
+                        dos = new DataOutputStream(socket.getOutputStream());
+                        dis = new DataInputStream(socket.getInputStream());
+
+                        //Envia la order
+                        dos.writeInt(ERASE_USER);
+
+                        //Lee clave publica
+                        String pkHex = dis.readUTF();
+
+                        //Genera simmetric key y codifica
+                        SecretKey secretKey = Codification.generateNewSimetricKey();
+                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
+
+                        //Envia simmetric key
+                        dos.writeUTF(secretKeyCoded);
+
+                        String password = Codification.encodeWithSimetricKey(
+                                Codification.generateHashCode(((String) arguments[0]).getBytes(StandardCharsets.UTF_8)),
+                                secretKey,
+                                true
+                        );
+
+                        dos.writeUTF(password);
+
+                        String email = Codification.encodeWithSimetricKey(
+                                getEmail().getBytes(StandardCharsets.UTF_8),
+                                secretKey,
+                                true
+                        );
+
+                        dos.writeUTF(email);
+
+                        int result = dis.readInt();
+                        if(result == OK){
+                            if(runOk != null)
+                                activityContext.runOnUiThread(runOk);
+                        }
+                        else{
+                            if(runNo != null){
+                                runNo.setError(dis.readInt());
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        try{
+                            dos.close();
+                        }catch (NullPointerException | IOException e){}
+                        try{
+                            dis.close();
+                        }catch (NullPointerException | IOException e){}
+                        try{
+                            socket.close();
+                        }catch (NullPointerException | IOException e){}
+                    }
+                }
+            };
+        }
         private static void ConnectSocket(Socket sk) throws IOException {
             sk.connect(new InetSocketAddress("192.168.137.1",PORT),10000);
         }

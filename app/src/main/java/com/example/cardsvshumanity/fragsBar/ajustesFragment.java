@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
@@ -138,9 +141,81 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        final EditText password = new EditText(getContext());
+                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                if(which == DialogInterface.BUTTON_POSITIVE) {
+                                    if (!password.getText().toString().isEmpty()) {
+                                        Connection.ConnectionThread thread = Connection.borrarCuenta(getActivity(), password.getText().toString());
+                                        thread.setRunBegin(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+                                            @Override
+                                            public void run() {
+                                                if(getError() == Connection.ERASE_USER_ERROR_INVALID_PASSWORD){
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                    builder.setPositiveButton(R.string.ok, null)
+                                                            .setMessage(R.string.error_password_diff)
+                                                            .create().show();
+                                                }
+                                                else if(getError() == Connection.ERASE_USER_ERROR_NON_EXISTANT_USER){
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                            Connection.logOut();
+                                                        }
+                                                    })
+                                                            .setMessage(R.string.error_erase_user_nouser)
+                                                            .create().show();
+                                                }
+                                            }
+                                        });
+
+                                        thread.setRunOk(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                        Connection.logOut();
+                                                    }
+                                                })
+                                                        .setMessage(R.string.borrar_cuenta_success)
+                                                        .create().show();
+                                            }
+                                        });
+
+                                        thread.start();
+                                    }
+                                    else{
+                                       Toast.makeText(getContext(), R.string.camposVacios, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    dialog.dismiss();
+                                }
+                            }
+                        };
+                        password.setHint(R.string.contrase_a);
+                        builder.setView(password)
+                                .setPositiveButton(R.string.ok, clickListener)
+                                .setNegativeButton(R.string.cancel, clickListener)
+                                .create().show();
                         //Connection.borrarCuenta(getActivity());
-                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
-                        Toast.makeText(getActivity().getApplicationContext(), "todavia no", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity().getApplicationContext(), "todavia no", Toast.LENGTH_SHORT).show();
                     }
                 });
 
