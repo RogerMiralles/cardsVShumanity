@@ -21,6 +21,7 @@ import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
@@ -31,6 +32,10 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 public class perfilFragment extends Fragment {
 
 
+    private static final int INICIAR_SESION = 101;
+
+    private EditText eTxtNom, eTxtCorreu, eTxtPass, eTxtPartGan;
+    private ImageView imageView;
     public perfilFragment() {
         // Required empty public constructor
     }
@@ -41,38 +46,12 @@ public class perfilFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_perfil, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
-        ImageView imageView = rootView.findViewById(R.id.imgUsuario3);
-        EditText eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
-        EditText eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
-        EditText eTxtPass=rootView.findViewById(R.id.eTxtPass4);
-        EditText eTxtPartGan=rootView.findViewById(R.id.eTxtPartGana2);
-        if(Connection.isLogined()){
-
-            if(Connection.getImage() != null) {
-                imageView.setImageBitmap(BitmapFactory.decodeFile(Connection.getImage().getAbsolutePath()));
-            }
-            else{
-                imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
-            }
-
-            if(Connection.getName()!=null){
-                eTxtNom.setText(Connection.getName());
-            }
-
-            if(Connection.getEmail()!=null){
-                eTxtCorreu.setText(Connection.getEmail());
-            }
-
-            eTxtPass.setText("****");
-
-            if(Connection.getWins() != null){
-                eTxtPartGan.setText(Integer.toString(Connection.getWins()));
-            }
-        }
-        else{
-            imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
-            noUsuari();
-        }
+        imageView = rootView.findViewById(R.id.imgUsuario3);
+        eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
+        eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
+        eTxtPass=rootView.findViewById(R.id.eTxtPass4);
+        eTxtPartGan=rootView.findViewById(R.id.eTxtPartGana2);
+        UpdateUI();
         return rootView;
     }
 
@@ -87,7 +66,7 @@ public class perfilFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                         Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, INICIAR_SESION);
                     }
                 });
 
@@ -115,5 +94,43 @@ public class perfilFragment extends Fragment {
         if(alertDialog != null)
             alertDialog.dismiss();
         super.onDestroy();
+    }
+
+    private void UpdateUI(){
+        if(Connection.isLogined()){
+
+            if(Connection.getImage() != null) {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(Connection.getImage().getAbsolutePath()));
+            }
+            else{
+                imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
+            }
+
+            if(Connection.getName()!=null){
+                eTxtNom.setText(Connection.getName());
+            }
+
+            if(Connection.getEmail()!=null){
+                eTxtCorreu.setText(Connection.getEmail());
+            }
+
+            eTxtPass.setText("****");
+
+            if(Connection.getWins() != null){
+                eTxtPartGan.setText(Integer.toString(Connection.getWins()));
+            }
+        }
+        else{
+            imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
+            noUsuari();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == INICIAR_SESION){
+                UpdateUI();
+        }
     }
 }
