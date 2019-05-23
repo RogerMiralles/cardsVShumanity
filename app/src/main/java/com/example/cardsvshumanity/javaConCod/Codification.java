@@ -272,4 +272,19 @@ public class Codification {
         buffer.flip();
         return buffer.getLong();
     }
+
+
+    public static String parseIntToHex(int number){
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.putInt(number);
+        return toHex(buffer.array());
+    }
+
+    public static int parseHexToInt(String hex){
+        byte[] array = fromHex(hex);
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.put(array);
+        buffer.flip();
+        return buffer.getInt();
+    }
 }

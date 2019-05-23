@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
@@ -28,13 +30,20 @@ import javax.crypto.SecretKey;
 
 public class Connection {
 
-    private static final int OK = 1;
-    private static final int NO = -1;
+    public static final int OK = 1;
+    public static final int NO = -1;
     private static final int PORT = 55555;
 
     private static final int CREATE_USER = 101;
     private static final int LOGIN_USER = 102;
     public static final int BLOCK_SIZE = 1024;
+
+
+    //ERRORES
+    public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
+    public static final int CREATE_USER_ERROR_INVALID_EMAIL = -2;
+    public static final int CREATE_USER_ERROR_INVALID_PARAMETERS = -3;
+    public static final int SOCKET_DISCONNECTED = Integer.MIN_VALUE;
 
     private static Usuario user;
 
@@ -76,21 +85,27 @@ public class Connection {
         return (user == null)?  null : user.name;
     }
 
+    public static Integer getWins(){
+        return (user == null)? null: user.wins;
+    }
+
     private static class Usuario {
         private String email, password, name;
         private File drawable;
-
-        private Usuario(String email, String password, String name, File drawable){
+        private int wins;
+        private Usuario(String email, String password, String name, File drawable, int wins){
             this.email = email;
             this.name = name;
             this.password = password;
             this.drawable = drawable;
+            this.wins = wins;
         }
     }
 
     public static class ConnectionThread extends Thread{
 
-        private Runnable runBegin, runEnd, runOk, runNo;
+        private Runnable runBegin, runEnd, runOk;
+        private ErrorRunable runNo;
         private int order;
         private Activity activityContext;
         private Object[] arguments;
@@ -112,7 +127,7 @@ public class Connection {
                 activityContext.runOnUiThread(runEnd);
         }
 
-        Runnable getCommand(){
+        private Runnable getCommand(){
             Runnable run;
             switch (order){
                 case CREATE_USER:
@@ -129,7 +144,7 @@ public class Connection {
             return run;
         }
 
-        Runnable getRunLogIn(){
+        private Runnable getRunLogIn(){
             return new Runnable() {
                 @Override
                 public void run() {
@@ -143,7 +158,21 @@ public class Connection {
 
                         Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
 
-                        sk = new Socket("192.168.137.1", PORT);
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        }
+                        catch (IOException ex){
+                            if(runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw ex;
+                        }
+                        sk.setSoTimeout(0);
+
+
                         DataInputStream dis;
                         DataOutputStream dos;
 
@@ -222,13 +251,17 @@ public class Connection {
                                 image = null;
                             }
 
-                            user = new Usuario(email, password, name, image);
+                            int wins = Codification.parseHexToInt(Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey,false));
+
+                            user = new Usuario(email, password, name, image, wins);
                             if(runOk != null)
                             activityContext.runOnUiThread(runOk);
                         }
                         else{
-                            if(runNo != null)
-                            activityContext.runOnUiThread(runNo);
+                            if(runNo != null) {
+                                runNo.setError(NO);
+                                activityContext.runOnUiThread(runNo);
+                            }
                         }
                     } catch (UnknownHostException e) {
                         Log.e(Connection.class.getSimpleName(), e.getMessage());
@@ -250,7 +283,7 @@ public class Connection {
             };
         }
 
-        Runnable getRunCreateUser(){
+        private Runnable getRunCreateUser(){
             return new Runnable() {
                 @Override
                 public void run() {
@@ -266,7 +299,20 @@ public class Connection {
                         if (activityContext == null)
                             throw new Exception("No context added");
 
-                        sk = new Socket("192.168.137.1", PORT);
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        }
+                        catch (IOException ex){
+                            if(runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw ex;
+                        }
+
+                        sk.setSoTimeout(0);
+                        //sk = new Socket("192.168.137.1", PORT);
                         DataInputStream dis;
                         DataOutputStream dos;
 
@@ -300,15 +346,12 @@ public class Connection {
                         ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOutput);
 
-
                         File f = new File(activityContext.getExternalFilesDir(null), "image");
                         if (!f.exists()) {
                             f.createNewFile();
                         }
 
-
                         DataOutputStream fileDos = new DataOutputStream(new FileOutputStream(f));
-
 
                         streamOutput.writeTo(fileDos);
                         fileDos.flush();
@@ -352,13 +395,15 @@ public class Connection {
                         final int error = (result == OK) ? 0 : dis.readInt();
 
                         if (result == OK) {
-                            user = new Usuario(email, password, name, f);
+                            user = new Usuario(email, password, name, f, 0);
                             if(runOk != null)
                                 activityContext.runOnUiThread(runOk);
                         }
                         else{
-                            if(runNo != null)
+                            if(runNo != null) {
+                                runNo.setError(error);
                                 activityContext.runOnUiThread(runNo);
+                            }
                         }
 
                     }catch (Exception e){
@@ -375,7 +420,11 @@ public class Connection {
             };
         }
 
-        public void setRunNo(Runnable runNo) {
+        private static void ConnectSocket(Socket sk) throws IOException {
+            sk.connect(new InetSocketAddress("192.168.137.1",PORT),10000);
+        }
+
+        public void setRunNo(ErrorRunable runNo) {
             this.runNo = runNo;
         }
         public void setRunOk(Runnable runOk) {
@@ -386,6 +435,19 @@ public class Connection {
         }
         public void setRunEnd(Runnable runEnd) {
             this.runEnd = runEnd;
+        }
+
+        public static abstract class ErrorRunable implements Runnable {
+
+            private int error = 0;
+
+            private void setError(int error){
+                this.error = error;
+            }
+
+            public int getError(){
+                return error;
+            }
         }
     }
 }

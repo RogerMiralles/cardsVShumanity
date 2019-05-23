@@ -42,7 +42,7 @@
     <string name="respuesta2Baraja">Editar mazo</string>
     <string name="mensajeBaraja">Que quieres hacer?</string>
     <string name="error_unknown_error">Error desconocido</string>
-    <string name="noError">Te has registrado correctamente</string>
+    <string name="no_error_registro">Te has registrado correctamente</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="camposVacios">Campos vacios</string>
     <string name="unirse_a_partida">Unirse a partida</string>

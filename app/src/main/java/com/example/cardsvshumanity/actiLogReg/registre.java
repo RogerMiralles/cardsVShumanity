@@ -53,19 +53,74 @@ public class registre extends AppCompatActivity {
     }
 
     public void onClickRegistrarse(View view){
-        String mensajePAlert=null;
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()
         && !nom.getText().toString().isEmpty()){
             if(nom.getText().toString().getBytes(StandardCharsets.UTF_8).length>15){
-                mensajePAlert=getString(R.string.mCarac);
-                chivato(mensajePAlert);
+                AlertDialog.Builder builder = chivato(getString(R.string.mCarac));
+                builder.setPositiveButton(R.string.ok, null);
             }else{
-                Connection.RegistrarUsuario(this, correo.getText().toString(),
+                AlertDialog.Builder builder = chivato(getString(R.string.internet_dialog_cargando));
+                final AlertDialog alertDialog = builder.create();
+
+                Connection.ConnectionThread thread = Connection.RegistrarUsuario(this, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
+
+                thread.setRunBegin(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.show();
+                    }
+                });
+
+                thread.setRunOk(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.dismiss();
+                        AlertDialog.Builder builder1 = chivato(getString(R.string.no_error_registro));
+
+                        builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        });
+
+                        builder1.create().show();
+                    }
+                });
+
+                thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+                    @Override
+                    public void run() {
+                        alertDialog.dismiss();
+                        switch (getError()){
+                            case Connection.SOCKET_DISCONNECTED:
+                                //TODO Definir que hace
+                                break;
+                            case Connection.CREATE_USER_ERROR_EXISTING_USER:
+                                //TODO Definir que hace
+                                break;
+                            case Connection.CREATE_USER_ERROR_INVALID_EMAIL:
+                                //TODO Definir que hace
+                                break;
+                            case Connection.CREATE_USER_ERROR_INVALID_PARAMETERS:
+                                //TODO Definir que hace
+                                break;
+                            default:
+                                //TODO Definir que hace
+                                break;
+                        }
+                    }
+                });
+
+                thread.start();
             }
         }else{
-            mensajePAlert=getString(R.string.camposVacios);
-            chivato(mensajePAlert);
+
+            AlertDialog.Builder builder = chivato(getString(R.string.camposVacios));
+            builder.setPositiveButton(R.string.ok, null);
         }
 
     }
@@ -187,21 +242,11 @@ public class registre extends AppCompatActivity {
         }catch(NullPointerException ignored){}
     }
 
-    private void chivato(String mensajes){
-        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+    private AlertDialog.Builder chivato(String mensajes){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(mensajes);
         builder1.setCancelable(false);
 
-        builder1.setPositiveButton(
-                getString(R.string.ok),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        return builder1;
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ public class login extends AppCompatActivity {
 
     private EditText correo;
     private EditText contra;
+    private final int CREATE_USER = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,32 @@ public class login extends AppCompatActivity {
                 }
             });
 
+            thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+                @Override
+                public void run() {
+                    alertDialog.dismiss();
+                    if(getError() == Connection.NO){
+                        AlertDialog.Builder builder = chivato("Contraseña y/o email incorrectos");
+                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+                    }
+                    else if(getError() == Connection.SOCKET_DISCONNECTED){
+                        AlertDialog.Builder builder = chivato("No se ha podido conectar al servidor");
+                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+                    }
+                }
+            });
             thread.start();
         }else{
             alertDialog.setMessage(getString(R.string.camposVacios));
@@ -64,7 +92,7 @@ public class login extends AppCompatActivity {
 
     public void onClickRegistrar(View view) {
         Intent listSong = new Intent(getApplicationContext(), registre.class);
-        startActivity(listSong);
+        startActivityForResult(listSong, CREATE_USER);
     }
 
     private AlertDialog.Builder chivato(String mensajes){
@@ -76,4 +104,13 @@ public class login extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CREATE_USER && resultCode == RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
 }
