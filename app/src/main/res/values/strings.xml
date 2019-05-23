@@ -59,4 +59,5 @@
     <string name="tituloRegistro">Registro</string>
     <string name="registroCorrecto">Te has registrado correctamente</string>
     <string name="internet_dialog_cargando">Cargando...</string>
+    <string name="loginCorrecto">Has iniciado sesion correctamente</string>
 </resources>

@@ -29,10 +29,12 @@ public class login extends AppCompatActivity {
     }
 
     public void onClickLogear(View view) {
-        final AlertDialog alertDialog = chivato("Hola").create();
 
         if(correo.getText()!=null&&contra.getText()!=null&& !correo.getText().toString().isEmpty() && !contra.getText().toString().isEmpty()){
             Connection.ConnectionThread thread = Connection.LogInUsuario(this, correo.getText().toString(), contra.getText().toString());
+
+            final AlertDialog alertDialog = chivato(getString(R.string.internet_dialog_cargando)).create();
+
             thread.setRunBegin(new Runnable() {
                 @Override
                 public void run() {
@@ -40,11 +42,12 @@ public class login extends AppCompatActivity {
                     alertDialog.show();
                 }
             });
+
             thread.setRunOk(new Runnable() {
                 @Override
                 public void run() {
                     alertDialog.dismiss();
-                    AlertDialog.Builder builder = chivato(getString(R.string.jugar));
+                    AlertDialog.Builder builder = chivato(getString(R.string.loginCorrecto));
                     builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -61,32 +64,24 @@ public class login extends AppCompatActivity {
                 @Override
                 public void run() {
                     alertDialog.dismiss();
+                    AlertDialog.Builder builder = chivato("Contraseña y/o email incorrectos");
                     if(getError() == Connection.NO){
-                        AlertDialog.Builder builder = chivato("Contraseña y/o email incorrectos");
-                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                        builder.setPositiveButton(R.string.ok, null);
                         builder.create().show();
                     }
                     else if(getError() == Connection.SOCKET_DISCONNECTED){
-                        AlertDialog.Builder builder = chivato("No se ha podido conectar al servidor");
-                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                        builder.setMessage("No se ha podido conectar al servidor");
+                        builder.setPositiveButton(R.string.ok, null);
                         builder.create().show();
                     }
                 }
             });
+
             thread.start();
         }else{
-            alertDialog.setMessage(getString(R.string.camposVacios));
-            alertDialog.show();
+            AlertDialog.Builder builder = chivato(getString(R.string.camposVacios));
+            builder.setPositiveButton(R.string.ok, null);
+            builder.create().show();
         }
     }
 
@@ -101,7 +96,6 @@ public class login extends AppCompatActivity {
         builder1.setCancelable(false);
 
         return builder1;
-
     }
 
     @Override

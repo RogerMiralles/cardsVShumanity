@@ -121,6 +121,7 @@ public class registre extends AppCompatActivity {
 
             AlertDialog.Builder builder = chivato(getString(R.string.camposVacios));
             builder.setPositiveButton(R.string.ok, null);
+            builder.create().show();
         }
 
     }
