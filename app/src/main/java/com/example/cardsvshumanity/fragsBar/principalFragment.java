@@ -169,6 +169,7 @@ public class principalFragment extends Fragment {
         editor.apply();
 
     }
+
     public void loadLocale(){
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language=prefs.getString("My_Lang","");
