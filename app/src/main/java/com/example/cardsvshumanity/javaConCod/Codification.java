@@ -36,12 +36,18 @@ public class Codification {
         HASH_ALGORITHM = "SHA-1";
     }
 
+    //CONSTANTES DE ALGORITMOS DE ENCRIPTACION
     public static final String ASSIMETRIC_FORMAT_CIPHER;
     public static final String ASSIMETRIC_ALGORITHM;
     public static final String SIMETRIC_FORMAT_CIPHER;
     public static final String SIMETRIC_ALGORITHM;
     public static final String HASH_ALGORITHM;
 
+    /**
+     * Recrea una public key de una string hexadecimal
+     * @param hexPublicKey string hexadecimal que representa una public key
+     * @return public key derivada de la cadena hexadecimal
+     */
     public static PublicKey GeneratePublicKey(String hexPublicKey){
         PublicKey publicKey = null;
         try {
@@ -54,6 +60,12 @@ public class Codification {
         return publicKey;
     }
 
+    /**
+     * Codifica un array de bytes usando como clave una PublicKeya una cadena hexadecimal
+     * @param hexPublicKey clave usada para encriptar
+     * @param bytesToEncode datos por encriptar
+     * @return cadena hexadecimal que representa la array de bytes encriptada
+     */
     public static String encodeWithPublicKey(String hexPublicKey, byte[] bytesToEncode) {
         byte[] encodedData = null;
         try {
@@ -78,13 +90,20 @@ public class Codification {
         return toHex(encodedData);
     }
 
-    public static String encodeWithSimetricKey(byte[] bytes, SecretKey key, boolean encode){
-        String str = null;
+    /**
+     * Codifica o descodifica un array de bytes dada una clave de de algoritmo Simetrico
+     * @param bytes datos a encriptar/desencriptar
+     * @param key clave de algoritmo asimetrico
+     * @param encode true para codificar, false para descodificar
+     * @return cadena hexadecimal que representa el array de bytes codificados/descodificados
+     */
+    public static byte[] encodeWithSimetricKey(byte[] bytes, SecretKey key, boolean encode){
+        byte[] str = null;
         int mode = (encode)? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
         try {
             Cipher encrypter = Cipher.getInstance(SIMETRIC_ALGORITHM);
             encrypter.init(mode, key);
-            str = toHex(encrypter.doFinal(bytes));
+            str = encrypter.doFinal(bytes);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
                 BadPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
@@ -157,6 +176,10 @@ public class Codification {
         return output;
     }
 
+    /**
+     * Genera una clave de algoritmo simetrico
+     * @return clave de algoritmo simetrico
+     */
     public static SecretKey generateNewSimetricKey(){
         SecretKey secretKey = null;
         try{
@@ -167,6 +190,11 @@ public class Codification {
         return secretKey;
     }
 
+    /**
+     * Genera un hash del array de bytes dado
+     * @param toHash array de bytes para hacer hash
+     * @return hash en forma de array de bytes
+     */
     public static byte[] generateHashCode(byte[] toHash){
         byte[] str = null;
         try{
@@ -179,6 +207,11 @@ public class Codification {
         return str;
     }
 
+    /**
+     * Genera un array de bytes dada una cadena hexadecimal
+     * @param hex cadena hexadecimal a convertir en array
+     * @return array de bytes que representaba la cadena hexadecimal
+     */
     public static byte[] fromHex(String hex){
         int length = hex.length()/2;
         byte[] array = new byte[length];
@@ -238,6 +271,11 @@ public class Codification {
         return array;
     }
 
+    /**
+     * Genera una cadena hexadecimal de un array de bytes dado
+     * @param array array de bytes a codificar en hexadecimal
+     * @return cadena hexadecimal que representa al array de bytes
+     */
     public static String toHex(byte[] array){
         StringBuilder str = new StringBuilder();
 
@@ -259,12 +297,22 @@ public class Codification {
         return str.toString();
     }
 
+    /**
+     * Genera una cadena hexadecimal que representa una variable Long
+     * @param number variable Long a representar
+     * @return cadena hexadecimal que representa el long
+     */
     public static String parseLongToHex(long number){
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(number);
         return toHex(buffer.array());
     }
 
+    /**
+     * Genera una variable long dada una cadena hexadecimal
+     * @param hex Cadena hexadecimal a descifrar
+     * @return Long que la cadena hexadecimal representaba
+     */
     public static long parseHexToLong(String hex) {
         byte[] array = fromHex(hex);
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
@@ -274,12 +322,22 @@ public class Codification {
     }
 
 
+    /**
+     * Genera una cadena hexadecimal que representa una variable int
+     * @param number variable Int a representar
+     * @return cadena hexadecimal que representa el int
+     */
     public static String parseIntToHex(int number){
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.putInt(number);
         return toHex(buffer.array());
     }
 
+    /**
+     * Genera una variable int dada una cadena hexadecimal
+     * @param hex Cadena hexadecimal a descifrar
+     * @return Int que la cadena hexadecimal representaba
+     */
     public static int parseHexToInt(String hex){
         byte[] array = fromHex(hex);
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);

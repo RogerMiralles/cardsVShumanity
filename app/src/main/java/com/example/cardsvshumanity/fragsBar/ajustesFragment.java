@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,13 +159,13 @@ public class ajustesFragment extends Fragment {
                                         thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                                             @Override
                                             public void run() {
-                                                if(getError() == Connection.ERASE_USER_ERROR_INVALID_PASSWORD){
+                                                if(getError() == Connection.USER_ERROR_INVALID_PASSWORD){
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                                     builder.setPositiveButton(R.string.ok, null)
                                                             .setMessage(R.string.error_password_diff)
                                                             .create().show();
                                                 }
-                                                else if(getError() == Connection.ERASE_USER_ERROR_NON_EXISTANT_USER){
+                                                else if(getError() == Connection.USER_ERROR_NON_EXISTANT_USER){
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                                         @Override
@@ -181,7 +180,7 @@ public class ajustesFragment extends Fragment {
                                             }
                                         });
 
-                                        thread.setRunOk(new Runnable() {
+                                        thread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
                                             @Override
                                             public void run() {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

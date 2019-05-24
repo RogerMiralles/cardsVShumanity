@@ -43,7 +43,7 @@ public class login extends AppCompatActivity {
                 }
             });
 
-            thread.setRunOk(new Runnable() {
+            thread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
                 @Override
                 public void run() {
                     alertDialog.dismiss();

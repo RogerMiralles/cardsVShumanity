@@ -65,5 +65,4 @@
     <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
     <string name="no_error_registro">Te has registrado correctamente.</string>
     <string name="noError">Sin errores</string>
-
 </resources>
