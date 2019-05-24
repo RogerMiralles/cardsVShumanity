@@ -54,4 +54,11 @@
     <string name="tituloLogin">Inici sessio</string>
     <string name="registroCorrecto">Te has registrado correctamente</string>
     <string name="internet_dialog_cargando">Cargando...</string>
+    <string name="noError">Sin errores</string>
+    <string name="loginCorrecto">Has iniciado sesion correctamente</string>
+    <string name="cancel">Cancelar</string>
+    <string name="error_password_diff">La contraseña no coincide</string>
+    <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
+    <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
+    <string name="cch">CCH</string>
 </resources>
