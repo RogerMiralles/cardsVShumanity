@@ -32,7 +32,7 @@
     <string name="lDatos">Se han borrado los datos</string>
     <string name="tituloAjustes">Ajustes</string>
     <string name="tituloPerfil">Perfil</string>
-    <string name="cch">CCH</string>
+    <string name="cch" translatable="false">CCH</string>
     <string name="selecciona">Que prefieres?</string>
     <string name="galeria">Galería</string>
     <string name="camara">Cámara</string>
@@ -42,6 +42,7 @@
     <string name="respuesta2Baraja">Editar mazo</string>
     <string name="mensajeBaraja">Que quieres hacer?</string>
     <string name="error_unknown_error">Error desconocido</string>
+    <string name="no_error_registro">Te has registrado correctamente</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="camposVacios">Campos vacios</string>
     <string name="unirse_a_partida">Unirse a partida</string>
@@ -63,7 +64,8 @@
     <string name="error_password_diff">La contraseña no coincide</string>
     <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
     <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
-    <string name="no_error_registro">Te has registrado correctamente.</string>
-    <string name="noError">Sin errores</string>
-
+    <string name="crear_baraja">crear baraja</string>
+    <string name="emailContraMal">Contraseña y/o email incorrectos</string>
+    <string name="noConexion">No se ha podido conectar al servidor</string>
+    <string name="error_existing_user">Usuario ya creado</string>
 </resources>

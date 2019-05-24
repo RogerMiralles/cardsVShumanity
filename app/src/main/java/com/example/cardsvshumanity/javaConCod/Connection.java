@@ -351,7 +351,7 @@ public class Connection {
                         //Coge la imagen y crea un fichero;
                         Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
                         ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOutput);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamOutput);
 
                         File f = new File(activityContext.getExternalFilesDir(null), "image");
                         if (!f.exists()) {
@@ -369,7 +369,7 @@ public class Connection {
 
                         //envia la imagen
                         ///Primero se envia el Formato y longitud
-                        dos.writeUTF(Codification.encodeWithSimetricKey(".jpeg".getBytes(StandardCharsets.UTF_8), secretKey, true));
+                        dos.writeUTF(Codification.encodeWithSimetricKey(".png".getBytes(StandardCharsets.UTF_8), secretKey, true));
                         dos.writeUTF(
                                 Codification.encodeWithSimetricKey(
                                         Codification.fromHex(

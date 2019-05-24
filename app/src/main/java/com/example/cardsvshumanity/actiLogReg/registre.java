@@ -58,6 +58,7 @@ public class registre extends AppCompatActivity {
             if(nom.getText().toString().getBytes(StandardCharsets.UTF_8).length>15){
                 AlertDialog.Builder builder = chivato(getString(R.string.mCarac));
                 builder.setPositiveButton(R.string.ok, null);
+                builder.show();
             }else{
                 AlertDialog.Builder builder = chivato(getString(R.string.internet_dialog_cargando));
                 final AlertDialog alertDialog = builder.create();
@@ -95,26 +96,29 @@ public class registre extends AppCompatActivity {
                     @Override
                     public void run() {
                         alertDialog.dismiss();
+                        String mensaje=null;
                         switch (getError()){
                             case Connection.SOCKET_DISCONNECTED:
-                                //TODO Definir que hace
+                                mensaje=getString(R.string.noConexion);
                                 break;
                             case Connection.CREATE_USER_ERROR_EXISTING_USER:
-                                //TODO Definir que hace
+                                mensaje=getString(R.string.error_existing_email);
                                 break;
                             case Connection.CREATE_USER_ERROR_INVALID_EMAIL:
-                                //TODO Definir que hace
+                                mensaje=getString(R.string.error_invalid_email);
                                 break;
                             case Connection.CREATE_USER_ERROR_INVALID_PARAMETERS:
-                                //TODO Definir que hace
+                                mensaje=getString(R.string.error_invalid_parameters);
                                 break;
                             default:
-                                //TODO Definir que hace
+                                mensaje=getString(R.string.error_unknown_error);
                                 break;
                         }
+                        AlertDialog.Builder builder1 = chivato(mensaje);
+                        builder1.setPositiveButton(R.string.ok, null);
+                        builder1.create().show();
                     }
                 });
-
                 thread.start();
             }
         }else{
@@ -215,7 +219,7 @@ public class registre extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".png",         /* suffix */
                 storageDir      /* directory */
         );
         imagenS = image.getAbsolutePath();

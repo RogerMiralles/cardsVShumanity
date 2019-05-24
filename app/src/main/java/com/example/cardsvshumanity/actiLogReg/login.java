@@ -64,13 +64,13 @@ public class login extends AppCompatActivity {
                 @Override
                 public void run() {
                     alertDialog.dismiss();
-                    AlertDialog.Builder builder = chivato("Contraseña y/o email incorrectos");
+                    AlertDialog.Builder builder = chivato(getString(R.string.emailContraMal));
                     if(getError() == Connection.NO){
                         builder.setPositiveButton(R.string.ok, null);
                         builder.create().show();
                     }
                     else if(getError() == Connection.SOCKET_DISCONNECTED){
-                        builder.setMessage("No se ha podido conectar al servidor");
+                        builder.setMessage(getString(R.string.noConexion));
                         builder.setPositiveButton(R.string.ok, null);
                         builder.create().show();
                     }
