@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -380,7 +379,7 @@ public class Connection {
                         //Coge la imagen y crea un fichero;
                         Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
                         ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOutput);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamOutput);
 
                         File f = new File(activityContext.getExternalFilesDir(null), "image");
                         if (!f.exists()) {
@@ -399,8 +398,8 @@ public class Connection {
                         //envia la imagen
                         ///Primero se envia el Formato y longitud
                         dos.writeUTF(Codification.toHex(
-                                Codification.encodeWithSimetricKey(".jpeg".getBytes(StandardCharsets.UTF_8), secretKey, true)))
-                        ;
+                                Codification.encodeWithSimetricKey(".png".getBytes(StandardCharsets.UTF_8), secretKey, true))
+                        );
 
                         dos.writeUTF(
                                 Codification.toHex(
