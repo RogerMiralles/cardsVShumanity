@@ -1,6 +1,7 @@
 package com.example.cardsvshumanity.actiPartida;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 
 import java.util.ArrayList;
@@ -78,14 +80,17 @@ public class barajas extends AppCompatActivity {
                 editarBaraja.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(barajas.this, "hola", Toast.LENGTH_SHORT).show();
+                        Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
+                        startActivity(in);
                     }
                 });
                 verBaraja=itemView.findViewById(R.id.btnVerBaraja);
                 verBaraja.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(barajas.this, "ver baraja", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(barajas.this, "demomento te manda a la misma que editar", Toast.LENGTH_SHORT).show();
+                        Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
+                        startActivity(in);
                     }
                 });
                 this.adaptador=adaptador;
@@ -102,33 +107,4 @@ public class barajas extends AppCompatActivity {
         adaptador1=new Adaptador(this,baraja);
         recicler.setAdapter(adaptador1);
     }
-/*
-    private void seleccionar(){
-        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage(getString(R.string.mensajeBaraja));
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                getString(R.string.respuesta1Baraja),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Intent intent=new Intent(getApplicationContext(), login.class);
-                        startActivity(intent);
-                    }
-                });
-
-        builder1.setNegativeButton(
-                getString(R.string.respuesta2Baraja),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Intent intent=new Intent(getApplicationContext(),login.class);
-                        startActivity(intent);
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }*/
 }

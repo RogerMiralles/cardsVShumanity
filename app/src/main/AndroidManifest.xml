@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.Camera"
@@ -20,20 +20,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".actiPartida.unirsePartida" android:screenOrientation="landscape"></activity>
-        <activity android:name=".actiPartida.crearPartida" android:screenOrientation="landscape" />
+        <activity android:name=".actiBarajas.VerBaraja" android:screenOrientation="landscape"/>
+        <activity android:name=".actiBarajas.EditarBaraja" android:screenOrientation="landscape" />
         <activity
-            android:name=".MainActivity" android:screenOrientation="landscape">
+            android:name=".actiPartida.unirsePartida"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".actiPartida.crearPartida"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".actiPartida.barajas" android:screenOrientation="landscape"/>
-        <activity android:name=".actiPartida.segundaVentana" android:screenOrientation="landscape" />
-        <activity android:name=".actiLogReg.registre" android:screenOrientation="landscape" />
-        <activity android:name=".actiLogReg.login" android:screenOrientation="landscape"/>
+        <activity
+            android:name=".actiPartida.barajas"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".actiPartida.segundaVentana"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".actiLogReg.registre"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".actiLogReg.login"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
