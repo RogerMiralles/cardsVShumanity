@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
@@ -32,6 +34,7 @@ public class barajas extends AppCompatActivity {
         baraja.add(new Baraja("pepe"));
         baraja.add(new Baraja("antonio el grande"));
         baraja.add(new Baraja("raul ha hecho la web"));
+        baraja.add(new Baraja("test"));
         final LinearLayoutManager layoutManager = new LinearLayoutManager(barajas.this);
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recicler.setLayoutManager(layoutManager);
@@ -41,7 +44,6 @@ public class barajas extends AppCompatActivity {
 
 
     public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
-
 
         private  ArrayList<Baraja> baraja;
         private LayoutInflater mInflater;
@@ -66,10 +68,26 @@ public class barajas extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
             private TextView texto;
+            private Button editarBaraja;
+            private Button verBaraja;
             final Adaptador adaptador;
             public ViewHolder(@NonNull View itemView,Adaptador adaptador) {
                 super(itemView);
                 texto=itemView.findViewById(R.id.etTextoViewHolder);
+                editarBaraja=itemView.findViewById(R.id.btnEditarBaraja);
+                editarBaraja.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(barajas.this, "hola", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                verBaraja=itemView.findViewById(R.id.btnVerBaraja);
+                verBaraja.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(barajas.this, "ver baraja", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 this.adaptador=adaptador;
             }
         }
@@ -78,11 +96,13 @@ public class barajas extends AppCompatActivity {
             this.baraja=bar;
         }
     }
-/*
-    public void onClickBaraja(View view){
-        seleccionar();
-    }
 
+    public void onClickNuevaBaraja(View view){
+        baraja.add(new Baraja("1"));
+        adaptador1=new Adaptador(this,baraja);
+        recicler.setAdapter(adaptador1);
+    }
+/*
     private void seleccionar(){
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(getString(R.string.mensajeBaraja));
