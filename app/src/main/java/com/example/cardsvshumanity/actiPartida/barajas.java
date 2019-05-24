@@ -49,6 +49,8 @@ public class barajas extends AppCompatActivity {
 
         private  ArrayList<Baraja> baraja;
         private LayoutInflater mInflater;
+
+
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -68,6 +70,8 @@ public class barajas extends AppCompatActivity {
             viewHolder.texto.setText(mCurrent);
         }
 
+
+
         public class ViewHolder extends RecyclerView.ViewHolder{
             private TextView texto;
             private Button editarBaraja;
@@ -81,6 +85,7 @@ public class barajas extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
+                        in.putExtra("nombre",baraja.get(getAdapterPosition()).getNombre());
                         startActivity(in);
                     }
                 });
