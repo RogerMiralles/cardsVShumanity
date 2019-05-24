@@ -1,11 +1,15 @@
 package com.example.cardsvshumanity.actiPartida;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
@@ -15,39 +19,63 @@ import java.util.ArrayList;
 public class barajas extends AppCompatActivity {
 
     private RecyclerView recicler;
-    private ArrayList<Baraja> baraja;
 
+    private ArrayList<Baraja> baraja=new ArrayList<>();
+    private Adaptador adaptador1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barajas);
         recicler=findViewById(R.id.reciclerBaraja);
+
+        baraja.add(new Baraja("pepe"));
+        baraja.add(new Baraja("antonio el grande"));
+        baraja.add(new Baraja("raul ha hecho la web"));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(barajas.this);
+        //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recicler.setLayoutManager(layoutManager);
+        adaptador1=new Adaptador(this,baraja);
+        recicler.setAdapter(adaptador1);
     }
 
 
     public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
+
+
+        private  ArrayList<Baraja> baraja;
+        private LayoutInflater mInflater;
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return null;
+            View mItemView = mInflater.inflate(
+                    R.layout.adap, viewGroup, false);
+            return new ViewHolder(mItemView,this);
         }
 
         @Override
         public int getItemCount() {
-            return 1;
+            return baraja.size();
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+            String mCurrent = baraja.get(i).getNombre();
+            viewHolder.texto.setText(mCurrent);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder{
-
-            public ViewHolder(@NonNull View itemView) {
+            private TextView texto;
+            final Adaptador adaptador;
+            public ViewHolder(@NonNull View itemView,Adaptador adaptador) {
                 super(itemView);
+                texto=itemView.findViewById(R.id.etTextoViewHolder);
+                this.adaptador=adaptador;
             }
+        }
+        public Adaptador(Context context,ArrayList<Baraja> bar){
+            mInflater = LayoutInflater.from(context);
+            this.baraja=bar;
         }
     }
 /*

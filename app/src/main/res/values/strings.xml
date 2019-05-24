@@ -68,4 +68,6 @@
     <string name="emailContraMal">Contraseña y/o email incorrectos</string>
     <string name="noConexion">No se ha podido conectar al servidor</string>
     <string name="error_existing_user">Usuario ya creado</string>
+    <string name="verBaraja">Ver baraja</string>
+    <string name="editarBaraja">Editar baraja</string>
 </resources>

@@ -38,7 +38,6 @@ public class login extends AppCompatActivity {
             thread.setRunBegin(new Runnable() {
                 @Override
                 public void run() {
-                    alertDialog.setMessage(getString(R.string.internet_dialog_cargando));
                     alertDialog.show();
                 }
             });
