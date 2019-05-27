@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -339,10 +340,15 @@ public class Codification {
      * @return Int que la cadena hexadecimal representaba
      */
     public static int parseHexToInt(String hex){
-        byte[] array = fromHex(hex);
-        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
-        buffer.put(array);
-        buffer.flip();
-        return buffer.getInt();
+        try {
+            byte[] array = fromHex(hex);
+            ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+            buffer.put(array);
+            buffer.flip();
+            return buffer.getInt();
+        }catch(BufferOverflowException e){
+            System.out.println("Error: " + new String(fromHex(hex)));
+            throw e;
+        }
     }
 }

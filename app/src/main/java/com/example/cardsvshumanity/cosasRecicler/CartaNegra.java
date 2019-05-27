@@ -2,14 +2,15 @@ package com.example.cardsvshumanity.cosasRecicler;
 
 public class CartaNegra {
 
-    private String nombre;
+    private String nombre, email;
     private int numEspacios;
     private int id;
 
-    public CartaNegra(String nombre, int numEspacios, int id){
+    public CartaNegra(String email, String nombre, int numEspacios, int id){
         this.id = id;
         this.nombre = nombre;
         this.numEspacios = numEspacios;
+        this.email = email;
     }
     public CartaNegra(String nombre){
         this.nombre=nombre;

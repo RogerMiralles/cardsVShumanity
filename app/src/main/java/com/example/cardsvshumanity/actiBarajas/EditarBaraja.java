@@ -7,14 +7,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.ArrayList;
 
@@ -49,6 +52,37 @@ public class EditarBaraja extends AppCompatActivity {
         adapNegras=new AdaptadorCartasNegras(this,negra);
         reciclerCNegras.setAdapter(adapNegras);
 
+        Baraja b = new Baraja("Baraja default es", "default", "default", 0, "es");
+        Connection.ConnectionThread thread = Connection.getCartasUser(this, b);
+        thread.setRunOk(
+                new Connection.ConnectionThread.SuccessRunnable() {
+                    @Override
+                    public void run() {
+                        Object[] lista = (Object[]) getArguments();
+                        ArrayList<CartaBlanca> cartaBlancas = (ArrayList<CartaBlanca>) lista[0];
+                        ArrayList<CartaNegra> cartaNegras = (ArrayList<CartaNegra>) lista[1];
+                        adapBlancas.carta = cartaBlancas;
+                        adapNegras.carta = cartaNegras;
+                        adapBlancas.notifyDataSetChanged();
+                        adapNegras.notifyDataSetChanged();
+                    }
+                }
+        );
+
+        thread.setRunNo(
+                new Connection.ConnectionThread.ErrorRunable() {
+                    @Override
+                    public void run() {
+                        blanca.add(new CartaBlanca("HOLA"));
+                        negra.add(new CartaNegra("ADIOS"));
+                        adapBlancas.notifyDataSetChanged();
+                        adapNegras.notifyDataSetChanged();
+                        Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
+                    }
+                }
+        );
+
+        thread.start();
     }
 
     public class AdaptadorCartasBlancas extends RecyclerView.Adapter<AdaptadorCartasBlancas.ViewHolder>{

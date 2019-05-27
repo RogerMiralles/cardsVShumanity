@@ -1,17 +1,15 @@
 package com.example.cardsvshumanity.javaConCod;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.cosasRecicler.Baraja;
+import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
+import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -22,8 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -73,6 +69,10 @@ public class Connection {
 
     public static ConnectionThread getBarajasUser(Activity context){
         return new ConnectionThread(GET_BASIC_INFO_BARAJA, context);
+    }
+
+    public static ConnectionThread getCartasUser(Activity context, Baraja baraja){
+        return new ConnectionThread(GET_CARTAS_BARAJA, context, baraja);
     }
 
     public static boolean logOut(){
@@ -159,6 +159,10 @@ public class Connection {
 
                 case GET_BASIC_INFO_BARAJA:
                     run = getRunGetInfoBasicBaraja();
+                    break;
+
+                case GET_CARTAS_BARAJA:
+                    run = getRunGetCartasFromBaraja();
                     break;
 
                 default:
@@ -690,7 +694,7 @@ public class Connection {
             };
         }
 
-        private Runnable getCartasFromBaraja(){
+        private Runnable getRunGetCartasFromBaraja(){
             return new Runnable() {
                 @Override
                 public void run() {
@@ -740,29 +744,111 @@ public class Connection {
 
                         //Envia simmetric key
                         dos.writeUTF(secretKeyCoded);
-                        String nombreMazo = (String) arguments[0];
+
+                        Baraja baraja = (Baraja) arguments[0];
+
                         dos.writeUTF(
                                 Codification.toHex(
                                         Codification.encodeWithSimetricKey(
-                                                nombreMazo.getBytes(StandardCharsets.UTF_8),
+                                                baraja.getEmail().getBytes(StandardCharsets.UTF_8),
                                                 secretKey,
                                                 true
                                         )
                                 )
                         );
 
-                        String numeroCartasCodified = dis.readUTF();
-
-                        int numeroCartas = Codification.parseHexToInt(
+                        dos.writeUTF(
                                 Codification.toHex(
                                         Codification.encodeWithSimetricKey(
-                                                Codification.fromHex(numeroCartasCodified),
+                                                baraja.getNombre().getBytes(StandardCharsets.UTF_8),
                                                 secretKey,
-                                                false
+                                                true
                                         )
                                 )
                         );
 
+                        int result = dis.readInt();
+                        int error = (result == OK)? 0 : dis.readInt();
+
+                        if(result == OK) {
+                            String numeroCartasCodified = dis.readUTF();
+
+                            int numeroCartas = Codification.parseHexToInt(
+                                    Codification.toHex(
+                                            Codification.encodeWithSimetricKey(
+                                                    Codification.fromHex(numeroCartasCodified),
+                                                    secretKey,
+                                                    false
+                                            )
+                                    )
+                            );
+
+                            System.out.println(numeroCartas);
+
+                            ArrayList<CartaBlanca> cartasBlancas = new ArrayList<>();
+                            ArrayList<CartaNegra> cartasNegras = new ArrayList<>();
+
+                            for (int i = 0; i < numeroCartas; i++) {
+
+                                String isNegraCodified = dis.readUTF();
+
+                                int isNegra = Codification.parseHexToInt(
+                                        Codification.toHex(
+                                                Codification.encodeWithSimetricKey(
+                                                        Codification.fromHex(isNegraCodified),
+                                                        secretKey,
+                                                        false
+                                                )
+                                        )
+                                );
+
+
+                                String texto = new String(
+                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
+                                );
+
+                                int codigo = Codification.parseHexToInt(
+                                        Codification.toHex(
+                                                Codification.encodeWithSimetricKey(
+                                                        Codification.fromHex(dis.readUTF()),
+                                                        secretKey,
+                                                        false
+                                                )
+                                        )
+                                );
+
+                                if (isNegra == 1) {
+                                    int cantidadEspacios = Codification.parseHexToInt(
+                                            Codification.toHex(
+                                                    Codification.encodeWithSimetricKey(
+                                                            Codification.fromHex(dis.readUTF()),
+                                                            secretKey,
+                                                            false
+                                                    )
+                                            )
+                                    );
+                                    cartasNegras.add(new CartaNegra(baraja.getEmail(), texto, codigo, cantidadEspacios));
+                                } else {
+                                    cartasBlancas.add(new CartaBlanca(baraja.getEmail(), texto, codigo));
+                                }
+                            }
+
+                            Object[] listas = new Object[2];
+                            listas[0] = cartasBlancas;
+                            listas[1] = cartasNegras;
+
+                            if(runOk != null){
+                                System.out.println("runOk");
+                                runOk.setArgument(listas);
+                                activityContext.runOnUiThread(runOk);
+                            }
+                        }
+                        else{
+                            if(runNo != null){
+                                runNo.setError(error);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                         if(runNo != null){

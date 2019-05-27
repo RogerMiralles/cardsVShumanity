@@ -1,12 +1,13 @@
 package com.example.cardsvshumanity.cosasRecicler;
 
 public class CartaBlanca {
-    private String nombre;
+    private String nombre, email;
     private int id;
 
-    public CartaBlanca(String nombre, int id){
+    public CartaBlanca(String email, String nombre, int id){
         this.nombre = nombre;
         this.id = id;
+        this.email = email;
     }
 
     public CartaBlanca(String nombre){
