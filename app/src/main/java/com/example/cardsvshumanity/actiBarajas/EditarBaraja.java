@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +27,10 @@ import java.util.ArrayList;
 
 public class EditarBaraja extends AppCompatActivity {
 
-    private TextView textoNombreBaraja;
-    private TextView textoNombreCreador;
-    private TextView textoIdioma;
-    private TextView textoNumCartas;
+    private EditText textoNombreBaraja;
+    private EditText textoNombreCreador;
+    private EditText textoIdioma;
+    private EditText textoNumCartas;
     private RecyclerView reciclerCBlancas;
     private RecyclerView reciclerCNegras;
     private ArrayList<CartaBlanca> blanca = new ArrayList<>();
@@ -38,6 +40,8 @@ public class EditarBaraja extends AppCompatActivity {
     private AlertDialog alertDialogCartaBlanca;
     private AlertDialog alertDialogCartaNegra;
     private Baraja barajaDeBarajas;
+    private boolean editOread;
+    private Button btnGuardarCanvios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +49,43 @@ public class EditarBaraja extends AppCompatActivity {
         setContentView(R.layout.activity_editar_baraja);
         Intent in = getIntent();
         barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
+        editOread=in.getBooleanExtra("editOread",editOread);
+        btnGuardarCanvios=findViewById(R.id.btnGuardarCanvios);
         textoNombreBaraja = findViewById(R.id.txtNombreBarajaEdit);
         textoNombreCreador=findViewById(R.id.txtNombreCreadorBaraja);
         textoIdioma=findViewById(R.id.txtIdioma);
         textoNumCartas=findViewById(R.id.txtNumCartas);
+
         textoNombreBaraja.setText(barajaDeBarajas.getNombre());
         textoNombreCreador.setText(barajaDeBarajas.getUsername());
         textoIdioma.setText(barajaDeBarajas.getIdioma());
-        textoNumCartas.setText(barajaDeBarajas.getNumCartas());
+        textoNumCartas.setText(barajaDeBarajas.getNumCartas()+"");
+
+        if(editOread){ //edit
+            if(barajaDeBarajas.getEmail().equals("default")){
+                Toast.makeText(this, "esta baraja no se puede editar", Toast.LENGTH_SHORT).show();
+                textoNombreBaraja.setEnabled(false);
+                textoNombreCreador.setEnabled(false);
+                textoIdioma.setEnabled(false);
+                textoNumCartas.setEnabled(false);
+                btnGuardarCanvios.setEnabled(false);
+                btnGuardarCanvios.setVisibility(View.INVISIBLE);
+            }else{
+                textoNombreBaraja.setEnabled(true);
+                textoNombreCreador.setEnabled(false);
+                textoIdioma.setEnabled(false);
+                textoNumCartas.setEnabled(false);
+                btnGuardarCanvios.setEnabled(true);
+                btnGuardarCanvios.setVisibility(View.VISIBLE);
+            }
+        }else{ //read
+            textoNombreBaraja.setEnabled(false);
+            textoNombreCreador.setEnabled(false);
+            textoIdioma.setEnabled(false);
+            textoNumCartas.setEnabled(false);
+            btnGuardarCanvios.setEnabled(false);
+            btnGuardarCanvios.setVisibility(View.INVISIBLE);
+        }
 
         reciclerCBlancas = findViewById(R.id.reciclerCartasBlancas);
         reciclerCNegras = findViewById(R.id.reciclerCartasNegras);

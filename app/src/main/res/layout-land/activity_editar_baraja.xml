@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".actiBarajas.EditarBaraja">
 
-    <TextView
+    <EditText
         android:id="@+id/txtNombreBarajaEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
         app:layout_constraintEnd_toStartOf="@+id/txtNombreCreadorBaraja"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +25,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasNegras"
         app:layout_constraintEnd_toStartOf="@+id/btnNewCardBlanca"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,28 +43,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reciclerCartasBlancas" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtNombreCreadorBaraja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
         app:layout_constraintEnd_toStartOf="@+id/txtIdioma"
         app:layout_constraintStart_toEndOf="@+id/txtNombreBarajaEdit"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtIdioma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
         app:layout_constraintEnd_toStartOf="@+id/txtNumCartas"
         app:layout_constraintStart_toEndOf="@+id/txtNombreCreadorBaraja"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtNumCartas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtIdioma"
@@ -91,4 +102,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/reciclerCartasNegras"
         app:layout_constraintTop_toBottomOf="@+id/btnNewCardBlanca" />
+
+    <Button
+        android:id="@+id/btnGuardarCanvios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/guardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerCartasNegras" />
 </android.support.constraint.ConstraintLayout>
