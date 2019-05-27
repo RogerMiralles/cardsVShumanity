@@ -311,4 +311,15 @@ public class EditarBaraja extends AppCompatActivity {
         alertDialogCartaNegra = builder1.create();
         alertDialogCartaNegra.show();
     }
+
+    public void onClickNewCartaBlanca(View view){
+
+    }
+    public void onClickNewCartaNegra(View view){
+
+    }
+    public void onClickGuardar(View view){
+        
+    }
+
 }
