@@ -73,4 +73,6 @@
     <string name="editarCarta">Editar carta</string>
     <string name="texto">Contenido de la carta:</string>
     <string name="numEspacios">Numero espacios vacios:</string>
+    <string name="crear_nueva_carta_blanca">Crear nueva carta Blanca</string>
+    <string name="crear_nueva_carta_negra">Crear nueva carta Negra</string>
 </resources>

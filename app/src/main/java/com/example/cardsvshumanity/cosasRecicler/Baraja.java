@@ -1,6 +1,8 @@
 package com.example.cardsvshumanity.cosasRecicler;
 
-public class Baraja {
+import java.io.Serializable;
+
+public class Baraja implements Serializable {
 
     private String nombre;
     private String email;
@@ -46,5 +48,12 @@ public class Baraja {
 
     public void setNumCartas(int numCartas) {
         this.numCartas = numCartas;
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

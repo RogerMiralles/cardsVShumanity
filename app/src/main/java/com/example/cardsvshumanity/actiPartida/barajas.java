@@ -122,7 +122,6 @@ public class barajas extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder{
             private TextView texto;
             private Button editarBaraja;
-            private Button verBaraja;
             final Adaptador adaptador;
             public ViewHolder(@NonNull View itemView,Adaptador adaptador) {
                 super(itemView);
@@ -132,16 +131,7 @@ public class barajas extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
-                        in.putExtra("nombre",baraja.get(getAdapterPosition()).getNombre());
-                        startActivity(in);
-                    }
-                });
-                verBaraja=itemView.findViewById(R.id.btnVerBaraja);
-                verBaraja.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(barajas.this, "demomento te manda a la misma que editar", Toast.LENGTH_SHORT).show();
-                        Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
+                        in.putExtra("baraja",baraja);
                         startActivity(in);
                     }
                 });

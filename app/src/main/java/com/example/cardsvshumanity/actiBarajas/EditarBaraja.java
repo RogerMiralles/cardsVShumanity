@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
 
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 public class EditarBaraja extends AppCompatActivity {
 
     private TextView textoNombreBaraja;
+    private TextView textoNombreCreador;
+    private TextView textoIdioma;
+    private TextView textoNumCartas;
     private RecyclerView reciclerCBlancas;
     private RecyclerView reciclerCNegras;
     private ArrayList<CartaBlanca> blanca = new ArrayList<>();
@@ -33,14 +37,22 @@ public class EditarBaraja extends AppCompatActivity {
     private AdaptadorCartasNegras adapNegras;
     private AlertDialog alertDialogCartaBlanca;
     private AlertDialog alertDialogCartaNegra;
+    private Baraja barajaDeBarajas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_baraja);
         Intent in = getIntent();
+        barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
         textoNombreBaraja = findViewById(R.id.txtNombreBarajaEdit);
-        textoNombreBaraja.setText(in.getStringExtra("nombre"));
+        textoNombreCreador=findViewById(R.id.txtNombreCreadorBaraja);
+        textoIdioma=findViewById(R.id.txtIdioma);
+        textoNumCartas=findViewById(R.id.txtNumCartas);
+        textoNombreBaraja.setText(barajaDeBarajas.getNombre());
+        textoNombreCreador.setText(barajaDeBarajas.getUsername());
+        textoIdioma.setText(barajaDeBarajas.getIdioma());
+        textoNumCartas.setText(barajaDeBarajas.getNumCartas());
 
         reciclerCBlancas = findViewById(R.id.reciclerCartasBlancas);
         reciclerCNegras = findViewById(R.id.reciclerCartasNegras);

@@ -22,17 +22,9 @@
         style="@style/btn"
         android:text="@string/editarBaraja"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerBaraja"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTextoViewHolder" />
-
-    <Button
-        android:id="@+id/btnVerBaraja"
-        style="@style/btn"
-        android:text="@string/verBaraja"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnEditarBaraja"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTextoViewHolder" />
 
 

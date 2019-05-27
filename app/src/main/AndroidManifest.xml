@@ -23,9 +23,6 @@
         <activity android:name=".actiBarajas.EditarCarta"></activity>
         <activity android:name=".actiPartida.Partida" />
         <activity
-            android:name=".actiBarajas.VerBaraja"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".actiBarajas.EditarBaraja"
             android:screenOrientation="sensorLandscape" />
         <activity
