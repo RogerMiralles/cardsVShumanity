@@ -70,4 +70,5 @@
     <string name="error_existing_user">Usuario ya creado</string>
     <string name="verBaraja">Ver baraja</string>
     <string name="editarBaraja">Editar baraja</string>
+    <string name="editarCarta">Editar carta</string>
 </resources>

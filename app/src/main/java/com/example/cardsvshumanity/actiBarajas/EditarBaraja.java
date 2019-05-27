@@ -1,6 +1,8 @@
 package com.example.cardsvshumanity.actiBarajas;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
 
 import java.util.ArrayList;
+
 
 public class EditarBaraja extends AppCompatActivity {
 
@@ -27,6 +31,8 @@ public class EditarBaraja extends AppCompatActivity {
     private ArrayList<CartaNegra> negra=new ArrayList<>();
     private AdaptadorCartasBlancas adapBlancas;
     private AdaptadorCartasNegras adapNegras;
+    private AlertDialog alertDialogCartaBlanca;
+    private AlertDialog alertDialogCartaNegra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +59,10 @@ public class EditarBaraja extends AppCompatActivity {
 
     }
 
+
     public class AdaptadorCartasBlancas extends RecyclerView.Adapter<AdaptadorCartasBlancas.ViewHolder>{
         private  ArrayList<CartaBlanca> carta;
         private LayoutInflater mInflater;
-
-
 
         public AdaptadorCartasBlancas(Context context, ArrayList<CartaBlanca> bar){
             mInflater = LayoutInflater.from(context);
@@ -66,14 +71,14 @@ public class EditarBaraja extends AppCompatActivity {
 
         @NonNull
         @Override
-        public AdaptadorCartasBlancas.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View mItemView = mInflater.inflate(
                     R.layout.recicler_cartas_blancas, viewGroup, false);
-            return new AdaptadorCartasBlancas.ViewHolder(mItemView,this);
+            return new ViewHolder(mItemView,this);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull AdaptadorCartasBlancas.ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
             String mCurrent = carta.get(i).getNombre();
             viewHolder.texto.setText(mCurrent);
         }
@@ -83,15 +88,22 @@ public class EditarBaraja extends AppCompatActivity {
             return carta.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView texto;
             final AdaptadorCartasBlancas adaptador;
             public ViewHolder(@NonNull View itemView,AdaptadorCartasBlancas adaptador) {
                 super(itemView);
                 texto=itemView.findViewById(R.id.etTextoCartasBViewHolder);
                 this.adaptador=adaptador;
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+                mostrarCartaBlancaSeleccionada(carta,getAdapterPosition());
             }
         }
+
     }
 
     public class AdaptadorCartasNegras extends RecyclerView.Adapter<AdaptadorCartasNegras.ViewHolder>{
@@ -122,14 +134,70 @@ public class EditarBaraja extends AppCompatActivity {
             return carta.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             private TextView texto;
             final AdaptadorCartasNegras adaptador;
             public ViewHolder(@NonNull View itemView,AdaptadorCartasNegras adaptador) {
                 super(itemView);
                 texto=itemView.findViewById(R.id.etTextoCartasNViewHolder);
                 this.adaptador=adaptador;
+                itemView.setOnClickListener(this);
+            }
+            @Override
+            public void onClick(View view) {
+                mostrarCartaNegraSeleccionada(carta,getAdapterPosition());
             }
         }
+    }
+    private void mostrarCartaBlancaSeleccionada(ArrayList<CartaBlanca> carta,int pos){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(carta.get(pos).getNombre());
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                getString(R.string.editarCarta),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        builder1.setNegativeButton(
+                getString(R.string.salida),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialogCartaBlanca = builder1.create();
+        alertDialogCartaBlanca.show();
+    }
+
+    private void mostrarCartaNegraSeleccionada(ArrayList<CartaNegra> carta,int pos){
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(carta.get(pos).getNombre());
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                getString(R.string.editarCarta),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        builder1.setNegativeButton(
+                getString(R.string.salida),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialogCartaNegra = builder1.create();
+        alertDialogCartaNegra.show();
     }
 }
