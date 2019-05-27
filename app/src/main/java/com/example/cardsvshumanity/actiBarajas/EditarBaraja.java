@@ -44,8 +44,6 @@ public class EditarBaraja extends AppCompatActivity {
 
         reciclerCBlancas=findViewById(R.id.reciclerCartasBlancas);
         reciclerCNegras=findViewById(R.id.reciclerCartasNegras);
-        blanca.add(new CartaBlanca("pepe"));
-        negra.add(new CartaNegra("antonio el grande"));
         final LinearLayoutManager layoutManager = new LinearLayoutManager(EditarBaraja.this);
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(EditarBaraja.this);
 

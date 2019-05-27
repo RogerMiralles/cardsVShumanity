@@ -4,6 +4,7 @@ public class Baraja {
 
     private String nombre;
     private String email;
+    private String username;
     private String idioma;
     private int numCartas;
 
@@ -11,11 +12,12 @@ public class Baraja {
         this.nombre=nombre;
     }
 
-    public Baraja(String nombre, String email, int numCartas, String idioma){
+    public Baraja(String nombre, String email, String username, int numCartas, String idioma){
         this.nombre=nombre;
         this.email=email;
         this.idioma=idioma;
         this.numCartas=numCartas;
+        this.username = username;
     }
 
     public String getNombre() {  return nombre;   }

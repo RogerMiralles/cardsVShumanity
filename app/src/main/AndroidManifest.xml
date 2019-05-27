@@ -20,8 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".actiBarajas.VerBaraja" android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".actiBarajas.EditarBaraja" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".actiPartida.Partida"></activity>
+        <activity
+            android:name=".actiBarajas.VerBaraja"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".actiBarajas.EditarBaraja"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".actiPartida.unirsePartida"
             android:screenOrientation="sensorLandscape" />
