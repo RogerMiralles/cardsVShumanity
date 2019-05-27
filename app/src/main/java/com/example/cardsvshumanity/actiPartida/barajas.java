@@ -44,7 +44,6 @@ public class barajas extends AppCompatActivity {
         recicler.setAdapter(adaptador1);
     }
 
-
     public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
         private  ArrayList<Baraja> baraja;
