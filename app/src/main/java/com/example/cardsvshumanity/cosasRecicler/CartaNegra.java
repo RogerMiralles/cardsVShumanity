@@ -7,7 +7,7 @@ public class CartaNegra {
     private int numEspacios;
     private int id;
 
-    public CartaNegra(String email, String nombre, int numEspacios, int id){
+    public CartaNegra(String email, String nombre, int id, int numEspacios){
         this.id = id;
         this.nombre = nombre;
         this.numEspacios = numEspacios;

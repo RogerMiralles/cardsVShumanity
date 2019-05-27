@@ -44,6 +44,8 @@ public class EditarBaraja extends AppCompatActivity {
     private Baraja barajaDeBarajas;
     private boolean editOread;
     private Button btnGuardarCanvios;
+    private Button nuevaBlanca;
+    private Button nuevaNegra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class EditarBaraja extends AppCompatActivity {
         barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
         editOread=in.getBooleanExtra("editOread",editOread);
         btnGuardarCanvios=findViewById(R.id.btnGuardarCanvios);
+        nuevaBlanca=findViewById(R.id.btnNewCardBlanca);
+        nuevaNegra=findViewById(R.id.btnNewCardNegra);
+
         textoNombreBaraja = findViewById(R.id.txtNombreBarajaEdit);
         textoNombreCreador=findViewById(R.id.txtNombreCreadorBaraja);
         textoIdioma=findViewById(R.id.txtIdioma);
@@ -61,7 +66,7 @@ public class EditarBaraja extends AppCompatActivity {
         textoNombreBaraja.setText(barajaDeBarajas.getNombre());
         textoNombreCreador.setText(barajaDeBarajas.getUsername());
         textoIdioma.setText(barajaDeBarajas.getIdioma());
-        textoNumCartas.setText(barajaDeBarajas.getNumCartas()+"");
+        textoNumCartas.setText(""+barajaDeBarajas.getNumCartas());
 
         if(editOread){ //edit
             if(barajaDeBarajas.getEmail().equals("default")){
@@ -72,7 +77,11 @@ public class EditarBaraja extends AppCompatActivity {
                 textoNumCartas.setEnabled(false);
 
                 btnGuardarCanvios.setEnabled(false);
-                btnGuardarCanvios.setVisibility(View.INVISIBLE);
+                btnGuardarCanvios.setVisibility(View.GONE);
+                nuevaBlanca.setEnabled(false);
+                nuevaBlanca.setVisibility(View.GONE);
+                nuevaNegra.setEnabled(false);
+                nuevaNegra.setVisibility(View.GONE);
             }else{
                 textoNombreBaraja.setEnabled(true);
                 textoNombreCreador.setEnabled(false);
@@ -81,6 +90,10 @@ public class EditarBaraja extends AppCompatActivity {
 
                 btnGuardarCanvios.setEnabled(true);
                 btnGuardarCanvios.setVisibility(View.VISIBLE);
+                nuevaBlanca.setEnabled(true);
+                nuevaBlanca.setVisibility(View.VISIBLE);
+                nuevaNegra.setEnabled(true);
+                nuevaNegra.setVisibility(View.VISIBLE);
             }
         }else{ //read
             textoNombreBaraja.setEnabled(false);
@@ -89,7 +102,11 @@ public class EditarBaraja extends AppCompatActivity {
             textoNumCartas.setEnabled(false);
 
             btnGuardarCanvios.setEnabled(false);
-            btnGuardarCanvios.setVisibility(View.INVISIBLE);
+            btnGuardarCanvios.setVisibility(View.GONE);
+            nuevaBlanca.setEnabled(false);
+            nuevaBlanca.setVisibility(View.GONE);
+            nuevaNegra.setEnabled(false);
+            nuevaNegra.setVisibility(View.GONE);
         }
 
         reciclerCBlancas = findViewById(R.id.reciclerCartasBlancas);
