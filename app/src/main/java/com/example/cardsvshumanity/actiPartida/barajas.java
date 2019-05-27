@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.ArrayList;
 
@@ -33,15 +35,61 @@ public class barajas extends AppCompatActivity {
         setContentView(R.layout.activity_barajas);
         recicler=findViewById(R.id.reciclerBaraja);
 
-        baraja.add(new Baraja("pepe"));
-        baraja.add(new Baraja("antonio el grande"));
-        baraja.add(new Baraja("raul ha hecho la web"));
-        baraja.add(new Baraja("test"));
+        Connection.ConnectionThread thread = Connection.getBarajasUser(this);
+
+        Connection.ConnectionThread.SuccessRunnable successRunnable = new Connection.ConnectionThread.SuccessRunnable() {
+            @Override
+            public void run() {
+                String nombreBaraja = null, email = null, username = null, idioma = null;
+                Integer cantidadCartas = null;
+                try {
+                    ArrayList<Object[]> objects = (ArrayList<Object[]>) getArguments();
+                    for (Object[] obj : objects) {
+                        nombreBaraja = (String) obj[0];
+                        email = (String) obj[1];
+                        username = (String) obj[2];
+                        cantidadCartas = (int) obj[3];
+                        idioma = (String) obj[4];
+                        baraja.add(new Baraja(nombreBaraja, email, username, cantidadCartas, idioma));
+                    }
+                    adaptador1.notifyDataSetChanged();
+                }catch(ClassCastException | NullPointerException ex){
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        Connection.ConnectionThread.ErrorRunable errorRunable = new Connection.ConnectionThread.ErrorRunable() {
+            @Override
+            public void run() {
+                switch (getError()){
+                    case Connection.USER_ERROR_INVALID_PASSWORD:
+                        //TODO --
+                        break;
+                    case Connection.USER_ERROR_NON_EXISTANT_USER:
+                        //TODO --
+                        break;
+                }
+                Log.d(barajas.class.getSimpleName(), String.valueOf(getError()));
+                baraja.add(new Baraja("pepe"));
+                baraja.add(new Baraja("antonio el grande"));
+                baraja.add(new Baraja("raul ha hecho la web"));
+                baraja.add(new Baraja("test"));
+            }
+        };
+
+        thread.setRunNo(errorRunable);
+        thread.setRunOk(successRunnable);
+
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(barajas.this);
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recicler.setLayoutManager(layoutManager);
-        adaptador1=new Adaptador(this,baraja);
+        adaptador1=new Adaptador(this, baraja);
         recicler.setAdapter(adaptador1);
+
+
+        thread.start();
     }
 
     public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {

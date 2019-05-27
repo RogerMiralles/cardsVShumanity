@@ -43,6 +43,7 @@ public class Connection {
     private static final int LOGIN_USER = 102;
     private static final int ERASE_USER = 103;
     private static final int GET_BASIC_INFO_BARAJA = 104;
+    private static final int GET_CARTAS_BARAJA = 105;
 
     //ERRORES
     public static final int SOCKET_DISCONNECTED = Integer.MIN_VALUE;
@@ -51,6 +52,8 @@ public class Connection {
     public static final int CREATE_USER_ERROR_INVALID_PARAMETERS = -3;
     public static final int USER_ERROR_INVALID_PASSWORD = -4;
     public static final int USER_ERROR_NON_EXISTANT_USER = -5;
+    public static final int USER_NOT_LOGINED = -6;
+    public static final int UNKOWN_ERROR = -100;
 
     private static Usuario user;
 
@@ -64,16 +67,20 @@ public class Connection {
     }
 
 
+    public static ConnectionThread borrarCuenta(Activity context, String password){
+        return new ConnectionThread(ERASE_USER, context, password);
+    }
+
+    public static ConnectionThread getBarajasUser(Activity context){
+        return new ConnectionThread(GET_BASIC_INFO_BARAJA, context);
+    }
+
     public static boolean logOut(){
         if(user!=null){
             user=null;
             return true;
         }
         return false;
-    }
-
-    public static ConnectionThread borrarCuenta(Activity context, String password){
-        return new ConnectionThread(ERASE_USER, context, password);
     }
 
     public static boolean isLogined(){
@@ -150,8 +157,13 @@ public class Connection {
                     run = getRunEraseUser();
                     break;
 
+                case GET_BASIC_INFO_BARAJA:
+                    run = getRunGetInfoBasicBaraja();
+                    break;
+
                 default:
                     run = null;
+                    break;
             }
             return run;
         }
@@ -210,10 +222,13 @@ public class Connection {
                                         Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true)
                                 )
                         );
+
+                        String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
                         dos.writeUTF(
                                 Codification.toHex(
                                         Codification.encodeWithSimetricKey(
-                                                Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)),
+                                                Codification.fromHex(hexPassword)
+                                                ,
                                                 secretKey,
                                                 true
                                         )
@@ -279,7 +294,7 @@ public class Connection {
 
                             int wins = Codification.parseHexToInt(Codification.toHex(Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey,false)));
 
-                            user = new Usuario(email, password, name, image, wins);
+                            user = new Usuario(email, hexPassword, name, image, wins);
                             if(runOk != null)
                             activityContext.runOnUiThread(runOk);
                         }
@@ -363,9 +378,10 @@ public class Connection {
                                 Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true))
                         );
 
+                        String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
                         dos.writeUTF(Codification.toHex(
                                 Codification.encodeWithSimetricKey(
-                                        Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8))
+                                        Codification.fromHex(hexPassword)
                                         , secretKey, true
                                         )
                                 )
@@ -436,7 +452,7 @@ public class Connection {
                         final int error = (result == OK) ? 0 : dis.readInt();
 
                         if (result == OK) {
-                            user = new Usuario(email, password, name, f, 0);
+                            user = new Usuario(email, hexPassword, name, f, 0);
                             if(runOk != null)
                                 activityContext.runOnUiThread(runOk);
                         }
@@ -553,6 +569,13 @@ public class Connection {
 
                         Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
 
+                        if(user == null){
+                            if(runNo != null){
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
 
                         sk = new Socket();
                         try {
@@ -562,7 +585,7 @@ public class Connection {
                                 runNo.setError(SOCKET_DISCONNECTED);
                                 activityContext.runOnUiThread(runNo);
                             }
-                            throw ex;
+                            throw new Exception(ex.getMessage());
                         }
                         sk.setSoTimeout(0);
 
@@ -574,7 +597,7 @@ public class Connection {
                         dos = new DataOutputStream(sk.getOutputStream());
 
                         //Envia orden
-                        dos.writeInt(LOGIN_USER);
+                        dos.writeInt(GET_BASIC_INFO_BARAJA);
 
                         //Lee clave publica
                         String pkHex = dis.readUTF();
@@ -602,6 +625,8 @@ public class Connection {
                         dos.writeUTF(codedUserEmail);
                         dos.writeUTF(codedUserPassword);
 
+                        Log.d(Connection.class.getSimpleName(), user.password);
+
                         int result = dis.readInt();
                         int error = (result == OK)? 0 : dis.readInt();
                         if(result == OK){
@@ -614,6 +639,11 @@ public class Connection {
 
                             ArrayList<Object[]> args = new ArrayList<>();
                             for(int i = 0; i<sizeList; i++) {
+
+                                String nombreEmail = new String(
+                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
+                                );
+
                                 String nombreBaraja = new String(
                                         Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
                                 );
@@ -632,7 +662,7 @@ public class Connection {
                                         Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
                                 );
 
-                                args.add(new Object[]{nombreBaraja, nombreUser, cantidadCartas, idiomaBaraja});
+                                args.add(new Object[]{nombreBaraja, nombreEmail, nombreUser, cantidadCartas, idiomaBaraja});
                             }
 
                             if(runOk != null){
@@ -647,16 +677,106 @@ public class Connection {
                             }
                         }
 
-                    } catch (SocketException e) {
+                    } catch (IOException e){
                         e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             };
         }
+
+        private Runnable getCartasFromBaraja(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+
+                        Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
+
+                        if (user == null) {
+                            if (runNo != null) {
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = new DataInputStream(sk.getInputStream());
+                        dos = new DataOutputStream(sk.getOutputStream());
+
+                        //Envia orden
+                        dos.writeInt(GET_CARTAS_BARAJA);
+
+                        //Lee clave publica
+                        String pkHex = dis.readUTF();
+
+                        //Genera simmetric key y codifica
+                        SecretKey secretKey = Codification.generateNewSimetricKey();
+                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
+
+                        //Envia simmetric key
+                        dos.writeUTF(secretKeyCoded);
+                        String nombreMazo = (String) arguments[0];
+                        dos.writeUTF(
+                                Codification.toHex(
+                                        Codification.encodeWithSimetricKey(
+                                                nombreMazo.getBytes(StandardCharsets.UTF_8),
+                                                secretKey,
+                                                true
+                                        )
+                                )
+                        );
+
+                        String numeroCartasCodified = dis.readUTF();
+
+                        int numeroCartas = Codification.parseHexToInt(
+                                Codification.toHex(
+                                        Codification.encodeWithSimetricKey(
+                                                Codification.fromHex(numeroCartasCodified),
+                                                secretKey,
+                                                false
+                                        )
+                                )
+                        );
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+        }
+
         private static void ConnectSocket(Socket sk) throws IOException {
             sk.connect(new InetSocketAddress(HOST,PORT),10000);
         }
