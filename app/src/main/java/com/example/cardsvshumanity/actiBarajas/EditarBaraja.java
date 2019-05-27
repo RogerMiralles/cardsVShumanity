@@ -68,6 +68,7 @@ public class EditarBaraja extends AppCompatActivity {
                 textoNombreCreador.setEnabled(false);
                 textoIdioma.setEnabled(false);
                 textoNumCartas.setEnabled(false);
+
                 btnGuardarCanvios.setEnabled(false);
                 btnGuardarCanvios.setVisibility(View.INVISIBLE);
             }else{
@@ -75,6 +76,7 @@ public class EditarBaraja extends AppCompatActivity {
                 textoNombreCreador.setEnabled(false);
                 textoIdioma.setEnabled(false);
                 textoNumCartas.setEnabled(false);
+
                 btnGuardarCanvios.setEnabled(true);
                 btnGuardarCanvios.setVisibility(View.VISIBLE);
             }
@@ -83,6 +85,7 @@ public class EditarBaraja extends AppCompatActivity {
             textoNombreCreador.setEnabled(false);
             textoIdioma.setEnabled(false);
             textoNumCartas.setEnabled(false);
+
             btnGuardarCanvios.setEnabled(false);
             btnGuardarCanvios.setVisibility(View.INVISIBLE);
         }
