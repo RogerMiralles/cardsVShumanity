@@ -27,8 +27,8 @@ public class EditarBaraja extends AppCompatActivity {
     private TextView textoNombreBaraja;
     private RecyclerView reciclerCBlancas;
     private RecyclerView reciclerCNegras;
-    private ArrayList<CartaBlanca> blanca=new ArrayList<>();
-    private ArrayList<CartaNegra> negra=new ArrayList<>();
+    private ArrayList<CartaBlanca> blanca = new ArrayList<>();
+    private ArrayList<CartaNegra> negra = new ArrayList<>();
     private AdaptadorCartasBlancas adapBlancas;
     private AdaptadorCartasNegras adapNegras;
     private AlertDialog alertDialogCartaBlanca;
@@ -38,33 +38,40 @@ public class EditarBaraja extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_baraja);
-        Intent in=getIntent();
-        textoNombreBaraja =findViewById(R.id.txtNombreBarajaEdit);
+        Intent in = getIntent();
+        textoNombreBaraja = findViewById(R.id.txtNombreBarajaEdit);
         textoNombreBaraja.setText(in.getStringExtra("nombre"));
 
-        reciclerCBlancas=findViewById(R.id.reciclerCartasBlancas);
-        reciclerCNegras=findViewById(R.id.reciclerCartasNegras);
+        reciclerCBlancas = findViewById(R.id.reciclerCartasBlancas);
+        reciclerCNegras = findViewById(R.id.reciclerCartasNegras);
+
+        blanca.add(new CartaBlanca("juan","pepe",2));
+        blanca.add(new CartaBlanca("default","juan",3));
+        negra.add(new CartaNegra("default","pepe",0,0));
+        negra.add(new CartaNegra("juan","juan",0,1));
+
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(EditarBaraja.this);
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(EditarBaraja.this);
 
         reciclerCBlancas.setLayoutManager(layoutManager);
-        adapBlancas=new AdaptadorCartasBlancas(this,blanca);
+        adapBlancas = new AdaptadorCartasBlancas(this, blanca);
         reciclerCBlancas.setAdapter(adapBlancas);
 
         reciclerCNegras.setLayoutManager(layoutManager1);
-        adapNegras=new AdaptadorCartasNegras(this,negra);
+        adapNegras = new AdaptadorCartasNegras(this, negra);
         reciclerCNegras.setAdapter(adapNegras);
 
     }
 
 
-    public class AdaptadorCartasBlancas extends RecyclerView.Adapter<AdaptadorCartasBlancas.ViewHolder>{
-        private  ArrayList<CartaBlanca> carta;
+    public class AdaptadorCartasBlancas extends RecyclerView.Adapter<AdaptadorCartasBlancas.ViewHolder> {
+        private ArrayList<CartaBlanca> carta;
         private LayoutInflater mInflater;
 
-        public AdaptadorCartasBlancas(Context context, ArrayList<CartaBlanca> bar){
+        public AdaptadorCartasBlancas(Context context, ArrayList<CartaBlanca> bar) {
             mInflater = LayoutInflater.from(context);
-            this.carta=bar;
+            this.carta = bar;
         }
 
         @NonNull
@@ -72,7 +79,7 @@ public class EditarBaraja extends AppCompatActivity {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View mItemView = mInflater.inflate(
                     R.layout.recicler_cartas_blancas, viewGroup, false);
-            return new ViewHolder(mItemView,this);
+            return new ViewHolder(mItemView, this);
         }
 
         @Override
@@ -89,28 +96,29 @@ public class EditarBaraja extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView texto;
             final AdaptadorCartasBlancas adaptador;
-            public ViewHolder(@NonNull View itemView,AdaptadorCartasBlancas adaptador) {
+
+            public ViewHolder(@NonNull View itemView, AdaptadorCartasBlancas adaptador) {
                 super(itemView);
-                texto=itemView.findViewById(R.id.etTextoCartasBViewHolder);
-                this.adaptador=adaptador;
+                texto = itemView.findViewById(R.id.etTextoCartasBViewHolder);
+                this.adaptador = adaptador;
                 itemView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View view) {
-                mostrarCartaBlancaSeleccionada(carta,getAdapterPosition());
+                mostrarCartaBlancaSeleccionada(carta, getAdapterPosition());
             }
         }
 
     }
 
-    public class AdaptadorCartasNegras extends RecyclerView.Adapter<AdaptadorCartasNegras.ViewHolder>{
-        private  ArrayList<CartaNegra> carta;
+    public class AdaptadorCartasNegras extends RecyclerView.Adapter<AdaptadorCartasNegras.ViewHolder> {
+        private ArrayList<CartaNegra> carta;
         private LayoutInflater mInflater;
 
-        public AdaptadorCartasNegras(Context context, ArrayList<CartaNegra> bar){
+        public AdaptadorCartasNegras(Context context, ArrayList<CartaNegra> bar) {
             mInflater = LayoutInflater.from(context);
-            this.carta=bar;
+            this.carta = bar;
         }
 
         @NonNull
@@ -118,7 +126,7 @@ public class EditarBaraja extends AppCompatActivity {
         public AdaptadorCartasNegras.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View mItemView = mInflater.inflate(
                     R.layout.recicler_cartas_negras, viewGroup, false);
-            return new AdaptadorCartasNegras.ViewHolder(mItemView,this);
+            return new AdaptadorCartasNegras.ViewHolder(mItemView, this);
         }
 
         @Override
@@ -132,34 +140,39 @@ public class EditarBaraja extends AppCompatActivity {
             return carta.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView texto;
             final AdaptadorCartasNegras adaptador;
-            public ViewHolder(@NonNull View itemView,AdaptadorCartasNegras adaptador) {
+
+            public ViewHolder(@NonNull View itemView, AdaptadorCartasNegras adaptador) {
                 super(itemView);
-                texto=itemView.findViewById(R.id.etTextoCartasNViewHolder);
-                this.adaptador=adaptador;
+                texto = itemView.findViewById(R.id.etTextoCartasNViewHolder);
+                this.adaptador = adaptador;
                 itemView.setOnClickListener(this);
             }
+
             @Override
             public void onClick(View view) {
-                mostrarCartaNegraSeleccionada(carta,getAdapterPosition());
+                mostrarCartaNegraSeleccionada(carta, getAdapterPosition());
             }
         }
     }
-    private void mostrarCartaBlancaSeleccionada(ArrayList<CartaBlanca> carta,int pos){
+
+    private void mostrarCartaBlancaSeleccionada(final ArrayList<CartaBlanca> carta, final int pos) {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage(carta.get(pos).getNombre());
+        builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre());
         builder1.setCancelable(false);
 
-        builder1.setPositiveButton(
-                getString(R.string.editarCarta),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-
-                    }
-                });
+        if (!carta.get(pos).getEmail().equals("default")) {
+            builder1.setPositiveButton(
+                    getString(R.string.editarCarta),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
 
         builder1.setNegativeButton(
                 getString(R.string.salida),
@@ -173,19 +186,21 @@ public class EditarBaraja extends AppCompatActivity {
         alertDialogCartaBlanca.show();
     }
 
-    private void mostrarCartaNegraSeleccionada(ArrayList<CartaNegra> carta,int pos){
+    private void mostrarCartaNegraSeleccionada(ArrayList<CartaNegra> carta, final int pos) {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage(carta.get(pos).getNombre());
+        builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre()+"\n"+getString(R.string.numEspacios)+" "+carta.get(pos).getNumEspacios());
         builder1.setCancelable(false);
 
+        if (!carta.get(pos).getEmail().equals("default")) {
         builder1.setPositiveButton(
                 getString(R.string.editarCarta),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-
+                        Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
                     }
                 });
+        }
 
         builder1.setNegativeButton(
                 getString(R.string.salida),

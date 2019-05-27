@@ -71,4 +71,6 @@
     <string name="verBaraja">Ver baraja</string>
     <string name="editarBaraja">Editar baraja</string>
     <string name="editarCarta">Editar carta</string>
+    <string name="texto">Contenido de la carta:</string>
+    <string name="numEspacios">Numero espacios vacios:</string>
 </resources>
