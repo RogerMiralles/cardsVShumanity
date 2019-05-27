@@ -132,7 +132,8 @@ public class barajas extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
-                        in.putExtra("nombre",baraja.get(getAdapterPosition()).getNombre());
+                        in.putExtra("baraja",baraja.get(getAdapterPosition()));
+                        in.putExtra("editOread",true);
                         startActivity(in);
                     }
                 });
@@ -140,8 +141,9 @@ public class barajas extends AppCompatActivity {
                 verBaraja.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(barajas.this, "demomento te manda a la misma que editar", Toast.LENGTH_SHORT).show();
                         Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
+                        in.putExtra("baraja",baraja.get(getAdapterPosition()));
+                        in.putExtra("editOread",false);
                         startActivity(in);
                     }
                 });

@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.example.cardsvshumanity.R;
 
-public class VerBaraja extends AppCompatActivity {
+public class EditarCarta extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_baraja);
+        setContentView(R.layout.activity_editar_carta);
     }
 }

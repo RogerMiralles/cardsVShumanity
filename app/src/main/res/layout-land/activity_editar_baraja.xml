@@ -6,26 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".actiBarajas.EditarBaraja">
 
-    <TextView
+    <EditText
         android:id="@+id/txtNombreBarajaEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="txte"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/txtNombreUserBaraja"
+        app:layout_constraintStart_toEndOf="@+id/txtNombreBaraja"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reciclerCartasBlancas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasNegras"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCardBlanca"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNombreBarajaEdit" />
 
@@ -36,9 +38,139 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuardarCanvios"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCardNegra"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reciclerCartasBlancas" />
+
+    <EditText
+        android:id="@+id/txtNombreCreadorBaraja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtIdiomaBaraja"
+        app:layout_constraintStart_toEndOf="@+id/txtNombreUserBaraja"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/txtIdioma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtNumCartasBaraja"
+        app:layout_constraintStart_toEndOf="@+id/txtIdiomaBaraja"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/txtNumCartas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNumCartasBaraja"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
+
+    <Button
+        android:id="@+id/btnNewCardBlanca"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/crear_nueva_carta_blanca"
+        app:layout_constraintBottom_toTopOf="@+id/btnNewCardNegra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnNewCardNegra"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/crear_nueva_carta_negra"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerCartasNegras"
+        app:layout_constraintTop_toBottomOf="@+id/btnNewCardBlanca" />
+
+    <Button
+        android:id="@+id/btnGuardarCanvios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reciclerCartasBlancas" />
+        app:layout_constraintTop_toBottomOf="@+id/reciclerCartasNegras" />
+
+    <TextView
+        android:id="@+id/txtNombreBaraja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/nombre_de_la_baraja"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtNombreBarajaEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNombreUserBaraja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/nom_creador"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtNombreCreadorBaraja"
+        app:layout_constraintStart_toEndOf="@+id/txtNombreBarajaEdit"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtIdiomaBaraja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/idioma"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtIdioma"
+        app:layout_constraintStart_toEndOf="@+id/txtNombreCreadorBaraja"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNumCartasBaraja"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/numero_de_cartas"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/txtNumCartas"
+        app:layout_constraintStart_toEndOf="@+id/txtIdioma"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
