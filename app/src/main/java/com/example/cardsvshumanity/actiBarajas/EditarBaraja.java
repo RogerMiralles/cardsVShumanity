@@ -406,25 +406,25 @@ public class EditarBaraja extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==CREAR_CARTA_BLANCA ){
-            Intent in=getIntent();
-            String contenido=in.getStringExtra("contenido");
+
+        if (requestCode==CREAR_CARTA_BLANCA && data!=null){
+            String contenidos;
+            contenidos= data.getStringExtra("contenido");
             String correo= Connection.getEmail();
             int idC=barajaDeBarajas.getNumCartas()+1;
-            adapBlancas.carta.add(new CartaBlanca(correo,contenido,idC));
+            Log.d("cont",contenidos+" holqqqq");
+            Log.d("email",correo+"");
+            Log.d("idc",idC+"");
+            adapBlancas.carta.add(new CartaBlanca(correo,contenidos,idC));
             adapBlancas.notifyItemInserted(adapBlancas.carta.size());
-            Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
-
-        }else if(requestCode==CREAR_CARTA_NEGRA){
-            Intent in=getIntent();
-            String contenido=in.getStringExtra("contenido");
+        }else if(requestCode==CREAR_CARTA_NEGRA&&data!=null){
+            String contenido=data.getStringExtra("contenido");
             String correo= Connection.getEmail();
             int idC=barajaDeBarajas.getNumCartas()+1;
             int cantEsp=1;
-            cantEsp=in.getIntExtra("cantEsp",cantEsp);
+            cantEsp=data.getIntExtra("cantEsp",cantEsp);
             adapNegras.carta.add(new CartaNegra(correo,contenido,idC,cantEsp));
             adapNegras.notifyItemInserted(adapNegras.carta.size());
-            Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
         }
     }
 }
