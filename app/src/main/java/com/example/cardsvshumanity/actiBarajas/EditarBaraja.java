@@ -303,7 +303,7 @@ public class EditarBaraja extends AppCompatActivity {
         builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre());
         builder1.setCancelable(false);
 
-        if (!carta.get(pos).getEmail().equals("default")) {
+        if (!carta.get(pos).getEmail().equals("default")&&editOread) {
             builder1.setPositiveButton(
                     getString(R.string.editarCarta),
                     new DialogInterface.OnClickListener() {
@@ -331,7 +331,7 @@ public class EditarBaraja extends AppCompatActivity {
         builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre()+"\n"+getString(R.string.numEspacios)+" "+carta.get(pos).getNumEspacios());
         builder1.setCancelable(false);
 
-        if (!carta.get(pos).getEmail().equals("default")) {
+        if (!carta.get(pos).getEmail().equals("default")&&editOread) {
         builder1.setPositiveButton(
                 getString(R.string.editarCarta),
                 new DialogInterface.OnClickListener() {
