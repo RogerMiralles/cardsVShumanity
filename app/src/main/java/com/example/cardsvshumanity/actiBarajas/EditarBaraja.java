@@ -10,6 +10,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -309,7 +310,22 @@ public class EditarBaraja extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
+                            View viewCartaBlanca=getLayoutInflater().inflate(R.layout.editar_cartas_blancas,null);
+                            builder1.setView(viewCartaBlanca);
+                            final EditText aa=viewCartaBlanca.findViewById(R.id.eTxtNomCBlanca);
+
+                            builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    final String a=aa.getText().toString();
+                                    carta.get(pos).setNombre(a);
+                                    adapBlancas.notifyItemChanged(pos);
+                                }
+                            });
+                            builder1.show();
                             Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
+
                         }
                     });
         }
@@ -326,7 +342,7 @@ public class EditarBaraja extends AppCompatActivity {
         alertDialogCartaBlanca.show();
     }
 
-    private void mostrarCartaNegraSeleccionada(ArrayList<CartaNegra> carta, final int pos) {
+    private void mostrarCartaNegraSeleccionada(final ArrayList<CartaNegra> carta, final int pos) {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre()+"\n"+getString(R.string.numEspacios)+" "+carta.get(pos).getNumEspacios());
         builder1.setCancelable(false);
@@ -337,6 +353,23 @@ public class EditarBaraja extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        View viewCartaNegra=getLayoutInflater().inflate(R.layout.editar_cartas_negras,null);
+                        builder1.setView(viewCartaNegra);
+                        final EditText aa=viewCartaNegra.findViewById(R.id.eTxtNomCNegra);
+                        final EditText aa1=viewCartaNegra.findViewById(R.id.eTxtNumEspacios);
+                        builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                final String a=aa.getText().toString();
+                                final int a1= Integer.parseInt(aa1.getText().toString());
+                                if(!a.isEmpty())
+                                    carta.get(pos).setNombre(a);
+                                carta.get(pos).setNumEspacios(a1);
+                                adapNegras.notifyItemChanged(pos);
+                            }
+                        });
+                        builder1.show();
                         Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
                     }
                 });

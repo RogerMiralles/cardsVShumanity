@@ -82,4 +82,6 @@
     <string name="numero_de_cartas">Numero de cartas:</string>
     <string name="error_no_existe_baraja">La baraja no existe</string>
     <string name="error_usuario_no_existe">El usuario no existe</string>
+    <string name="nuevo_contenido_de_la_carta">Nuevo contenido de la carta:</string>
+    <string name="nueva_cantidad_de_espacios">Nueva cantidad de espacios:</string>
 </resources>
