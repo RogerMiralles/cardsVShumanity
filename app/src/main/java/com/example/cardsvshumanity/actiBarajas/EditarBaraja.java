@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +117,9 @@ public class EditarBaraja extends AppCompatActivity {
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(EditarBaraja.this);
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(EditarBaraja.this);
+
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         reciclerCBlancas.setLayoutManager(layoutManager);
         adapBlancas = new AdaptadorCartasBlancas(this, blanca);
@@ -217,11 +222,18 @@ public class EditarBaraja extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView texto;
+            private ScrollView scroll;
+            private ConstraintLayout cons;
             final AdaptadorCartasBlancas adaptador;
 
             public ViewHolder(@NonNull View itemView, AdaptadorCartasBlancas adaptador) {
                 super(itemView);
                 texto = itemView.findViewById(R.id.etTextoCartasBViewHolder);
+                texto.setOnClickListener(this);
+                scroll=itemView.findViewById(R.id.srcollViewCartasBlancas);
+                scroll.setOnClickListener(this);
+                cons=itemView.findViewById(R.id.consCartasBlancas);
+                cons.setOnClickListener(this);
                 this.adaptador = adaptador;
                 itemView.setOnClickListener(this);
             }
@@ -264,11 +276,17 @@ public class EditarBaraja extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView texto;
+            private ScrollView scroll;
+            private ConstraintLayout cons;
             final AdaptadorCartasNegras adaptador;
 
             public ViewHolder(@NonNull View itemView, AdaptadorCartasNegras adaptador) {
                 super(itemView);
                 texto = itemView.findViewById(R.id.etTextoCartasNViewHolder);
+                texto.setOnClickListener(this);
+                scroll=itemView.findViewById(R.id.scrollViewCartasNegras);
+                scroll.setOnClickListener(this);
+                cons=itemView.findViewById(R.id.consCartasNegras);cons.setOnClickListener(this);
                 this.adaptador = adaptador;
                 itemView.setOnClickListener(this);
             }
@@ -343,7 +361,7 @@ public class EditarBaraja extends AppCompatActivity {
 
     }
     public void onClickGuardar(View view){
-        
+
     }
 
 }
