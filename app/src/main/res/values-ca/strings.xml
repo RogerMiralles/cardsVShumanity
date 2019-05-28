@@ -61,4 +61,6 @@
     <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
     <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
     <string name="cch">CCH</string>
+    <string name="error_no_existe_baraja">La baralla no existeix</string>
+    <string name="error_usuario_no_existe">L\'usuari no existeix</string>
 </resources>

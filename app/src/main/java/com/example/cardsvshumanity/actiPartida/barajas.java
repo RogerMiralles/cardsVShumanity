@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,20 @@ public class barajas extends AppCompatActivity {
         setContentView(R.layout.activity_barajas);
         recicler=findViewById(R.id.reciclerBaraja);
 
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.internet_dialog_cargando))
+                .setCancelable(false)
+                .create();
+
         Connection.ConnectionThread thread = Connection.getBarajasUser(this);
+
+
+        thread.setRunBegin(new Runnable() {
+            @Override
+            public void run() {
+                builder.show();
+            }
+        });
 
         Connection.ConnectionThread.SuccessRunnable successRunnable = new Connection.ConnectionThread.SuccessRunnable() {
             @Override
@@ -53,7 +67,16 @@ public class barajas extends AppCompatActivity {
                         baraja.add(new Baraja(nombreBaraja, email, username, cantidadCartas, idioma));
                     }
                     adaptador1.notifyDataSetChanged();
+                    builder.dismiss();
                 }catch(ClassCastException | NullPointerException ex){
+                    AlertDialog alertDialog = new AlertDialog.Builder(barajas.this)
+                            .setMessage(R.string.error_unknown_error)
+                            .setPositiveButton(R.string.ok, null)
+                            .setCancelable(false)
+                            .create();
+                    alertDialog.show();
+                    if(builder.isShowing())
+                        builder.dismiss();
                     ex.printStackTrace();
                 }
             }
@@ -62,19 +85,32 @@ public class barajas extends AppCompatActivity {
         Connection.ConnectionThread.ErrorRunable errorRunable = new Connection.ConnectionThread.ErrorRunable() {
             @Override
             public void run() {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(barajas.this);
+                builder1.setPositiveButton(R.string.ok, null)
+                        .setCancelable(false);
                 switch (getError()){
                     case Connection.USER_ERROR_INVALID_PASSWORD:
-                        //TODO --
+                        builder1.setMessage(R.string.emailContraMal);
                         break;
                     case Connection.USER_ERROR_NON_EXISTANT_USER:
-                        //TODO --
+                        builder1.setMessage(R.string.emailContraMal);
+                        break;
+                    case Connection.UNKOWN_ERROR:
+                        builder1.setMessage(R.string.error_unknown_error);
+                        break;
+                    case Connection.SOCKET_DISCONNECTED:
+                        builder1.setMessage(R.string.noConexion);
                         break;
                 }
+
                 Log.d(barajas.class.getSimpleName(), String.valueOf(getError()));
                 baraja.add(new Baraja("pepe"));
                 baraja.add(new Baraja("antonio el grande"));
                 baraja.add(new Baraja("raul ha hecho la web"));
                 baraja.add(new Baraja("test"));
+
+                builder1.show();
+                builder.dismiss();
             }
         };
 

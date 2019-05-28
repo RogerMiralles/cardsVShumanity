@@ -62,17 +62,23 @@ public class login extends AppCompatActivity {
             thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                 @Override
                 public void run() {
-                    alertDialog.dismiss();
-                    AlertDialog.Builder builder = chivato(getString(R.string.emailContraMal));
-                    if(getError() == Connection.NO){
-                        builder.setPositiveButton(R.string.ok, null);
-                        builder.create().show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.ok, null);
+                    switch (getError()){
+                        case Connection.NO:
+                            builder.setMessage(R.string.emailContraMal);
+                            break;
+                        case Connection.SOCKET_DISCONNECTED:
+                            builder.setMessage(R.string.noConexion);
+                            break;
+                        case Connection.UNKOWN_ERROR:
+                            builder.setMessage(R.string.error_unknown_error);
+                            break;
                     }
-                    else if(getError() == Connection.SOCKET_DISCONNECTED){
-                        builder.setMessage(getString(R.string.noConexion));
-                        builder.setPositiveButton(R.string.ok, null);
-                        builder.create().show();
-                    }
+                    builder.create().show();
+                    if(alertDialog.isShowing())
+                        alertDialog.dismiss();
                 }
             });
 

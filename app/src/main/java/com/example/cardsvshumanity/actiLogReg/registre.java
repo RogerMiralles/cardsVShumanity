@@ -76,7 +76,6 @@ public class registre extends AppCompatActivity {
                 thread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
                     @Override
                     public void run() {
-                        alertDialog.dismiss();
                         AlertDialog.Builder builder1 = chivato(getString(R.string.no_error_registro));
 
                         builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -89,13 +88,14 @@ public class registre extends AppCompatActivity {
                         });
 
                         builder1.create().show();
+                        if(alertDialog.isShowing())
+                            alertDialog.dismiss();
                     }
                 });
 
                 thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                     @Override
                     public void run() {
-                        alertDialog.dismiss();
                         String mensaje=null;
                         switch (getError()){
                             case Connection.SOCKET_DISCONNECTED:
@@ -110,13 +110,15 @@ public class registre extends AppCompatActivity {
                             case Connection.CREATE_USER_ERROR_INVALID_PARAMETERS:
                                 mensaje=getString(R.string.error_invalid_parameters);
                                 break;
-                            default:
+                            case Connection.UNKOWN_ERROR:
                                 mensaje=getString(R.string.error_unknown_error);
                                 break;
                         }
                         AlertDialog.Builder builder1 = chivato(mensaje);
                         builder1.setPositiveButton(R.string.ok, null);
                         builder1.create().show();
+                        if(alertDialog.isShowing())
+                            alertDialog.dismiss();
                     }
                 });
                 thread.start();

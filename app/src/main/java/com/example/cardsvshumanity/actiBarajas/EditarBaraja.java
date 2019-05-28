@@ -112,11 +112,6 @@ public class EditarBaraja extends AppCompatActivity {
         reciclerCBlancas = findViewById(R.id.reciclerCartasBlancas);
         reciclerCNegras = findViewById(R.id.reciclerCartasNegras);
 
-        blanca.add(new CartaBlanca("juan","pepe",2));
-        blanca.add(new CartaBlanca("default","juan",3));
-        negra.add(new CartaNegra("default","pepe",0,0));
-        negra.add(new CartaNegra("juan","juan",0,1));
-
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(EditarBaraja.this);
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(EditarBaraja.this);
@@ -129,8 +124,12 @@ public class EditarBaraja extends AppCompatActivity {
         adapNegras = new AdaptadorCartasNegras(this, negra);
         reciclerCNegras.setAdapter(adapNegras);
 
-        Baraja b = new Baraja("Baraja default es", "default", "default", 0, "es");
-        Connection.ConnectionThread thread = Connection.getCartasUser(this, b);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.internet_dialog_cargando)
+                .setCancelable(false)
+                .create();
+        Connection.ConnectionThread thread = Connection.getCartasUser(this, barajaDeBarajas);
         thread.setRunOk(
                 new Connection.ConnectionThread.SuccessRunnable() {
                     @Override
@@ -142,6 +141,9 @@ public class EditarBaraja extends AppCompatActivity {
                         adapNegras.carta = cartaNegras;
                         adapBlancas.notifyDataSetChanged();
                         adapNegras.notifyDataSetChanged();
+
+                        if(alertDialog.isShowing())
+                            alertDialog.dismiss();
                     }
                 }
         );
@@ -150,11 +152,33 @@ public class EditarBaraja extends AppCompatActivity {
                 new Connection.ConnectionThread.ErrorRunable() {
                     @Override
                     public void run() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(EditarBaraja.this);
+                        builder.setPositiveButton(R.string.ok, null)
+                                .setCancelable(false);
+                        switch (getError()){
+                            case Connection.UNKOWN_ERROR:
+                                builder.setMessage(R.string.error_unknown_error);
+                                break;
+                            case Connection.SOCKET_DISCONNECTED:
+                                builder.setMessage(R.string.noConexion);
+                                break;
+                            case Connection.BARAJA_ERROR_NON_EXISTANT_BARAJA:
+                                builder.setMessage(R.string.error_no_existe_baraja);
+                                break;
+                            case Connection.USER_ERROR_NON_EXISTANT_USER:
+                                builder.setMessage(R.string.error_usuario_no_existe);
+                                break;
+
+                        }
                         blanca.add(new CartaBlanca("HOLA"));
                         negra.add(new CartaNegra("ADIOS"));
                         adapBlancas.notifyDataSetChanged();
                         adapNegras.notifyDataSetChanged();
                         Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
+
+                        builder.create().show();
+                        if(alertDialog.isShowing())
+                            alertDialog.dismiss();
                     }
                 }
         );

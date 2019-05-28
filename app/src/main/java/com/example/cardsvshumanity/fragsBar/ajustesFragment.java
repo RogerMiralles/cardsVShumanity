@@ -140,7 +140,7 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         final EditText password = new EditText(getContext());
                         password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                         DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
@@ -159,24 +159,30 @@ public class ajustesFragment extends Fragment {
                                         thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                                             @Override
                                             public void run() {
-                                                if(getError() == Connection.USER_ERROR_INVALID_PASSWORD){
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                                    builder.setPositiveButton(R.string.ok, null)
-                                                            .setMessage(R.string.error_password_diff)
-                                                            .create().show();
+                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                                                builder2.setPositiveButton(R.string.ok, null);
+
+                                                switch (getError()){
+                                                    case Connection.USER_ERROR_INVALID_PASSWORD:
+                                                        builder2.setMessage(R.string.error_password_diff);
+                                                        break;
+                                                    case Connection.USER_ERROR_NON_EXISTANT_USER:
+                                                        builder2.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                Connection.logOut();
+                                                            }
+                                                        });
+                                                        builder2.setMessage(R.string.error_erase_user_nouser);
+                                                        break;
+                                                    case Connection.SOCKET_DISCONNECTED:
+                                                        builder2.setMessage(R.string.noConexion);
+                                                        break;
+                                                    case Connection.UNKOWN_ERROR:
+                                                        builder2.setMessage(R.string.error_unknown_error);
                                                 }
-                                                else if(getError() == Connection.USER_ERROR_NON_EXISTANT_USER){
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                            Connection.logOut();
-                                                        }
-                                                    })
-                                                            .setMessage(R.string.error_erase_user_nouser)
-                                                            .create().show();
-                                                }
+                                                builder2.show();
                                             }
                                         });
 

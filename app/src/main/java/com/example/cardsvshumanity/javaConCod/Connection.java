@@ -48,7 +48,10 @@ public class Connection {
     public static final int CREATE_USER_ERROR_INVALID_PARAMETERS = -3;
     public static final int USER_ERROR_INVALID_PASSWORD = -4;
     public static final int USER_ERROR_NON_EXISTANT_USER = -5;
-    public static final int USER_NOT_LOGINED = -6;
+    public static final int BARAJA_ERROR_NON_EXISTANT_BARAJA = -6;
+
+
+    public static final int USER_NOT_LOGINED = -101;
     public static final int UNKOWN_ERROR = -100;
 
     private static Usuario user;
@@ -196,69 +199,39 @@ public class Connection {
                                 runNo.setError(SOCKET_DISCONNECTED);
                                 activityContext.runOnUiThread(runNo);
                             }
-                            throw ex;
+                            throw new Exception(ex.getMessage());
                         }
                         sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
 
 
                         DataInputStream dis;
                         DataOutputStream dos;
 
-                        dis = new DataInputStream(sk.getInputStream());
-                        dos = new DataOutputStream(sk.getOutputStream());
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
 
                         //Envia orden
                         dos.writeInt(LOGIN_USER);
 
                         //Lee clave publica
-                        String pkHex = dis.readUTF();
-
-                        //Genera simmetric key y codifica
-                        SecretKey secretKey = Codification.generateNewSimetricKey();
-                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
-
-                        //Envia simmetric key
-                        dos.writeUTF(secretKeyCoded);
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
 
                         //envia email contrasenya y nombre codificados con clave simetrica
-                        dos.writeUTF(
-                                Codification.toHex(
-                                        Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true)
-                                )
-                        );
+                        skHandler.enviarString(email, secretKey);
 
                         String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
-                        dos.writeUTF(
-                                Codification.toHex(
-                                        Codification.encodeWithSimetricKey(
-                                                Codification.fromHex(hexPassword)
-                                                ,
-                                                secretKey,
-                                                true
-                                        )
-                                )
-                        );
+                        skHandler.enviarHex(hexPassword, secretKey);
 
-                        int i = dis.readInt();
+                        int i = skHandler.recibirInt(secretKey);
                         if(i == OK){
                             String name;
                             File imageTemp, image;
 
-                            name = new String(
-                                    Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey, false)
-                            );
+                            name = skHandler.recibirString(secretKey);
 
-                            String encodedLength = dis.readUTF();
-                            long fileLength = Codification.parseHexToLong(
-                                    Codification.toHex(
-                                            Codification.encodeWithSimetricKey(
-                                                    Codification.fromHex(encodedLength),
-                                                    secretKey,
-                                                    false)
-                                    )
-                            );
-
-                            Log.d(Connection.class.getSimpleName(), "Encoded length: " +encodedLength + " || Calculated long: "+ fileLength);
+                            long fileLength = skHandler.recibirLong(secretKey);
 
                             if(fileLength != 0) {
                                 File f = activityContext.getExternalFilesDir(null);
@@ -296,11 +269,11 @@ public class Connection {
                                 image = null;
                             }
 
-                            int wins = Codification.parseHexToInt(Codification.toHex(Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()),secretKey,false)));
+                            int wins = skHandler.recibirInt(secretKey);
 
                             user = new Usuario(email, hexPassword, name, image, wins);
                             if(runOk != null)
-                            activityContext.runOnUiThread(runOk);
+                                activityContext.runOnUiThread(runOk);
                         }
                         else{
                             if(runNo != null) {
@@ -308,13 +281,14 @@ public class Connection {
                                 activityContext.runOnUiThread(runNo);
                             }
                         }
-                    } catch (UnknownHostException e) {
-                        Log.e(Connection.class.getSimpleName(), e.getMessage());
-                        e.printStackTrace();
                     } catch (IOException e) {
                         Log.e(Connection.class.getSimpleName(), e.getMessage());
                         e.printStackTrace();
-                    } catch (Exception e) {
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    }catch (Exception e) {
                         Log.e(Connection.class.getSimpleName(), e.getMessage());
                         e.printStackTrace();
                     }
@@ -353,126 +327,96 @@ public class Connection {
                                 runNo.setError(SOCKET_DISCONNECTED);
                                 activityContext.runOnUiThread(runNo);
                             }
-                            throw ex;
+                            throw new Exception(ex.getMessage());
                         }
 
                         sk.setSoTimeout(0);
                         //sk = new Socket("192.168.137.1", PORT);
+                        SocketHandler skHandler = new SocketHandler(sk);
                         DataInputStream dis;
                         DataOutputStream dos;
 
-                        dis = new DataInputStream(sk.getInputStream());
-                        dos = new DataOutputStream(sk.getOutputStream());
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
 
                         //Envia orden
                         dos.writeInt(CREATE_USER);
 
-                        //Lee clave publica
-                        String pkHex = dis.readUTF();
-
-                        //Genera simmetric key y codifica
-                        SecretKey secretKey = Codification.generateNewSimetricKey();
-                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
-
-                        //Envia simmetric key
-                        dos.writeUTF(secretKeyCoded);
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
 
                         //envia email contrasenya y nombre codificados con clave simetrica
-                        dos.writeUTF(Codification.toHex(
-                                Codification.encodeWithSimetricKey(email.getBytes(StandardCharsets.UTF_8), secretKey, true))
-                        );
+                        skHandler.enviarString(email, secretKey);
 
-                        String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
-                        dos.writeUTF(Codification.toHex(
-                                Codification.encodeWithSimetricKey(
-                                        Codification.fromHex(hexPassword)
-                                        , secretKey, true
-                                        )
-                                )
-                        );
-                        dos.writeUTF(
-                                Codification.toHex(
-                                        Codification.encodeWithSimetricKey(name.getBytes(StandardCharsets.UTF_8), secretKey, true)
-                                )
-                        );
+                        if(skHandler.recibirInt(secretKey) == OK){
 
-                        //Coge la imagen y crea un fichero;
-                        Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
-                        ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamOutput);
+                            String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
+                            skHandler.enviarHex(hexPassword, secretKey);
 
-                        File f = new File(activityContext.getExternalFilesDir(null), "image");
-                        if (!f.exists()) {
-                            f.createNewFile();
-                        }
+                            skHandler.enviarString(name, secretKey);
 
-                        DataOutputStream fileDos = new DataOutputStream(new FileOutputStream(f));
+                            //Coge la imagen y crea un fichero;
+                            Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
+                            ByteArrayOutputStream streamOutput = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, streamOutput);
 
-                        streamOutput.writeTo(fileDos);
-                        fileDos.flush();
-                        fileDos.close();
-
-                        //codifica la imagen
-                        File imagenCodificada = Codification.encodeFileWithSymmetricKey(activityContext, f, "encodedImage", secretKey, true);
-
-                        //envia la imagen
-                        ///Primero se envia el Formato y longitud
-                        dos.writeUTF(Codification.toHex(
-                                Codification.encodeWithSimetricKey(".png".getBytes(StandardCharsets.UTF_8), secretKey, true))
-                        );
-
-                        dos.writeUTF(
-                                Codification.toHex(
-                                    Codification.encodeWithSimetricKey(
-                                            Codification.fromHex(
-                                                    Codification.parseLongToHex(
-                                                            imagenCodificada.length()
-                                                    )
-                                            ),
-                                            secretKey,
-                                            true
-                                    )
-                            )
-                        );
-
-                        DataInputStream fileInput = new DataInputStream(new FileInputStream(imagenCodificada));
-                        long length = imagenCodificada.length();
-                        long actual = 0;
-                        byte[] datos = new byte[BLOCK_SIZE];
-                        while (length > actual) {
-                            int leido;
-                            if (length - actual > BLOCK_SIZE) {
-                                leido = fileInput.read(datos, 0, BLOCK_SIZE);
-                            } else {
-                                leido = fileInput.read(datos, 0, (int) (length - actual));
+                            File f = new File(activityContext.getExternalFilesDir(null), "image");
+                            if (!f.exists()) {
+                                f.createNewFile();
                             }
-                            actual += leido;
-                            dos.write(datos, 0, leido);
-                        }
 
-                        imagenCodificada.delete();
+                            DataOutputStream fileDos = new DataOutputStream(new FileOutputStream(f));
 
-                        final int result = dis.readInt();
-                        final int error = (result == OK) ? 0 : dis.readInt();
+                            streamOutput.writeTo(fileDos);
+                            fileDos.flush();
+                            fileDos.close();
 
-                        if (result == OK) {
+                            //codifica la imagen
+                            File imagenCodificada = Codification.encodeFileWithSymmetricKey(activityContext, f, "encodedImage", secretKey, true);
+
+                            //envia la imagen
+                            ///Primero se envia el Formato y longitud
+                            skHandler.enviarString(".png", secretKey);
+
+                            skHandler.enviarLong(imagenCodificada.length(), secretKey);
+
+                            DataInputStream fileInput = new DataInputStream(new FileInputStream(imagenCodificada));
+                            long length = imagenCodificada.length();
+                            long actual = 0;
+                            byte[] datos = new byte[BLOCK_SIZE];
+                            while (length > actual) {
+                                int leido;
+                                if (length - actual > BLOCK_SIZE) {
+                                    leido = fileInput.read(datos, 0, BLOCK_SIZE);
+                                } else {
+                                    leido = fileInput.read(datos, 0, (int) (length - actual));
+                                }
+                                actual += leido;
+                                dos.write(datos, 0, leido);
+                            }
+
+                            imagenCodificada.delete();
+
                             user = new Usuario(email, hexPassword, name, f, 0);
-                            if(runOk != null)
+                            if (runOk != null)
                                 activityContext.runOnUiThread(runOk);
                         }
-                        else{
-                            if(runNo != null) {
+                        else {
+                            int error = skHandler.recibirInt(secretKey);
+                            if (runNo != null) {
                                 runNo.setError(error);
                                 activityContext.runOnUiThread(runNo);
                             }
                         }
-
-                    }catch (Exception e){
-                        Log.d("Connection", "ha fallado: "+ e.getMessage()
-                        );
-                        e.printStackTrace();
                     }
-                    finally {
+                    catch (IOException e){
+                        if (runNo != null) {
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
                         try{
                             sk.close();
                         } catch (IOException | NullPointerException e) {}
@@ -492,59 +436,50 @@ public class Connection {
                         socket = new Socket();
                         try {
                             ConnectSocket(socket);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             if(runNo != null){
                                 runNo.setError(SOCKET_DISCONNECTED);
                                 activityContext.runOnUiThread(runNo);
                             }
+                            throw new Exception(e.getMessage());
                         }
 
-                        dos = new DataOutputStream(socket.getOutputStream());
-                        dis = new DataInputStream(socket.getInputStream());
+                        SocketHandler skHandler = new SocketHandler(socket);
+                        dos = skHandler.getDos();
+                        dis = skHandler.getDis();
 
                         //Envia la order
                         dos.writeInt(ERASE_USER);
 
-                        //Lee clave publica
-                        String pkHex = dis.readUTF();
-
-                        //Genera simmetric key y codifica
-                        SecretKey secretKey = Codification.generateNewSimetricKey();
-                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
-
-                        //Envia simmetric key
-                        dos.writeUTF(secretKeyCoded);
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
 
                         String password = Codification.toHex(
-                                Codification.encodeWithSimetricKey(
-                                        Codification.generateHashCode(((String) arguments[0]).getBytes(StandardCharsets.UTF_8)),
-                                        secretKey,
-                                        true
-                                )
+                                Codification.generateHashCode(((String) arguments[0]).getBytes(StandardCharsets.UTF_8))
                         );
 
-                        dos.writeUTF(password);
+                        skHandler.enviarHex(password, secretKey);
 
-                        String email = Codification.toHex(Codification.encodeWithSimetricKey(
-                                getEmail().getBytes(StandardCharsets.UTF_8),
-                                secretKey,
-                                true)
-                        );
+                        skHandler.enviarString(getEmail(), secretKey);
 
-                        dos.writeUTF(email);
-
-                        int result = dis.readInt();
+                        int result = skHandler.recibirInt(secretKey);
                         if(result == OK){
                             if(runOk != null)
                                 activityContext.runOnUiThread(runOk);
                         }
                         else{
                             if(runNo != null){
-                                runNo.setError(dis.readInt());
+                                runNo.setError(skHandler.recibirInt(secretKey));
                                 activityContext.runOnUiThread(runNo);
                             }
                         }
-                    } catch (IOException e) {
+                    } catch (IOException e){
+                        e.printStackTrace();
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                     finally {
@@ -593,78 +528,44 @@ public class Connection {
                         }
                         sk.setSoTimeout(0);
 
+                        SocketHandler skHandler = new SocketHandler(sk);
 
                         DataInputStream dis;
                         DataOutputStream dos;
 
-                        dis = new DataInputStream(sk.getInputStream());
-                        dos = new DataOutputStream(sk.getOutputStream());
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
 
                         //Envia orden
                         dos.writeInt(GET_BASIC_INFO_BARAJA);
 
                         //Lee clave publica
-                        String pkHex = dis.readUTF();
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
 
-                        //Genera simmetric key y codifica
-                        SecretKey secretKey = Codification.generateNewSimetricKey();
-                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
+                        skHandler.enviarString(user.email, secretKey);
+                        skHandler.enviarHex(user.password, secretKey);
 
-                        //Envia simmetric key
-                        dos.writeUTF(secretKeyCoded);
 
-                        String codedUserEmail = Codification.toHex(
-                                Codification.encodeWithSimetricKey(user.email.getBytes(StandardCharsets.UTF_8),
-                                        secretKey,
-                                        true
-                                )
-                        );
-
-                        String codedUserPassword = Codification.toHex(
-                                Codification.encodeWithSimetricKey(
-                                        Codification.fromHex(user.password), secretKey, true
-                                )
-                        );
-
-                        dos.writeUTF(codedUserEmail);
-                        dos.writeUTF(codedUserPassword);
-
-                        Log.d(Connection.class.getSimpleName(), user.password);
-
-                        int result = dis.readInt();
-                        int error = (result == OK)? 0 : dis.readInt();
+                        int result = skHandler.recibirInt(secretKey);
+                        int error = (result == OK)? 0 : skHandler.recibirInt(secretKey);
                         if(result == OK){
-
-                            int sizeList = Codification.parseHexToInt(
-                                    Codification.toHex(
-                                            Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                    )
-                            );
-
+                            int sizeList = skHandler.recibirInt(secretKey);
+                            System.out.println(sizeList);
                             ArrayList<Object[]> args = new ArrayList<>();
                             for(int i = 0; i<sizeList; i++) {
 
-                                String nombreEmail = new String(
-                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                );
+                                String nombreEmail = skHandler.recibirString(secretKey);
+                                System.out.println("Email: "+nombreEmail);
 
-                                String nombreBaraja = new String(
-                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                );
+                                String nombreBaraja = skHandler.recibirString(secretKey);
+                                System.out.println("Baraja: "+nombreBaraja);
 
-                                String nombreUser = new String(
-                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                );
+                                String nombreUser = skHandler.recibirString(secretKey);
+                                System.out.println("Usuario: "+nombreUser);
 
-                                int cantidadCartas = Codification.parseHexToInt(
-                                        Codification.toHex(
-                                                Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                        )
-                                );
+                                int cantidadCartas = skHandler.recibirInt(secretKey);
 
-                                String idiomaBaraja = new String(
-                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                );
+                                String idiomaBaraja = skHandler.recibirString(secretKey);
 
                                 args.add(new Object[]{nombreBaraja, nombreEmail, nombreUser, cantidadCartas, idiomaBaraja});
                             }
@@ -725,63 +626,30 @@ public class Connection {
                         }
                         sk.setSoTimeout(0);
 
+                        SocketHandler skHandler = new SocketHandler(sk);
 
                         DataInputStream dis;
                         DataOutputStream dos;
 
-                        dis = new DataInputStream(sk.getInputStream());
-                        dos = new DataOutputStream(sk.getOutputStream());
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
 
                         //Envia orden
                         dos.writeInt(GET_CARTAS_BARAJA);
 
-                        //Lee clave publica
-                        String pkHex = dis.readUTF();
-
-                        //Genera simmetric key y codifica
-                        SecretKey secretKey = Codification.generateNewSimetricKey();
-                        String secretKeyCoded = Codification.encodeWithPublicKey(pkHex, secretKey.getEncoded());
-
-                        //Envia simmetric key
-                        dos.writeUTF(secretKeyCoded);
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
 
                         Baraja baraja = (Baraja) arguments[0];
 
-                        dos.writeUTF(
-                                Codification.toHex(
-                                        Codification.encodeWithSimetricKey(
-                                                baraja.getEmail().getBytes(StandardCharsets.UTF_8),
-                                                secretKey,
-                                                true
-                                        )
-                                )
-                        );
+                        skHandler.enviarString(baraja.getEmail(), secretKey);
+                        skHandler.enviarString(baraja.getNombre(), secretKey);
 
-                        dos.writeUTF(
-                                Codification.toHex(
-                                        Codification.encodeWithSimetricKey(
-                                                baraja.getNombre().getBytes(StandardCharsets.UTF_8),
-                                                secretKey,
-                                                true
-                                        )
-                                )
-                        );
-
-                        int result = dis.readInt();
-                        int error = (result == OK)? 0 : dis.readInt();
+                        int result = skHandler.recibirInt(secretKey);
+                        int error = (result == OK)? 0 : skHandler.recibirInt(secretKey);
 
                         if(result == OK) {
-                            String numeroCartasCodified = dis.readUTF();
 
-                            int numeroCartas = Codification.parseHexToInt(
-                                    Codification.toHex(
-                                            Codification.encodeWithSimetricKey(
-                                                    Codification.fromHex(numeroCartasCodified),
-                                                    secretKey,
-                                                    false
-                                            )
-                                    )
-                            );
+                            int numeroCartas = skHandler.recibirInt(secretKey);
 
                             System.out.println(numeroCartas);
 
@@ -790,43 +658,16 @@ public class Connection {
 
                             for (int i = 0; i < numeroCartas; i++) {
 
-                                String isNegraCodified = dis.readUTF();
-
-                                int isNegra = Codification.parseHexToInt(
-                                        Codification.toHex(
-                                                Codification.encodeWithSimetricKey(
-                                                        Codification.fromHex(isNegraCodified),
-                                                        secretKey,
-                                                        false
-                                                )
-                                        )
-                                );
+                                int isNegra = skHandler.recibirInt(secretKey);
 
 
-                                String texto = new String(
-                                        Codification.encodeWithSimetricKey(Codification.fromHex(dis.readUTF()), secretKey, false)
-                                );
+                                String texto = skHandler.recibirString(secretKey);
 
-                                int codigo = Codification.parseHexToInt(
-                                        Codification.toHex(
-                                                Codification.encodeWithSimetricKey(
-                                                        Codification.fromHex(dis.readUTF()),
-                                                        secretKey,
-                                                        false
-                                                )
-                                        )
-                                );
+                                int codigo = skHandler.recibirInt(secretKey);
 
                                 if (isNegra == 1) {
-                                    int cantidadEspacios = Codification.parseHexToInt(
-                                            Codification.toHex(
-                                                    Codification.encodeWithSimetricKey(
-                                                            Codification.fromHex(dis.readUTF()),
-                                                            secretKey,
-                                                            false
-                                                    )
-                                            )
-                                    );
+                                    int cantidadEspacios = skHandler.recibirInt(secretKey);
+
                                     cartasNegras.add(new CartaNegra(baraja.getEmail(), texto, codigo, cantidadEspacios));
                                 } else {
                                     cartasBlancas.add(new CartaBlanca(baraja.getEmail(), texto, codigo));
