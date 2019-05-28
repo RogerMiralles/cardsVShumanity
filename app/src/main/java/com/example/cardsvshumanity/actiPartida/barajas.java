@@ -194,7 +194,6 @@ public class barajas extends AppCompatActivity {
 
     public void onClickNuevaBaraja(View view){
         baraja.add(new Baraja("1"));
-        adaptador1=new Adaptador(this,baraja);
-        recicler.setAdapter(adaptador1);
+        adaptador1.notifyItemInserted(baraja.size());
     }
 }

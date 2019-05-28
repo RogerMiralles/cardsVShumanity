@@ -84,4 +84,5 @@
     <string name="error_usuario_no_existe">El usuario no existe</string>
     <string name="nuevo_contenido_de_la_carta">Nuevo contenido de la carta:</string>
     <string name="nueva_cantidad_de_espacios">Nueva cantidad de espacios:</string>
+    <string name="crear_carta">crear carta</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 
 public class EditarBaraja extends AppCompatActivity {
 
+    private static final int CREAR_CARTA_BLANCA =0 ;
+    private static final int CREAR_CARTA_NEGRA =1 ;
     private EditText textoNombreBaraja;
     private EditText textoNombreCreador;
     private EditText textoIdioma;
@@ -324,8 +327,6 @@ public class EditarBaraja extends AppCompatActivity {
                                 }
                             });
                             builder1.show();
-                            Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
-
                         }
                     });
         }
@@ -370,7 +371,6 @@ public class EditarBaraja extends AppCompatActivity {
                             }
                         });
                         builder1.show();
-                        Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
                     }
                 });
         }
@@ -388,13 +388,43 @@ public class EditarBaraja extends AppCompatActivity {
     }
 
     public void onClickNewCartaBlanca(View view){
+        Intent in=new Intent(this,CrearCarta.class);
+        in.putExtra("CartaTipo","blanca");
+        startActivityForResult(in,CREAR_CARTA_BLANCA);
 
     }
     public void onClickNewCartaNegra(View view){
+        Intent in=new Intent(this,CrearCarta.class);
+        in.putExtra("CartaTipo","negra");
+        startActivityForResult(in,CREAR_CARTA_NEGRA);
 
     }
     public void onClickGuardar(View view){
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==CREAR_CARTA_BLANCA ){
+            Intent in=getIntent();
+            String contenido=in.getStringExtra("contenido");
+            String correo= Connection.getEmail();
+            int idC=barajaDeBarajas.getNumCartas()+1;
+            adapBlancas.carta.add(new CartaBlanca(correo,contenido,idC));
+            adapBlancas.notifyItemInserted(adapBlancas.carta.size());
+            Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+
+        }else if(requestCode==CREAR_CARTA_NEGRA){
+            Intent in=getIntent();
+            String contenido=in.getStringExtra("contenido");
+            String correo= Connection.getEmail();
+            int idC=barajaDeBarajas.getNumCartas()+1;
+            int cantEsp=1;
+            cantEsp=in.getIntExtra("cantEsp",cantEsp);
+            adapNegras.carta.add(new CartaNegra(correo,contenido,idC,cantEsp));
+            adapNegras.notifyItemInserted(adapNegras.carta.size());
+            Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

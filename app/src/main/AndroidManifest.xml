@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".actiPartida.PrePartidaActivity" android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".actiBarajas.EditarCarta" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".actiBarajas.CrearCarta" android:screenOrientation="sensorLandscape"/>
         <activity android:name=".actiPartida.Partida" android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".actiBarajas.EditarBaraja"
