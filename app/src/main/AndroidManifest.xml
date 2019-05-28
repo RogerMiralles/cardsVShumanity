@@ -27,10 +27,10 @@
             android:name=".actiBarajas.EditarBaraja"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.unirsePartida"
+            android:name=".actiPartida.UnirsePartida"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.crearPartida"
+            android:name=".actiPartida.CrearPartida"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".MainActivity"
@@ -42,16 +42,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".actiPartida.barajas"
+            android:name=".actiPartida.Barajas"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.segundaVentana"
+            android:name=".actiPartida.SegundaVentana"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiLogReg.registre"
+            android:name=".actiLogReg.Registre"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiLogReg.login"
+            android:name=".actiLogReg.Login"
             android:screenOrientation="sensorLandscape" />
     </application>
 

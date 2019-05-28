@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.cardsvshumanity.fragsBar.ajustesFragment;
-import com.example.cardsvshumanity.fragsBar.perfilFragment;
-import com.example.cardsvshumanity.fragsBar.principalFragment;
+import com.example.cardsvshumanity.fragsBar.AjustesFragment;
+import com.example.cardsvshumanity.fragsBar.PerfilFragment;
+import com.example.cardsvshumanity.fragsBar.PrincipalFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,17 +71,17 @@ public class MainActivity extends AppCompatActivity {
     private void UpdateFragment(boolean bool){
         switch (window){
             case 0:
-                CargarFragmente(new perfilFragment());
+                CargarFragmente(new PerfilFragment());
                 break;
             case 1:
-                Fragment f = new principalFragment();
+                Fragment f = new PrincipalFragment();
                 Bundle b = new Bundle();
                 b.putBoolean("first", bool);
                 f.setArguments(b);
                 CargarFragmente(f);
                 break;
             case 2:
-                CargarFragmente(new ajustesFragment());
+                CargarFragmente(new AjustesFragment());
                 break;
         }
     }

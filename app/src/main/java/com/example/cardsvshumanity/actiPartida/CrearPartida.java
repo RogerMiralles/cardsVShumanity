@@ -5,12 +5,12 @@ import android.os.Bundle;
 
 import com.example.cardsvshumanity.R;
 
-public class unirsePartida extends AppCompatActivity {
+public class CrearPartida extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_unirse_partida);
-        setTitle(getString(R.string.unirse_a_partida));
+        setContentView(R.layout.activity_crear_partida);
+        setTitle(getString(R.string.crear_partida));
     }
 }

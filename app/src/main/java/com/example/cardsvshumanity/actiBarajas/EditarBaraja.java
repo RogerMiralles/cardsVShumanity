@@ -400,7 +400,7 @@ public class EditarBaraja extends AppCompatActivity {
 
     }
     public void onClickGuardar(View view){
-
+        //TODO guardar cartas con el mazo en el server
     }
 
     @Override

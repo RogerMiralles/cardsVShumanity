@@ -22,8 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiLogReg.login;
-import com.example.cardsvshumanity.actiPartida.segundaVentana;
+import com.example.cardsvshumanity.actiLogReg.Login;
+import com.example.cardsvshumanity.actiPartida.SegundaVentana;
 import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.Locale;
@@ -33,11 +33,11 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class principalFragment extends Fragment {
+public class PrincipalFragment extends Fragment {
 
     public static final String ASYMMETRIC_CIPHER_MODE = "RSA/ECB/PKCS1PADDING";
 
-    public principalFragment() {
+    public PrincipalFragment() {
         // Required empty public constructor
     }
 
@@ -74,11 +74,11 @@ public class principalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(Connection.isLogined()) {
-                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), segundaVentana.class);
+                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), SegundaVentana.class);
                     startActivity(listSong);
                 }
                 else{
-                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
+                    Intent listSong = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class);
                     startActivityForResult(listSong,codigo);
                 }
             }
@@ -121,7 +121,7 @@ public class principalFragment extends Fragment {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
 
-                    Fragment fragment = principalFragment.this;
+                    Fragment fragment = PrincipalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);
@@ -131,7 +131,7 @@ public class principalFragment extends Fragment {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
 
-                    Fragment fragment = principalFragment.this;
+                    Fragment fragment = PrincipalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);
@@ -141,7 +141,7 @@ public class principalFragment extends Fragment {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
 
-                    Fragment fragment = principalFragment.this;
+                    Fragment fragment = PrincipalFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);

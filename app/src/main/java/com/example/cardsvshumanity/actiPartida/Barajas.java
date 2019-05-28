@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
@@ -23,7 +22,7 @@ import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.ArrayList;
 
-public class barajas extends AppCompatActivity {
+public class Barajas extends AppCompatActivity {
 
     private RecyclerView recicler;
 
@@ -69,7 +68,7 @@ public class barajas extends AppCompatActivity {
                     adaptador1.notifyDataSetChanged();
                     builder.dismiss();
                 }catch(ClassCastException | NullPointerException ex){
-                    AlertDialog alertDialog = new AlertDialog.Builder(barajas.this)
+                    AlertDialog alertDialog = new AlertDialog.Builder(Barajas.this)
                             .setMessage(R.string.error_unknown_error)
                             .setPositiveButton(R.string.ok, null)
                             .setCancelable(false)
@@ -85,7 +84,7 @@ public class barajas extends AppCompatActivity {
         Connection.ConnectionThread.ErrorRunable errorRunable = new Connection.ConnectionThread.ErrorRunable() {
             @Override
             public void run() {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(barajas.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Barajas.this);
                 builder1.setPositiveButton(R.string.ok, null)
                         .setCancelable(false);
                 switch (getError()){
@@ -103,7 +102,7 @@ public class barajas extends AppCompatActivity {
                         break;
                 }
 
-                Log.d(barajas.class.getSimpleName(), String.valueOf(getError()));
+                Log.d(Barajas.class.getSimpleName(), String.valueOf(getError()));
                 baraja.add(new Baraja("pepe"));
                 baraja.add(new Baraja("antonio el grande"));
                 baraja.add(new Baraja("raul ha hecho la web"));
@@ -118,7 +117,7 @@ public class barajas extends AppCompatActivity {
         thread.setRunOk(successRunnable);
 
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(barajas.this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(Barajas.this);
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recicler.setLayoutManager(layoutManager);
         adaptador1=new Adaptador(this, baraja);

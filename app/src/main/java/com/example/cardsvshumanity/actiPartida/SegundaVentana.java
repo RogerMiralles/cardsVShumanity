@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.example.cardsvshumanity.R;
 
-public class segundaVentana extends AppCompatActivity {
+public class SegundaVentana extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,17 +17,17 @@ public class segundaVentana extends AppCompatActivity {
     }
 
     public void onClickCrearPartida(View view){
-        Intent in=new Intent(getApplicationContext(), crearPartida.class);
+        Intent in=new Intent(getApplicationContext(), CrearPartida.class);
         startActivity(in);
     }
 
     public void onClickUnirsePartida(View view){
-        Intent in=new Intent(getApplicationContext(), unirsePartida.class);
+        Intent in=new Intent(getApplicationContext(), UnirsePartida.class);
         startActivity(in);
     }
 
     public void onClickBarajas(View view){
-        Intent in=new Intent(getApplicationContext(), barajas.class);
+        Intent in=new Intent(getApplicationContext(), Barajas.class);
         startActivity(in);
     }
 }
