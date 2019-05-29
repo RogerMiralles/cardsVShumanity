@@ -66,7 +66,8 @@ public class login extends AppCompatActivity {
                     builder.setCancelable(false);
                     builder.setPositiveButton(R.string.ok, null);
                     switch (getError()){
-                        case Connection.NO:
+                        case Connection.USER_ERROR_INVALID_PASSWORD:
+                        case Connection.USER_ERROR_NON_EXISTANT_USER:
                             builder.setMessage(R.string.emailContraMal);
                             break;
                         case Connection.SOCKET_DISCONNECTED:

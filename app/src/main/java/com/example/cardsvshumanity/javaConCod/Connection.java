@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -40,42 +42,292 @@ public class Connection {
     private static final int ERASE_USER = 103;
     private static final int GET_BASIC_INFO_BARAJA = 104;
     private static final int GET_CARTAS_BARAJA = 105;
+    private static final int SAVE_BARAJA = 106;
+    private static final int BORRA_BARAJA = 107;
 
     //ERRORES
-    public static final int SOCKET_DISCONNECTED = Integer.MIN_VALUE;
     public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
     public static final int CREATE_USER_ERROR_INVALID_EMAIL = -2;
     public static final int CREATE_USER_ERROR_INVALID_PARAMETERS = -3;
     public static final int USER_ERROR_INVALID_PASSWORD = -4;
     public static final int USER_ERROR_NON_EXISTANT_USER = -5;
     public static final int BARAJA_ERROR_NON_EXISTANT_BARAJA = -6;
+    public static final int CREATE_USER_ERROR_LONG_EMAIL = -7;
+    public static final int CREATE_USER_ERROR_LONG_USERNAME = -8;
+    public static final int CREATE_USER_ERROR_INVALID_USERNAME = -9;
 
-
+    public static final int SOCKET_DISCONNECTED = -102;
     public static final int USER_NOT_LOGINED = -101;
     public static final int UNKOWN_ERROR = -100;
 
     private static Usuario user;
 
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo el registrar a un usuario.
+     * <br/>
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * CREATE_USER_ERROR_EXISTING_USER - Ya existe un usuario con ese email
+     * </li>
+     * <li>
+     *     CREATE_USER_ERROR_INVALID_EMAIL - El email indicado no tiene el formato estandar
+     *  de un email convencional. Ej: 'pedro@correo.es' es v&aacute;lido, 'pedrep@.com no es v&aacute;lido
+     * </li>
+     * <li>
+     *     CREATE_USER_ERROR_INVALID_PARAMETERS - A la hora de registrar el usuario ha ocurrido un error
+     *     relacionado con los parametros enviados.
+     * </li>
+     * <li>
+     *     CREATE_USER_ERROR_LONG_EMAIL - El email que se ha enviado mas caracteres de lo que el servidor permite
+     * </li>
+     * <li>
+     *     CREATE_USER_ERROR_LONG_USERNAME - El nombre de usuario indicado contiene mas caracteres de lo que
+     *     el servidor permite
+     * </li>
+     * <li>
+     *     CREATE_USER_ERROR_INVALID_USERNAME - El nombre de usuario no es v&aacute;lido. A fecha de 29/05/2019
+     *     solo se permiten los siguientes caracteres:
+     *     <ul>
+     *         <li>
+     *             De la 'A' a la 'Z', tanto en min&uacute;scula como en may&uacute;scula sin caracteres extra&ntilde;os.
+     *         </li>
+     *         <li>
+     *             Las cifras del 0 al 9 y cualquier combinaci&oacute;n de estas no decimal
+     *         </li>
+     *         <li>
+     *             El caracter '_'
+     *         </li>
+     *     </ul>
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecutará el hilo
+     * @param email Correo electronico a registrar
+     * @param password Contraseña del correo electronico
+     * @param name Nombre del usuario a registrar
+     * @param image Imagen del usuario a guardar
+     * @return Hilo especial preparado para ejecutar la orden
+     */
     public static ConnectionThread RegistrarUsuario(Activity context, String email, String password,
                                  String name, Drawable image){
         return new ConnectionThread(CREATE_USER, context, email, password, name, image);
     }
 
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo pedir la confirmaci&oacute;n de que la
+     * contrase&ntilde;a y email son correctos y recibir sus datos.
+     * <br/>
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * USER_ERROR_INVALID_PASSWORD - La contrase&ntilde;a introducida no es coincide con la del servidor.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecutar&aacute; el hilo
+     * @param email Correo electronico que identifica al usuario
+     * @param password Contrase&ntilde;a del usuario
+     * @return Hilo especial preparado para ejecutar la orden
+     */
     public static ConnectionThread LogInUsuario(Activity context, final String email, final String password){
         return new ConnectionThread(LOGIN_USER, context, email, password);
     }
 
 
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar el borrado del usuario
+     *  (y todo lo que tenga este en el servidor guardado) al servidor.
+     * <br/>
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * USER_ERROR_INVALID_PASSWORD - La contrase&ntilde;a introducida no es coincide con la del servidor.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * <li>
+     *     USER_NOT_LOGINED - Este error ocurre cuando el usuario no se ha registrado.
+     * </li>
+     * </ul>
+     * @param context actividad en la que se ejecutar&aacute; el hilo
+     * @param password contrase&ntilde;a que ha escrito el usuario
+     * @return Hilo especial preparado para ejecutar la orden
+     */
     public static ConnectionThread borrarCuenta(Activity context, String password){
         return new ConnectionThread(ERASE_USER, context, password);
     }
 
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar el obtener la información
+     *  sobre las cartas del usuario y las barajas por defecto
+     *  (y todo lo que tenga este en el servidor guardado) al servidor.
+     * <br/>
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * USER_ERROR_INVALID_PASSWORD - La contrase&ntilde;a introducida no es coincide con la del servidor.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * <li>
+     *     USER_NOT_LOGINED - Este error ocurre cuando el usuario no esta registrado
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecutará el hilo devuelto
+     * @return Hilo especial preparado para ejecutar la orden
+     */
     public static ConnectionThread getBarajasUser(Activity context){
         return new ConnectionThread(GET_BASIC_INFO_BARAJA, context);
     }
 
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
+     * de devolver las listas de cartas.
+     * <br/>
+     * <br/>
+     * En caso de que todo haya salido bien el SuccessRunnable recibira como argumento un Object[]
+     * que contendra en la posicion [0] un ArrayList&lt;CartaBlanca&gt; y en la posicion [1] otro
+     * ArrayList&lt;CartaNegra&gt; que contendran las cartas del mazo.
+     * <br/>
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * BARAJA_ERROR_NON_EXISTANT_BARAJA - La baraja indicada no existe.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * <li>
+     *     USER_NOT_LOGINED - Este error ocurre cuando el usuario no esta registrado
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecuta este hilo
+     * @param baraja Baraja al que pertenecen las cartas
+     * @return Hilo especial preparado para ejecutar la orden
+     */
     public static ConnectionThread getCartasUser(Activity context, Baraja baraja){
         return new ConnectionThread(GET_CARTAS_BARAJA, context, baraja);
+    }
+
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
+     * de guardar una baraja.
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * USER_ERROR_INVALID_PASSWORD - La contrase&ntilde;a que se ha enviado no es v&aacute;lida.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * <li>
+     *     USER_NOT_LOGINED - Este error ocurre cuando el usuario no esta registrado
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecuta este hilo
+     * @param baraja Baraja a guardar del servidor
+     * @param cartasBlancas cartas blancas a guardar
+     * @param cartasNegras cartas negras a guarder
+     * @return Hilo especial preparado para ejecutar la orden
+     */
+    public static ConnectionThread saveBaraja(Activity context, Baraja baraja, ArrayList<CartaBlanca> cartasBlancas, ArrayList<CartaNegra> cartasNegras){
+        return new ConnectionThread(SAVE_BARAJA, context, baraja, cartasBlancas, cartasNegras);
+    }
+
+    /**
+     * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
+     * de borrar una baraja.
+     * <br/>
+     * En caso de error, el ErrorRunable que se le haya a&ntilde;adido al hilo tendra uno de los siguientes
+     * errores:
+     * <ul>
+     * <li>
+     * SOCKET_DISCONNECTED - No se ha podido conectar al servidor.
+     * </li>
+     * <li>
+     * UNKNOWN_ERROR - Ha ocurrido un error durante la ejecucion del hilo. Es probable que ocurra
+     * debido a que se ha desconectado del servidor.
+     * </li>
+     * <li>
+     * USER_ERROR_INVALID_PASSWORD - La contrase&ntilde;a que se ha enviado no es v&aacute;lida.
+     * </li>
+     * <li>
+     *     USER_ERROR_NON_EXISTANT_USER - El servidor no ha encontrado al usuario, si ocurre este
+     *     error se recomienda cerrar la sesi&oacute;n del usuario y volver a la pantalla principal.
+     * </li>
+     * <li>
+     *     USER_NOT_LOGINED - Este error ocurre cuando el usuario no esta registrado
+     * </li>
+     * </ul>
+     * @param context Actividad en la que se ejecuta este hilo
+     * @param baraja Baraja a borrar del servidor
+     * @return Hilo especial preparado para ejecutar la orden
+     */
+    public static ConnectionThread borraBaraja(Activity context, Baraja baraja){
+        return new ConnectionThread(BORRA_BARAJA, context, baraja);
     }
 
     public static boolean logOut(){
@@ -168,6 +420,14 @@ public class Connection {
                     run = getRunGetCartasFromBaraja();
                     break;
 
+                case SAVE_BARAJA:
+                    run = getRunSaveBaraja();
+                    break;
+
+                case BORRA_BARAJA:
+                    run = getRunBorraBaraja();
+                    break;
+
                 default:
                     run = null;
                     break;
@@ -225,6 +485,7 @@ public class Connection {
                         skHandler.enviarHex(hexPassword, secretKey);
 
                         int i = skHandler.recibirInt(secretKey);
+                        int error = (i == NO)? skHandler.recibirInt(secretKey) : 0;
                         if(i == OK){
                             String name;
                             File imageTemp, image;
@@ -277,7 +538,7 @@ public class Connection {
                         }
                         else{
                             if(runNo != null) {
-                                runNo.setError(NO);
+                                runNo.setError(error);
                                 activityContext.runOnUiThread(runNo);
                             }
                         }
@@ -346,13 +607,12 @@ public class Connection {
 
                         //envia email contrasenya y nombre codificados con clave simetrica
                         skHandler.enviarString(email, secretKey);
+                        String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
+                        skHandler.enviarHex(hexPassword, secretKey);
+
+                        skHandler.enviarString(name, secretKey);
 
                         if(skHandler.recibirInt(secretKey) == OK){
-
-                            String hexPassword = Codification.toHex(Codification.generateHashCode(password.getBytes(StandardCharsets.UTF_8)));
-                            skHandler.enviarHex(hexPassword, secretKey);
-
-                            skHandler.enviarString(name, secretKey);
 
                             //Coge la imagen y crea un fichero;
                             Bitmap bitmap = ((BitmapDrawable) image).getBitmap();
@@ -698,6 +958,177 @@ public class Connection {
                         }
                     }
                     catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+        }
+
+        private Runnable getRunSaveBaraja() {
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+
+                        Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
+
+                        if (user == null) {
+                            if (runNo != null) {
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
+
+                        //Envia orden
+                        dos.writeInt(SAVE_BARAJA);
+
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+
+                        Baraja b = (Baraja) arguments[0];
+                        ArrayList<CartaBlanca> cartasBlancas = (ArrayList<CartaBlanca>) arguments[1];
+                        ArrayList<CartaNegra> cartasNegras = (ArrayList<CartaNegra>) arguments[2];
+
+                        skHandler.enviarString(user.email, secretKey);
+                        skHandler.enviarHex(user.password,secretKey);
+
+                        int result = skHandler.recibirInt(secretKey);
+                        int error = (result == NO)? skHandler.recibirInt(secretKey) : 0;
+                        if(result == OK){
+                            skHandler.enviarString(b.getNombre(), secretKey);
+                            skHandler.enviarString(b.getIdioma(), secretKey);
+                            skHandler.enviarInt(b.getNumCartas(), secretKey);
+                            for(CartaNegra c : cartasNegras){
+                                //1 si es carta negra
+                                skHandler.enviarInt(1, secretKey);
+                                skHandler.enviarInt(c.getId(),secretKey);
+                                skHandler.enviarString(c.getNombre(), secretKey);
+                                skHandler.enviarInt(c.getNumEspacios(), secretKey);
+                            }
+
+                            for(CartaBlanca c: cartasBlancas){
+                                skHandler.enviarInt(0, secretKey);
+                                skHandler.enviarInt(c.getId(),secretKey);
+                                skHandler.enviarString(c.getNombre(), secretKey);
+                            }
+
+                            if(runOk != null){
+                                activityContext.runOnUiThread(runOk);
+                            }
+                        }
+                        else{
+                            if(runNo != null){
+                                runNo.setError(error);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+        }
+
+        private Runnable getRunBorraBaraja(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+
+                        Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
+
+                        if (user == null) {
+                            if (runNo != null) {
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
+
+                        //Envia orden
+                        dos.writeInt(BORRA_BARAJA);
+
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+
+                        String nombreBaraja = (String) arguments[0];
+
+                        skHandler.enviarString(user.email, secretKey);
+                        skHandler.enviarHex(user.password, secretKey);
+                        skHandler.enviarString(nombreBaraja, secretKey);
+
+                        int result = skHandler.recibirInt(secretKey);
+                        int error = (result == NO)? skHandler.recibirInt(secretKey) : 0;
+                        if(result == OK){
+                            if(runOk != null)
+                                activityContext.runOnUiThread(runOk);
+                        }
+                        else{
+                            if(runNo != null){
+                                runNo.setError(error);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

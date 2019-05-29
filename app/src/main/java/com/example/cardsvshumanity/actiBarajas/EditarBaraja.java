@@ -173,7 +173,9 @@ public class EditarBaraja extends AppCompatActivity {
                             case Connection.USER_ERROR_NON_EXISTANT_USER:
                                 builder.setMessage(R.string.error_usuario_no_existe);
                                 break;
-
+                            case Connection.USER_NOT_LOGINED:
+                                //TODO anadir el que va hacer cuando no esta logeado
+                                break;
                         }
                         blanca.add(new CartaBlanca("HOLA"));
                         negra.add(new CartaNegra("ADIOS"));

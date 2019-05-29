@@ -90,8 +90,6 @@ public class barajas extends AppCompatActivity {
                         .setCancelable(false);
                 switch (getError()){
                     case Connection.USER_ERROR_INVALID_PASSWORD:
-                        builder1.setMessage(R.string.emailContraMal);
-                        break;
                     case Connection.USER_ERROR_NON_EXISTANT_USER:
                         builder1.setMessage(R.string.emailContraMal);
                         break;
@@ -100,6 +98,9 @@ public class barajas extends AppCompatActivity {
                         break;
                     case Connection.SOCKET_DISCONNECTED:
                         builder1.setMessage(R.string.noConexion);
+                        break;
+                    case Connection.USER_NOT_LOGINED:
+                        //TODO anadir que hace si el usuario no esta logeado
                         break;
                 }
 

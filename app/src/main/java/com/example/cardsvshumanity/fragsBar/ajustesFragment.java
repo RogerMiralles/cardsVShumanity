@@ -181,6 +181,10 @@ public class ajustesFragment extends Fragment {
                                                         break;
                                                     case Connection.UNKOWN_ERROR:
                                                         builder2.setMessage(R.string.error_unknown_error);
+                                                        break;
+                                                    case Connection.USER_NOT_LOGINED:
+                                                        //TODO anadir que ocurre si no esta logeado
+                                                        break;
                                                 }
                                                 builder2.show();
                                             }

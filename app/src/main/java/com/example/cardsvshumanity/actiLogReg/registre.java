@@ -113,6 +113,12 @@ public class registre extends AppCompatActivity {
                             case Connection.UNKOWN_ERROR:
                                 mensaje=getString(R.string.error_unknown_error);
                                 break;
+                            case Connection.CREATE_USER_ERROR_INVALID_USERNAME:
+                                break;
+                            case Connection.CREATE_USER_ERROR_LONG_EMAIL:
+                                break;
+                            case Connection.CREATE_USER_ERROR_LONG_USERNAME:
+                                break;
                         }
                         AlertDialog.Builder builder1 = chivato(mensaje);
                         builder1.setPositiveButton(R.string.ok, null);

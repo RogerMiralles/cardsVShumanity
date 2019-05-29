@@ -35,7 +35,7 @@
         tools:targetApi="o" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/sv_mazos_crea_partida"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
