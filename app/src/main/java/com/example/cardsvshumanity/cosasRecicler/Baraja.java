@@ -14,6 +14,24 @@ public class Baraja implements Serializable {
         this.nombre=nombre;
     }
 
+    public Baraja(String nombre, String email, String username, String idioma){
+        this.nombre=nombre;
+        this.email=email;
+        this.idioma=idioma;
+        this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "Baraja{" +
+                "nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", idioma='" + idioma + '\'' +
+                ", numCartas=" + numCartas +
+                '}';
+    }
+
     public Baraja(String nombre, String email, String username, int numCartas, String idioma){
         this.nombre=nombre;
         this.email=email;

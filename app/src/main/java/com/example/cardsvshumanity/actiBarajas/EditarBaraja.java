@@ -49,6 +49,7 @@ public class EditarBaraja extends AppCompatActivity {
     private AlertDialog alertDialogCartaNegra;
     private Baraja barajaDeBarajas;
     private boolean editOread;
+    private boolean crear=false;
     private Button btnGuardarCanvios;
     private Button nuevaBlanca;
     private Button nuevaNegra;
@@ -60,6 +61,7 @@ public class EditarBaraja extends AppCompatActivity {
         Intent in = getIntent();
         barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
         editOread=in.getBooleanExtra("editOread",editOread);
+        crear=in.getBooleanExtra("crearMazo",crear);
         btnGuardarCanvios=findViewById(R.id.btnGuardarCanvios);
         nuevaBlanca=findViewById(R.id.btnNewCardBlanca);
         nuevaNegra=findViewById(R.id.btnNewCardNegra);
@@ -138,61 +140,63 @@ public class EditarBaraja extends AppCompatActivity {
                 .setMessage(R.string.internet_dialog_cargando)
                 .setCancelable(false)
                 .create();
-        Connection.ConnectionThread thread = Connection.getCartasUser(this, barajaDeBarajas);
-        thread.setRunOk(
-                new Connection.ConnectionThread.SuccessRunnable() {
-                    @Override
-                    public void run() {
-                        Object[] lista = (Object[]) getArguments();
-                        ArrayList<CartaBlanca> cartaBlancas = (ArrayList<CartaBlanca>) lista[0];
-                        ArrayList<CartaNegra> cartaNegras = (ArrayList<CartaNegra>) lista[1];
-                        adapBlancas.carta = cartaBlancas;
-                        adapNegras.carta = cartaNegras;
-                        adapBlancas.notifyDataSetChanged();
-                        adapNegras.notifyDataSetChanged();
+        if(!crear){
+            Connection.ConnectionThread thread = Connection.getCartasUser(this, barajaDeBarajas);
+            thread.setRunOk(
+                    new Connection.ConnectionThread.SuccessRunnable() {
+                        @Override
+                        public void run() {
+                            Object[] lista = (Object[]) getArguments();
+                            ArrayList<CartaBlanca> cartaBlancas = (ArrayList<CartaBlanca>) lista[0];
+                            ArrayList<CartaNegra> cartaNegras = (ArrayList<CartaNegra>) lista[1];
+                            adapBlancas.carta = cartaBlancas;
+                            adapNegras.carta = cartaNegras;
+                            adapBlancas.notifyDataSetChanged();
+                            adapNegras.notifyDataSetChanged();
 
-                        if(alertDialog.isShowing())
-                            alertDialog.dismiss();
-                    }
-                }
-        );
-
-        thread.setRunNo(
-                new Connection.ConnectionThread.ErrorRunable() {
-                    @Override
-                    public void run() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(EditarBaraja.this);
-                        builder.setPositiveButton(R.string.ok, null)
-                                .setCancelable(false);
-                        switch (getError()){
-                            case Connection.UNKOWN_ERROR:
-                                builder.setMessage(R.string.error_unknown_error);
-                                break;
-                            case Connection.SOCKET_DISCONNECTED:
-                                builder.setMessage(R.string.noConexion);
-                                break;
-                            case Connection.BARAJA_ERROR_NON_EXISTANT_BARAJA:
-                                builder.setMessage(R.string.error_no_existe_baraja);
-                                break;
-                            case Connection.USER_ERROR_NON_EXISTANT_USER:
-                                builder.setMessage(R.string.error_usuario_no_existe);
-                                break;
-
+                            if (alertDialog.isShowing())
+                                alertDialog.dismiss();
                         }
-                        blanca.add(new CartaBlanca("HOLA"));
-                        negra.add(new CartaNegra("ADIOS"));
-                        adapBlancas.notifyDataSetChanged();
-                        adapNegras.notifyDataSetChanged();
-                        Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
-
-                        builder.create().show();
-                        if(alertDialog.isShowing())
-                            alertDialog.dismiss();
                     }
-                }
-        );
+            );
 
-        thread.start();
+            thread.setRunNo(
+                    new Connection.ConnectionThread.ErrorRunable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EditarBaraja.this);
+                            builder.setPositiveButton(R.string.ok, null)
+                                    .setCancelable(false);
+                            switch (getError()) {
+                                case Connection.UNKOWN_ERROR:
+                                    builder.setMessage(R.string.error_unknown_error);
+                                    break;
+                                case Connection.SOCKET_DISCONNECTED:
+                                    builder.setMessage(R.string.noConexion);
+                                    break;
+                                case Connection.BARAJA_ERROR_NON_EXISTANT_BARAJA:
+                                    builder.setMessage(R.string.error_no_existe_baraja);
+                                    break;
+                                case Connection.USER_ERROR_NON_EXISTANT_USER:
+                                    builder.setMessage(R.string.error_usuario_no_existe);
+                                    break;
+
+                            }
+                            blanca.add(new CartaBlanca("HOLA"));
+                            negra.add(new CartaNegra("ADIOS"));
+                            adapBlancas.notifyDataSetChanged();
+                            adapNegras.notifyDataSetChanged();
+                            Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
+
+                            builder.create().show();
+                            if (alertDialog.isShowing())
+                                alertDialog.dismiss();
+                        }
+                    }
+            );
+
+            thread.start();
+        }
     }
 
 
@@ -400,7 +404,13 @@ public class EditarBaraja extends AppCompatActivity {
 
     }
     public void onClickGuardar(View view){
-        //TODO guardar cartas con el mazo en el server
+        int total=adapBlancas.carta.size()+adapNegras.carta.size();
+        barajaDeBarajas.setNumCartas(total);
+        Intent in=new Intent();
+        in.putExtra("numCartas",total);
+        Log.d("contenido baraja",barajaDeBarajas.toString());
+        setResult(RESULT_OK,in);
+        finish();
     }
 
     @Override

@@ -76,7 +76,7 @@
     <string name="crear_nueva_carta_blanca">Crear nueva carta Blanca</string>
     <string name="crear_nueva_carta_negra">Crear nueva carta Negra</string>
     <string name="guardar">Guardar</string>
-    <string name="nombre_de_la_baraja">Nombre de la baraja:</string>
+
     <string name="nom_creador">Nombre creador:</string>
     <string name="idioma">Idioma:</string>
     <string name="numero_de_cartas">Numero de cartas:</string>
@@ -85,4 +85,9 @@
     <string name="nuevo_contenido_de_la_carta">Nuevo contenido de la carta:</string>
     <string name="nueva_cantidad_de_espacios">Nueva cantidad de espacios:</string>
     <string name="crear_carta">crear carta</string>
+    <string name="crear_mazo">Crear nuevo mazo</string>
+
+    <string name="idioma_del_mazo">Idioma del mazo:</string>
+    <string name="nombre_de_la_baraja">Nombre de la baraja:</string>
+
 </resources>
