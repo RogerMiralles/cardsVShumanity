@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class registre extends AppCompatActivity {
+public class Registre extends AppCompatActivity {
 
     private EditText correo;
     private EditText contra;

@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiLogReg.login;
+import com.example.cardsvshumanity.actiLogReg.Login;
 import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.io.File;
@@ -31,13 +31,13 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ajustesFragment extends Fragment {
+public class AjustesFragment extends Fragment {
 
     private Button mIdioma;
     private Button mDatos;
     private Button mCuenta;
 
-    public ajustesFragment() {
+    public AjustesFragment() {
         // Required empty public constructor
     }
 
@@ -113,7 +113,7 @@ public class ajustesFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
+                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class);
                         startActivity(intent);
                     }
                 });
@@ -250,7 +250,7 @@ public class ajustesFragment extends Fragment {
                 if(i==0){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
-                    Fragment fragment = ajustesFragment.this;
+                    Fragment fragment = AjustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);
@@ -259,7 +259,7 @@ public class ajustesFragment extends Fragment {
                 else if(i==1){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
-                    Fragment fragment = ajustesFragment.this;
+                    Fragment fragment = AjustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);
@@ -268,7 +268,7 @@ public class ajustesFragment extends Fragment {
                 else if(i==2){
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
-                    Fragment fragment = ajustesFragment.this;
+                    Fragment fragment = AjustesFragment.this;
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.detach(fragment);
                     ft.attach(fragment);

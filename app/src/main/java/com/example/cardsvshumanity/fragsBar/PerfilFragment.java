@@ -16,12 +16,11 @@ import android.widget.ImageView;
 
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiLogReg.login;
+import com.example.cardsvshumanity.actiLogReg.Login;
 import com.example.cardsvshumanity.javaConCod.Connection;
 
 import java.util.Objects;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
@@ -29,14 +28,14 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class perfilFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
 
     private static final int INICIAR_SESION = 101;
 
     private EditText eTxtNom, eTxtCorreu, eTxtPass, eTxtPartGan;
     private ImageView imageView;
-    public perfilFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
     private AlertDialog alertDialog;
@@ -65,7 +64,7 @@ public class perfilFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), login.class);
+                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class);
                         startActivityForResult(intent, INICIAR_SESION);
                     }
                 });

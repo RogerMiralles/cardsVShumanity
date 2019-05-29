@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 
 public class EditarBaraja extends AppCompatActivity {
 
+    private static final int CREAR_CARTA_BLANCA =0 ;
+    private static final int CREAR_CARTA_NEGRA =1 ;
     private EditText textoNombreBaraja;
     private EditText textoNombreCreador;
     private EditText textoIdioma;
@@ -45,6 +49,7 @@ public class EditarBaraja extends AppCompatActivity {
     private AlertDialog alertDialogCartaNegra;
     private Baraja barajaDeBarajas;
     private boolean editOread;
+    private boolean crear=false;
     private Button btnGuardarCanvios;
     private Button nuevaBlanca;
     private Button nuevaNegra;
@@ -56,6 +61,7 @@ public class EditarBaraja extends AppCompatActivity {
         Intent in = getIntent();
         barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
         editOread=in.getBooleanExtra("editOread",editOread);
+        crear=in.getBooleanExtra("crearMazo",crear);
         btnGuardarCanvios=findViewById(R.id.btnGuardarCanvios);
         nuevaBlanca=findViewById(R.id.btnNewCardBlanca);
         nuevaNegra=findViewById(R.id.btnNewCardNegra);
@@ -134,63 +140,65 @@ public class EditarBaraja extends AppCompatActivity {
                 .setMessage(R.string.internet_dialog_cargando)
                 .setCancelable(false)
                 .create();
-        Connection.ConnectionThread thread = Connection.getCartasUser(this, barajaDeBarajas);
-        thread.setRunOk(
-                new Connection.ConnectionThread.SuccessRunnable() {
-                    @Override
-                    public void run() {
-                        Object[] lista = (Object[]) getArguments();
-                        ArrayList<CartaBlanca> cartaBlancas = (ArrayList<CartaBlanca>) lista[0];
-                        ArrayList<CartaNegra> cartaNegras = (ArrayList<CartaNegra>) lista[1];
-                        adapBlancas.carta = cartaBlancas;
-                        adapNegras.carta = cartaNegras;
-                        adapBlancas.notifyDataSetChanged();
-                        adapNegras.notifyDataSetChanged();
+        if(!crear){
+            Connection.ConnectionThread thread = Connection.getCartasUser(this, barajaDeBarajas);
+            thread.setRunOk(
+                    new Connection.ConnectionThread.SuccessRunnable() {
+                        @Override
+                        public void run() {
+                            Object[] lista = (Object[]) getArguments();
+                            ArrayList<CartaBlanca> cartaBlancas = (ArrayList<CartaBlanca>) lista[0];
+                            ArrayList<CartaNegra> cartaNegras = (ArrayList<CartaNegra>) lista[1];
+                            adapBlancas.carta = cartaBlancas;
+                            adapNegras.carta = cartaNegras;
+                            adapBlancas.notifyDataSetChanged();
+                            adapNegras.notifyDataSetChanged();
 
-                        if(alertDialog.isShowing())
-                            alertDialog.dismiss();
-                    }
-                }
-        );
-
-        thread.setRunNo(
-                new Connection.ConnectionThread.ErrorRunable() {
-                    @Override
-                    public void run() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(EditarBaraja.this);
-                        builder.setPositiveButton(R.string.ok, null)
-                                .setCancelable(false);
-                        switch (getError()){
-                            case Connection.UNKOWN_ERROR:
-                                builder.setMessage(R.string.error_unknown_error);
-                                break;
-                            case Connection.SOCKET_DISCONNECTED:
-                                builder.setMessage(R.string.noConexion);
-                                break;
-                            case Connection.BARAJA_ERROR_NON_EXISTANT_BARAJA:
-                                builder.setMessage(R.string.error_no_existe_baraja);
-                                break;
-                            case Connection.USER_ERROR_NON_EXISTANT_USER:
-                                builder.setMessage(R.string.error_usuario_no_existe);
-                                break;
-                            case Connection.USER_NOT_LOGINED:
-                                //TODO anadir el que va hacer cuando no esta logeado
-                                break;
+                            if (alertDialog.isShowing())
+                                alertDialog.dismiss();
                         }
-                        blanca.add(new CartaBlanca("HOLA"));
-                        negra.add(new CartaNegra("ADIOS"));
-                        adapBlancas.notifyDataSetChanged();
-                        adapNegras.notifyDataSetChanged();
-                        Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
-
-                        builder.create().show();
-                        if(alertDialog.isShowing())
-                            alertDialog.dismiss();
                     }
-                }
-        );
+            );
 
-        thread.start();
+            thread.setRunNo(
+                    new Connection.ConnectionThread.ErrorRunable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EditarBaraja.this);
+                            builder.setPositiveButton(R.string.ok, null)
+                                    .setCancelable(false);
+                            switch (getError()) {
+                                case Connection.UNKOWN_ERROR:
+                                    builder.setMessage(R.string.error_unknown_error);
+                                    break;
+                                case Connection.SOCKET_DISCONNECTED:
+                                    builder.setMessage(R.string.noConexion);
+                                    break;
+                                case Connection.BARAJA_ERROR_NON_EXISTANT_BARAJA:
+                                    builder.setMessage(R.string.error_no_existe_baraja);
+                                    break;
+                                case Connection.USER_ERROR_NON_EXISTANT_USER:
+                                    builder.setMessage(R.string.error_usuario_no_existe);
+                                    break;
+                                case Connection.USER_NOT_LOGINED:
+                                    //TODO falta incluir que hace cuando no esta login
+                                    break;
+                            }
+                            blanca.add(new CartaBlanca("HOLA"));
+                            negra.add(new CartaNegra("ADIOS"));
+                            adapBlancas.notifyDataSetChanged();
+                            adapNegras.notifyDataSetChanged();
+                            Log.d(EditarBaraja.class.getSimpleName(), String.valueOf(getError()));
+
+                            builder.create().show();
+                            if (alertDialog.isShowing())
+                                alertDialog.dismiss();
+                        }
+                    }
+            );
+
+            thread.start();
+        }
     }
 
 
@@ -305,13 +313,26 @@ public class EditarBaraja extends AppCompatActivity {
         builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre());
         builder1.setCancelable(false);
 
-        if (!carta.get(pos).getEmail().equals("default")) {
+        if (!carta.get(pos).getEmail().equals("default")&&editOread) {
             builder1.setPositiveButton(
                     getString(R.string.editarCarta),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
-                            Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
+                            View viewCartaBlanca=getLayoutInflater().inflate(R.layout.editar_cartas_blancas,null);
+                            builder1.setView(viewCartaBlanca);
+                            final EditText aa=viewCartaBlanca.findViewById(R.id.eTxtNomCBlanca);
+
+                            builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    final String a=aa.getText().toString();
+                                    carta.get(pos).setNombre(a);
+                                    adapBlancas.notifyItemChanged(pos);
+                                }
+                            });
+                            builder1.show();
                         }
                     });
         }
@@ -328,18 +349,34 @@ public class EditarBaraja extends AppCompatActivity {
         alertDialogCartaBlanca.show();
     }
 
-    private void mostrarCartaNegraSeleccionada(ArrayList<CartaNegra> carta, final int pos) {
+    private void mostrarCartaNegraSeleccionada(final ArrayList<CartaNegra> carta, final int pos) {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(getString(R.string.texto)+" "+carta.get(pos).getNombre()+"\n"+getString(R.string.numEspacios)+" "+carta.get(pos).getNumEspacios());
         builder1.setCancelable(false);
 
-        if (!carta.get(pos).getEmail().equals("default")) {
+        if (!carta.get(pos).getEmail().equals("default")&&editOread) {
         builder1.setPositiveButton(
                 getString(R.string.editarCarta),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Toast.makeText(EditarBaraja.this, "hola", Toast.LENGTH_SHORT).show();
+                        View viewCartaNegra=getLayoutInflater().inflate(R.layout.editar_cartas_negras,null);
+                        builder1.setView(viewCartaNegra);
+                        final EditText aa=viewCartaNegra.findViewById(R.id.eTxtNomCNegra);
+                        final EditText aa1=viewCartaNegra.findViewById(R.id.eTxtNumEspacios);
+                        builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                final String a=aa.getText().toString();
+                                final int a1= Integer.parseInt(aa1.getText().toString());
+                                if(!a.isEmpty())
+                                    carta.get(pos).setNombre(a);
+                                carta.get(pos).setNumEspacios(a1);
+                                adapNegras.notifyItemChanged(pos);
+                            }
+                        });
+                        builder1.show();
                     }
                 });
         }
@@ -357,13 +394,49 @@ public class EditarBaraja extends AppCompatActivity {
     }
 
     public void onClickNewCartaBlanca(View view){
+        Intent in=new Intent(this,CrearCarta.class);
+        in.putExtra("CartaTipo","blanca");
+        startActivityForResult(in,CREAR_CARTA_BLANCA);
 
     }
     public void onClickNewCartaNegra(View view){
+        Intent in=new Intent(this,CrearCarta.class);
+        in.putExtra("CartaTipo","negra");
+        startActivityForResult(in,CREAR_CARTA_NEGRA);
 
     }
     public void onClickGuardar(View view){
-
+        int total=adapBlancas.carta.size()+adapNegras.carta.size();
+        barajaDeBarajas.setNumCartas(total);
+        Intent in=new Intent();
+        in.putExtra("numCartas",total);
+        Log.d("contenido baraja",barajaDeBarajas.toString());
+        setResult(RESULT_OK,in);
+        finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==CREAR_CARTA_BLANCA && data!=null){
+            String contenidos;
+            contenidos= data.getStringExtra("contenido");
+            String correo= Connection.getEmail();
+            int idC=barajaDeBarajas.getNumCartas()+1;
+            Log.d("cont",contenidos+" holqqqq");
+            Log.d("email",correo+"");
+            Log.d("idc",idC+"");
+            adapBlancas.carta.add(new CartaBlanca(correo,contenidos,idC));
+            adapBlancas.notifyItemInserted(adapBlancas.carta.size());
+        }else if(requestCode==CREAR_CARTA_NEGRA&&data!=null){
+            String contenido=data.getStringExtra("contenido");
+            String correo= Connection.getEmail();
+            int idC=barajaDeBarajas.getNumCartas()+1;
+            int cantEsp=1;
+            cantEsp=data.getIntExtra("cantEsp",cantEsp);
+            adapNegras.carta.add(new CartaNegra(correo,contenido,idC,cantEsp));
+            adapNegras.notifyItemInserted(adapNegras.carta.size());
+        }
+    }
 }

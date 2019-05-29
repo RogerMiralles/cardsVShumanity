@@ -7,13 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.javaConCod.Connection;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private EditText correo;
     private EditText contra;
@@ -62,7 +61,7 @@ public class login extends AppCompatActivity {
             thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                 @Override
                 public void run() {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                     builder.setCancelable(false);
                     builder.setPositiveButton(R.string.ok, null);
                     switch (getError()){
@@ -92,7 +91,7 @@ public class login extends AppCompatActivity {
     }
 
     public void onClickRegistrar(View view) {
-        Intent listSong = new Intent(getApplicationContext(), registre.class);
+        Intent listSong = new Intent(getApplicationContext(), Registre.class);
         startActivityForResult(listSong, CREATE_USER);
     }
 
