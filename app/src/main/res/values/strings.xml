@@ -98,5 +98,8 @@
     <string name="imagenusuario" translatable="false">imagen usuario</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="cch" translatable="false">CCH</string>
+    <string name="guardar_canvios">Quieres guardar los canvios?</string>
+    <string name="opcion_uno">Salir de la ventana</string>
+    <string name="opcion_dos">Mantener en la ventana</string>
 
 </resources>

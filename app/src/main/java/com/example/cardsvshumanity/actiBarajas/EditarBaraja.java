@@ -53,6 +53,7 @@ public class EditarBaraja extends AppCompatActivity {
     private Button nuevaBlanca;
     private Button nuevaNegra;
     private AlertDialog alertDialogCrearCarta;
+    private int posicion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class EditarBaraja extends AppCompatActivity {
         Intent in = getIntent();
         barajaDeBarajas=(Baraja)in.getSerializableExtra("baraja");
         editOread=in.getBooleanExtra("editOread",editOread);
+        posicion=in.getIntExtra("posicion",0);
         crear=in.getBooleanExtra("crearMazo",crear);
         btnGuardarCanvios=findViewById(R.id.btnGuardarCanvios);
         nuevaBlanca=findViewById(R.id.btnNewCardBlanca);
@@ -463,52 +465,34 @@ public class EditarBaraja extends AppCompatActivity {
         crearCartaNegra();
     }
     public void onClickGuardar(View view){
-        int total=adapBlancas.carta.size()+adapNegras.carta.size();
-        barajaDeBarajas.setNumCartas(total);
-        final Intent in=new Intent();
-        in.putExtra("numCartas",total);
-        final AlertDialog.Builder builder1=new AlertDialog.Builder(this);
-        builder1.setMessage(R.string.internet_dialog_cargando);
-        final AlertDialog alertDialogClickGuardar = builder1.create();
-        Connection.ConnectionThread guardarMazoCartas=Connection.saveBaraja(this,barajaDeBarajas,adapBlancas.carta,adapNegras.carta);
-        guardarMazoCartas.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
-            @Override
-            public void run() {
-                alertDialogClickGuardar.dismiss();
-                builder1.setMessage(getString(R.string.mazo_creado_correctamente));
-                builder1.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        setResult(RESULT_OK,in);
-                        finish();                    }
-                });
-                builder1.show();
-            }
-        });
-        guardarMazoCartas.setRunBegin(new Runnable() {
-            @Override
-            public void run() {
-                alertDialogClickGuardar.show();
-            }
-        });
-        guardarMazoCartas.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
-            @Override
-            public void run() {
-                alertDialogClickGuardar.dismiss();
-                builder1.setMessage(getString(R.string.error_unknown_error));
-                builder1.setPositiveButton(getString(R.string.ok), null);
-                builder1.show();
-            }
-        });
-        guardarMazoCartas.start();
-
+        guardar();
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Toast.makeText(this, "pepe el grande", Toast.LENGTH_SHORT).show();
+        //super.onBackPressed();
+        if(btnGuardarCanvios.getVisibility()==View.VISIBLE) {
+            final AlertDialog.Builder bild = new AlertDialog.Builder(EditarBaraja.this);
+            bild.setMessage(getString(R.string.guardar_canvios));
+            bild.setCancelable(false);
+            bild.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    guardar();
+                }
+            });
+            bild.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    decide();
+                }
+            });
+            final AlertDialog alDi = bild.create();
+            alDi.show();
+        }else
+            finish();
     }
 
     private void crearCartaBlanca() {
@@ -597,5 +581,72 @@ public class EditarBaraja extends AppCompatActivity {
 
         alertDialogCrearCarta = builder1.create();
         alertDialogCrearCarta.show();
+    }
+
+    public void guardar(){
+        int total=0;
+        total=adapBlancas.carta.size()+adapNegras.carta.size();
+        Log.d("cartaB",adapBlancas.carta.size()+"");
+        Log.d("cartaN",adapNegras.carta.size()+"");
+        barajaDeBarajas.setNumCartas(total);
+        final Intent in=new Intent();
+        in.putExtra("numCartas",total);
+        in.putExtra("posicion",posicion);
+        final AlertDialog.Builder builder1=new AlertDialog.Builder(this);
+        builder1.setMessage(R.string.internet_dialog_cargando);
+        final AlertDialog alertDialogClickGuardar = builder1.create();
+        Connection.ConnectionThread guardarMazoCartas=Connection.saveBaraja(this,barajaDeBarajas,adapBlancas.carta,adapNegras.carta);
+        guardarMazoCartas.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.dismiss();
+                builder1.setMessage(getString(R.string.mazo_creado_correctamente));
+                builder1.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        setResult(RESULT_OK,in);
+                        finish();                    }
+                });
+                builder1.show();
+            }
+        });
+        guardarMazoCartas.setRunBegin(new Runnable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.show();
+            }
+        });
+        guardarMazoCartas.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.dismiss();
+                builder1.setMessage(getString(R.string.error_unknown_error));
+                builder1.setPositiveButton(getString(R.string.ok), null);
+                builder1.show();
+            }
+        });
+        guardarMazoCartas.start();
+    }
+
+    public void decide(){
+        final AlertDialog.Builder bild = new AlertDialog.Builder(EditarBaraja.this);
+        bild.setMessage(getString(R.string.selecciona));
+        bild.setCancelable(false);
+        bild.setPositiveButton(getString(R.string.opcion_uno), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
+            }
+        });
+        bild.setNegativeButton(getString(R.string.opcion_dos), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alDi = bild.create();
+        alDi.show();
     }
 }

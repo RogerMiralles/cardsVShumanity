@@ -30,6 +30,7 @@ public class Barajas extends AppCompatActivity {
 
     private RecyclerView recicler;
     private static final int YA_PUEDE_ACTUALIZAR=0;
+    private static final int YA_PUEDE_MODICIFAR=1;
     private ArrayList<Baraja> baraja=new ArrayList<>();
     private Adaptador adaptador1;
     private AlertDialog alertDialogCrearMazo;
@@ -176,7 +177,8 @@ public class Barajas extends AppCompatActivity {
                         Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
                         in.putExtra("baraja",baraja.get(getAdapterPosition()));
                         in.putExtra("editOread",true);
-                        startActivity(in);
+                        in.putExtra("posicion",getAdapterPosition());
+                        startActivityForResult(in,YA_PUEDE_MODICIFAR);
                     }
                 });
                 verBaraja=itemView.findViewById(R.id.btnVerBaraja);
@@ -332,9 +334,15 @@ public class Barajas extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==YA_PUEDE_ACTUALIZAR){
-            baraja.get(baraja.size()-1).setNumCartas(data.getIntExtra("numCartas",0));
-            Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
+            if (data != null) {
+                baraja.get(baraja.size()-1).setNumCartas(data.getIntExtra("numCartas",0));
+            }
+           // Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
             adaptador1.notifyItemInserted(baraja.size());
+        }else if(requestCode==YA_PUEDE_MODICIFAR){
+            if (data != null) {
+                baraja.get(data.getIntExtra("posicion",0)).setNumCartas(data.getIntExtra("numCartas",0));
+            }
         }
     }
 }
