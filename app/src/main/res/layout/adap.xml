@@ -22,7 +22,7 @@
         style="@style/btn"
         android:text="@string/editarBaraja"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnVerBaraja"
+        app:layout_constraintEnd_toStartOf="@+id/btnBorrarBaraja"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTextoViewHolder" />
 
@@ -32,6 +32,15 @@
         android:text="@string/verBaraja"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBorrarBaraja"
+        app:layout_constraintTop_toBottomOf="@+id/etTextoViewHolder" />
+
+    <Button
+        android:id="@+id/btnBorrarBaraja"
+        style="@style/btn"
+        android:text="@string/borrar_baraja"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnVerBaraja"
         app:layout_constraintStart_toEndOf="@+id/btnEditarBaraja"
         app:layout_constraintTop_toBottomOf="@+id/etTextoViewHolder" />
 

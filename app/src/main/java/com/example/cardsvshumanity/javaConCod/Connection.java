@@ -335,7 +335,7 @@ public class Connection {
      * @param baraja Baraja a borrar del servidor
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread borraBaraja(Activity context, Baraja baraja){
+    public static ConnectionThread borraBaraja(Activity context, String baraja){
         return new ConnectionThread(BORRA_BARAJA, context, baraja);
     }
 

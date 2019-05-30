@@ -164,8 +164,9 @@ public class Barajas extends AppCompatActivity {
             private TextView texto;
             private Button editarBaraja;
             private Button verBaraja;
+            private Button borrarBaraja;
             final Adaptador adaptador;
-            public ViewHolder(@NonNull View itemView,Adaptador adaptador) {
+            public ViewHolder(@NonNull final View itemView, Adaptador adaptador) {
                 super(itemView);
                 texto=itemView.findViewById(R.id.etTextoViewHolder);
                 editarBaraja=itemView.findViewById(R.id.btnEditarBaraja);
@@ -188,6 +189,33 @@ public class Barajas extends AppCompatActivity {
                         startActivity(in);
                     }
                 });
+                borrarBaraja=itemView.findViewById(R.id.btnBorrarBaraja);
+                borrarBaraja.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!baraja.get(getAdapterPosition()).getEmail().equals("default")) {
+                            final AlertDialog.Builder builder=new AlertDialog.Builder(Barajas.this);
+                            builder.setMessage(getString(R.string.confirmar));
+                            builder.setCancelable(false);
+                            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    borrar(getAdapterPosition());
+                                }
+                            });
+                            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            final AlertDialog alertDialogConfirmacion=builder.create();
+                            alertDialogConfirmacion.show();
+                        }else
+                            Toast.makeText(Barajas.this, getString(R.string.no_borrable), Toast.LENGTH_SHORT).show();
+                    }
+                });
                 this.adaptador=adaptador;
             }
         }
@@ -195,6 +223,45 @@ public class Barajas extends AppCompatActivity {
             mInflater = LayoutInflater.from(context);
             this.baraja=bar;
         }
+    }
+    public void borrar(final int pos){
+        final AlertDialog.Builder builder1=new AlertDialog.Builder(Barajas.this);
+        builder1.setMessage(R.string.internet_dialog_cargando);
+        builder1.setCancelable(false);
+        final AlertDialog alertDialogBorrandoBarajas = builder1.create();
+        Connection.ConnectionThread borrandoBarajas = Connection.borraBaraja(Barajas.this, baraja.get(pos).getNombre());
+        borrandoBarajas.setRunBegin(new Runnable() {
+            @Override
+            public void run() {
+                alertDialogBorrandoBarajas.show();
+            }
+        });
+        borrandoBarajas.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
+            @Override
+            public void run() {
+                alertDialogBorrandoBarajas.dismiss();
+                builder1.setMessage(getString(R.string.mazo_borrado_correctamente));
+                builder1.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        adaptador1.notifyItemRemoved(pos);
+                    }
+                });
+                builder1.show();
+            }
+        });
+        borrandoBarajas.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+            @Override
+            public void run() {
+                alertDialogBorrandoBarajas.dismiss();
+                builder1.setMessage(getString(R.string.error_unknown_error));
+                builder1.setPositiveButton(getString(R.string.ok), null);
+                builder1.show();
+            }
+        });
+        borrandoBarajas.start();
+
     }
 
     public void onClickNuevaBaraja(View view){

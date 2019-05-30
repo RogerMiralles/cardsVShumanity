@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.actiPartida.Barajas;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
@@ -325,6 +326,32 @@ public class EditarBaraja extends AppCompatActivity {
                             builder1.show();
                         }
                     });
+            builder1.setNeutralButton(getString(R.string.borrar_carta), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    final AlertDialog.Builder builder=new AlertDialog.Builder(EditarBaraja.this);
+                    builder.setMessage(getString(R.string.confirmar));
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            adapBlancas.carta.remove(pos);
+                            adapBlancas.notifyItemRemoved(pos);
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    final AlertDialog alertDialogConfirmacion=builder.create();
+                    alertDialogConfirmacion.show();
+
+                }
+            });
         }
 
         builder1.setNegativeButton(
@@ -345,7 +372,7 @@ public class EditarBaraja extends AppCompatActivity {
         builder1.setCancelable(false);
 
         if (!carta.get(pos).getEmail().equals("default")&&editOread) {
-        builder1.setPositiveButton(
+            builder1.setPositiveButton(
                 getString(R.string.editarCarta),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -389,6 +416,32 @@ public class EditarBaraja extends AppCompatActivity {
                         builder1.show();
                     }
                 });
+            builder1.setNeutralButton(getString(R.string.borrar_carta), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    final AlertDialog.Builder builder=new AlertDialog.Builder(EditarBaraja.this);
+                    builder.setMessage(getString(R.string.confirmar));
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            adapNegras.carta.remove(pos);
+                            adapNegras.notifyItemRemoved(pos);
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    final AlertDialog alertDialogConfirmacion=builder.create();
+                    alertDialogConfirmacion.show();
+
+                }
+            });
         }
 
         builder1.setNegativeButton(

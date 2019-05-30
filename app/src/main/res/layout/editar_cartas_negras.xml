@@ -9,9 +9,8 @@
         android:id="@+id/txtNC2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="54dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:text="@string/nuevo_contenido_de_la_carta"
         android:textColor="@android:color/black"
@@ -22,7 +21,7 @@
 
     <EditText
         android:id="@+id/eTxtNomCNegra"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="38dp"
@@ -43,9 +42,8 @@
         android:id="@+id/txtNCnumEs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/nueva_cantidad_de_espacios"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toStartOf="@+id/eTxtNumEspacios"
@@ -54,7 +52,7 @@
 
     <EditText
         android:id="@+id/eTxtNumEspacios"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
