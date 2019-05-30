@@ -64,7 +64,7 @@
     <string name="error_password_diff">La contraseña no coincide</string>
     <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
     <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
-    <string name="crear_baraja">crear baraja</string>
+    <string name="crear_baraja">Crear baraja</string>
     <string name="emailContraMal">Contraseña y/o email incorrectos</string>
     <string name="noConexion">No se ha podido conectar al servidor</string>
     <string name="error_existing_user">Usuario ya creado</string>
@@ -84,10 +84,16 @@
     <string name="error_usuario_no_existe">El usuario no existe</string>
     <string name="nuevo_contenido_de_la_carta">Nuevo contenido de la carta:</string>
     <string name="nueva_cantidad_de_espacios">Nueva cantidad de espacios:</string>
-    <string name="crear_carta">crear carta</string>
+    <string name="crear_carta">Crear carta</string>
     <string name="crear_mazo">Crear nuevo mazo</string>
 
     <string name="idioma_del_mazo">Idioma del mazo:</string>
     <string name="nombre_de_la_baraja">Nombre de la baraja:</string>
+    <string name="mazo_creado_correctamente">Has creado la baraja correctamente</string>
+    <string name="idioma_no_valido">El idioma es incorrecto. Valores validos es,ca,en.</string>
+    <string name="num_espacios_invalido">El numero de espacos vacios es muy elevado. Maximo 3, minimo 1.</string>
+    <string name="contenido_vacio">El contenido de la carta esta vacio</string>
+    <string name="nombre_baraja_vacio">EL nombre de la baraja esta vacio</string>
+    <string name="no_editable">Esta baraja no se puede editar</string>
 
 </resources>

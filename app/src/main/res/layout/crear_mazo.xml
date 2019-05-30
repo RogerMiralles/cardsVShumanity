@@ -15,12 +15,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
+        android:hint="@string/nombre_de_la_baraja"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/eTxtIdiomaMazo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtNombreMazo"
         app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        tools:targetApi="o" />
 
     <EditText
         android:id="@+id/eTxtIdiomaMazo"
@@ -30,11 +33,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:hint="es/ca/en"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:maxLength="2"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtIdiomaMazo"
         app:layout_constraintTop_toBottomOf="@+id/eTxtNombreMazo"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/txtNombreMazo"
@@ -45,6 +52,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/nombre_de_la_baraja"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/txtIdiomaMazo"
         app:layout_constraintEnd_toStartOf="@+id/eTxtNombreMazo"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +66,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:text="@string/idioma_del_mazo"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toStartOf="@+id/eTxtIdiomaMazo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNombreMazo" />
