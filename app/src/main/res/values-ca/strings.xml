@@ -1,58 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--GENERAL-->
     <string name="app_name">Cartes Contra la Humanitat</string>
-    <string name="cartas_contra_la_humanidad">Cartes Contra la Humanitat</string>
-    <string name="jugar">Jugar</string>
-    <string name="baraja">Baralla</string>
-    <string name="inicia_session">Inicia sessió</string>
-    <string name="salida">sortir</string>
-    <string name="contrase_a">Contrasenya</string>
-    <string name="correo">Correu</string>
-    <string name="logear">Entrar</string>
-    <string name="registrarse">Registrar-se</string>
-    <string name="nombre_de_usuario">Nom d\'usuari</string>
-    <string name="selecciona_imagen">Selecciona Imatge</string>
-    <string name="partidas_ganadas">Partides guanyades</string>
-    <string name="foto_perfil">Foto de perfil</string>
     <string name="cambiar_idioma">Canviar idioma</string>
     <string name="limpiar_datos">Netejar dades</string>
-    <string name="borrar_cuenta">Esborrar conta</string>
-    <string name="no">no</string>
-    <string name="si">Si</string>
-    <string name="eligeIdioma">Escolleix idioma....</string>
-    <string name="confirmar">Estas segur?</string>
+    <string name="eligeIdioma">Escull idioma..</string>
     <string name="noUsuari">No tens usuari, vols iniciar la teva sessió?</string>
-    <string name="catalan">Traduint al catala</string>
-    <string name="espanol">Traduint al castella</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="confirmar">Estas segur?</string>
+    <string name="espanol">Traduint al castellà</string>
+    <string name="catalan">Traduint al català</string>
     <string name="ingles">Traduint al angles</string>
     <string name="lDatos">S\'han esborrat les dades</string>
-    <string name="tituloAjustes">Configuració</string>
+    <string name="tituloAjustes">Ajustos</string>
     <string name="tituloPerfil">Perfil</string>
-    <string name="selecciona">Que prefereixes?</string>
-    <string name="crear_partida">Crear partida</string>
-    <string name="camara">Càmera</string>
-    <string name="galeria">Galeria</string>
-    <string name="unirse_partida">Unir-se a partida</string>
-    <string name="error_existing_email">El correo que has indicado ya está registrado</string>
-    <string name="error_invalid_email">El correo que has indicado no es válido</string>
-    <string name="error_invalid_parameters">Uno o varios parametros indicados no son válidos</string>
-    <string name="error_unknown_error">Error desconegut</string>
-    <string name="no_error_registro">T\'has registrat correctament</string>
-    <string name="mCarac">Has superado el maximo de caracteres. Maximo 15.</string>
-    <string name="unirse_a_partida">Unir-se a partida</string>
-    <string name="nombre_de_la_partida">Nombre de la partida</string>
-    <string name="nombre_partida">Nombre partida</string>
-    <string name="contrase_a_partida">Contrasenya Partida</string>
-    <string name="camposVacios">Camps buits</string>
+    <string name="internet_dialog_cargando">Carregant..</string>
+    <string name="tituloLogin">Inici sessió</string>
     <string name="tituloRegistro">Registre</string>
-    <string name="tituloLogin">Inici sessio</string>
-    <string name="internet_dialog_cargando">Cargando...</string>
-    <string name="loginCorrecto">Has iniciado sesion correctamente</string>
-    <string name="cancel">Cancelar</string>
-    <string name="error_password_diff">La contraseña no coincide</string>
-    <string name="borrar_cuenta_success">Se ha borrado la cuenta</string>
-    <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
-    <string name="cch">CCH</string>
+    <string name="selecciona">Que prefereixes?</string>
+    <string name="galeria">Galeria</string>
+    <string name="camara">Càmera</string>
+    <string name="no_error_registro">T\'has registrat correctament</string>
+    <string name="camposVacios">Camps buits</string>
+    <string name="cancel">Cancel·lar</string>
+    <string name="guardar">Desar</string>
+    <string name="idioma">Idioma:</string>
+
+    <!--LOGIN/REGISTRO-->
+    <string name="inicia_session">Iniciar Sessió</string>
+    <string name="correo">Correu</string>
+    <string name="contrase_a">Contrasenya</string>
+    <string name="nombre_de_usuario">Nom de usuari</string>
+    <string name="registrarse">Registrar-se</string>
+    <string name="salida">Sortir</string>
+    <string name="foto_perfil">Foto de perfil</string>
+    <string name="selecciona_imagen">Seleccionar imatge</string>
+    <string name="borrar_cuenta">Esborrar compte</string>
+    <string name="loginCorrecto">Has iniciat sessió correctament</string>
+    <string name="borrar_cuenta_success">S\'ha esborrat el compte</string>
+
+    <!--BARAJA-->
+    <string name="mCarac">Has superat el maxim de caracters. Maxim 15.</string>
+    <string name="crear_baraja">Crear baralla</string>
+    <string name="verBaraja">Veure baralla</string>
+    <string name="editarBaraja">Editar baralla</string>
+    <string name="editarCarta">Editar carta</string>
+    <string name="numero_de_cartas">Nombre de cartes:</string>
+    <string name="nom_creador">Nom creador:</string>
+    <string name="texto">Contingut de la carta:</string>
+    <string name="numEspacios">Nombre de espais buits:</string>
+    <string name="crear_nueva_carta_blanca">Crear nova carta Blanca</string>
+    <string name="crear_nueva_carta_negra">Crear nova carta Negra</string>
+    <string name="nuevo_contenido_de_la_carta">Nou contingut de la carta:</string>
+    <string name="nueva_cantidad_de_espacios">Nou contingut de espais:</string>
+    <string name="crear_carta">Crear carta</string>
+    <string name="crear_mazo">Crear nuevo mall</string>
+    <string name="idioma_del_mazo">Idioma del mall:</string>
+    <string name="nombre_de_la_baraja">Nom de la baralla:</string>
+    <string name="mazo_creado_correctamente">Has creat la baralla correctament</string>
+    <string name="idioma_no_valido">L\'idioma es incorrecte. Valors valids es,ca,en.</string>
+    <string name="num_espacios_invalido">El numero de espais buits es massa gran. Maxim 3, minim 1.</string>
+    <string name="contenido_vacio">El contingut de la carta esta buit</string>
+    <string name="nombre_baraja_vacio">El nom de la baralla esta buit</string>
+    <string name="no_editable">Aquesta baralla no es pot editar</string>
+    <string name="borrar_baraja">Esborrar baralla</string>
+    <string name="no_borrable">Aquesta baralla no es pot esborrar</string>
+    <string name="mazo_borrado_correctamente">Has esborrat correctament la baralla</string>
+    <string name="borrar_carta">Borrar carta</string>
+
+    <!--PARTIDA-->
+    <string name="nombre_de_la_partida">Nom de la partida</string>
+    <string name="contrase_a_partida">Contrasenya Partida</string>
+    <string name="partidas_ganadas">Partidas guanyades</string>
+    <string name="jugar">Jugar</string>
+    <string name="baraja">Baralla</string>
+    <string name="crear_partida">Crear partida</string>
+    <string name="unirse_partida">Unirse a partida</string>
+
+    <!-- ERRORES -->
+    <string name="error_unknown_error">Error desconegut</string>
+    <string name="error_invalid_parameters">Un o varis parametres indicats no son válids</string>
+    <string name="error_existing_email">El correu que has indicat ya hi es registrat</string>
+    <string name="error_invalid_email">El correu que has indicat no es valid</string>
+    <string name="error_password_diff">La contrasenya no concorda</string>
+    <string name="error_erase_user_nouser">El usuari que intentas esborrar no existeix</string>
     <string name="error_no_existe_baraja">La baralla no existeix</string>
-    <string name="error_usuario_no_existe">L\'usuari no existeix</string>
+    <string name="error_usuario_no_existe">El usuari no existeix</string>
+    <string name="emailContraMal">Contrasenya i/o email incorrectes</string>
+    <string name="noConexion">No s\'ha pogut connectar amb el servidor</string>
+
+    <!--OTROS + translatable false-->
+    <string name="todo" translatable="false">To-Do</string>
+    <string name="idiomaboton" translatable="false">Boto d\'Idioma</string>
+    <string name="logear" translatable="false">Entrar</string>
+    <string name="imagenatras" translatable="false">imatge Enredere</string>
+    <string name="imagenusuario" translatable="false">imatge Usuari</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="cch" translatable="false">CCH</string>
+
 </resources>
