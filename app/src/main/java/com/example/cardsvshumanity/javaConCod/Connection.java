@@ -8,6 +8,7 @@ import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.cardsvshumanity.actiPartida.Partida;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
@@ -44,6 +45,7 @@ public class Connection {
     private static final int GET_CARTAS_BARAJA = 105;
     private static final int SAVE_BARAJA = 106;
     private static final int BORRA_BARAJA = 107;
+    private static final int COGER_PARTIDA = 108;
 
     //ERRORES
     public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
@@ -62,6 +64,13 @@ public class Connection {
 
     private static Usuario user;
 
+
+    /**
+     *
+     */
+    public static ConnectionThread CogerPartida(Activity context){
+        return new ConnectionThread(COGER_PARTIDA, context);
+    }
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo el registrar a un usuario.
      * <br/>
@@ -428,11 +437,80 @@ public class Connection {
                     run = getRunBorraBaraja();
                     break;
 
+                case COGER_PARTIDA:
+                    run = null; // TODO Coger partida
+                    break;
+
                 default:
                     run = null;
                     break;
             }
             return run;
+        }
+
+        private Runnable getRunPartidas(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+                        Log.d(Connection.class.getSimpleName(), "Obtener partida");
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
+
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
+
+                        dos.writeInt(COGER_PARTIDA);
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+                        int CantPartidas = skHandler.recibirInt(secretKey);
+                        ArrayList<String[]> listPartidas = new ArrayList<>();
+                        for (int i = 0; i < CantPartidas; i++){
+                            String GameName = skHandler.recibirString(secretKey);
+                            String UserName = skHandler.recibirString(secretKey);
+                            String UserList = skHandler.recibirInt(secretKey)+"";
+                            String MaxPlayers = skHandler.recibirInt(secretKey)+"";
+                            String[] temp = new String[]{
+                                    GameName,UserName,UserList,MaxPlayers
+                            };
+                            listPartidas.add(temp);
+                        }
+
+                        if(runOk != null){
+                            runOk.setArgument(listPartidas);
+                            activityContext.runOnUiThread(runOk);
+                        }
+
+
+
+                    }catch (IOException e){
+                        if(runNo != null){
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                        e.printStackTrace();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    }
+            };
         }
 
         private Runnable getRunLogIn(){
