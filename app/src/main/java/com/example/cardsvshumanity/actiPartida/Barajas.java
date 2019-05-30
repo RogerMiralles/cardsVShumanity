@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
@@ -213,16 +214,37 @@ public class Barajas extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
+                            boolean idiomaB;
                             String nombreMazo=txtNombreMazo.getText().toString();
                             String idiomaMazo=txtIdiomaMazo.getText().toString();
-                            String email=Connection.getEmail();
-                            String nombre=Connection.getName();
-                            baraja.add(new Baraja(nombreMazo, email,nombre,idiomaMazo));
-                            Intent in=new Intent(getApplicationContext(),EditarBaraja.class);
-                            in.putExtra("baraja",baraja.get(baraja.size()-1));
-                            in.putExtra("editOread",true);
-                            in.putExtra("crearMazo",true);
-                            startActivityForResult(in,YA_PUEDE_ACTUALIZAR);
+                            switch (idiomaMazo){
+                                case "es":
+                                    idiomaB=true;
+                                    break;
+                                case "ca":
+                                    idiomaB=true;
+                                    break;
+                                case "en":
+                                    idiomaB=true;
+                                    break;
+                                default:
+                                    idiomaB=false;
+                                    break;
+                            }if(!nombreMazo.isEmpty()) {
+                                if (idiomaB) {
+                                    String email = Connection.getEmail();
+                                    String nombre = Connection.getName();
+                                    baraja.add(new Baraja(nombreMazo, email, nombre, idiomaMazo));
+                                    Intent in = new Intent(getApplicationContext(), EditarBaraja.class);
+                                    in.putExtra("baraja", baraja.get(baraja.size() - 1));
+                                    in.putExtra("editOread",true);
+                                    in.putExtra("crearMazo",true);
+                                    startActivityForResult(in, YA_PUEDE_ACTUALIZAR);
+                                } else {
+                                    Toast.makeText(Barajas.this, getString(R.string.idioma_no_valido), Toast.LENGTH_SHORT).show();
+                                }
+                            }else
+                                Toast.makeText(Barajas.this, getString(R.string.nombre_baraja_vacio), Toast.LENGTH_SHORT).show();
                         }
                     });
 

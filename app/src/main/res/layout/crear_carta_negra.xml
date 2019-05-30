@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtNC2"
+        android:id="@+id/txtContenido"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/nuevo_contenido_de_la_carta"
+        android:text="@string/texto"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/txtNCnumEs"
-        app:layout_constraintEnd_toStartOf="@+id/eTxtNomCNegra"
+        app:layout_constraintEnd_toStartOf="@+id/eTxtContenidoN"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/eTxtNomCNegra"
+        android:id="@+id/eTxtContenidoN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="27dp"
         android:ems="10"
-        android:hint="@string/nuevo_contenido_de_la_carta"
-        android:importantForAutofill="no"
+        android:hint="@string/texto"
         android:inputType="textPersonName"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/eTxtNumEspacios"
+        app:layout_constraintBottom_toTopOf="@+id/eTxtCantEsp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtNC2"
+        app:layout_constraintStart_toEndOf="@+id/txtContenido"
         app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="o" />
+        android:importantForAutofill="no" tools:targetApi="o" />
 
     <TextView
-        android:id="@+id/txtNCnumEs"
+        android:id="@+id/txtCantEsp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="61dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/nueva_cantidad_de_espacios"
+        android:text="@string/numEspacios"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toStartOf="@+id/eTxtNumEspacios"
+        app:layout_constraintEnd_toStartOf="@+id/eTxtCantEsp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNC2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtContenido" />
 
     <EditText
-        android:id="@+id/eTxtNumEspacios"
+        android:id="@+id/eTxtCantEsp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="27dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="1/2/3"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtNCnumEs"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtNomCNegra" />
+        app:layout_constraintStart_toEndOf="@+id/txtCantEsp"
+        app:layout_constraintTop_toBottomOf="@+id/eTxtContenidoN"
+        android:importantForAutofill="no" tools:targetApi="o" />
 </android.support.constraint.ConstraintLayout>

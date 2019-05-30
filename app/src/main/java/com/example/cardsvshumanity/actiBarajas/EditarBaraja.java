@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
@@ -33,8 +32,7 @@ import java.util.ArrayList;
 
 public class EditarBaraja extends AppCompatActivity {
 
-    private static final int CREAR_CARTA_BLANCA =0 ;
-    private static final int CREAR_CARTA_NEGRA =1 ;
+
     private EditText textoNombreBaraja;
     private EditText textoNombreCreador;
     private EditText textoIdioma;
@@ -53,6 +51,7 @@ public class EditarBaraja extends AppCompatActivity {
     private Button btnGuardarCanvios;
     private Button nuevaBlanca;
     private Button nuevaNegra;
+    private AlertDialog alertDialogCrearCarta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +75,14 @@ public class EditarBaraja extends AppCompatActivity {
         textoIdioma.setText(barajaDeBarajas.getIdioma());
         textoNumCartas.setText(""+barajaDeBarajas.getNumCartas());
 
+        textoNombreBaraja.setEnabled(false);
+        textoNombreCreador.setEnabled(false);
+        textoIdioma.setEnabled(false);
+        textoNumCartas.setEnabled(false);
+
         if(editOread){ //edit
             if(barajaDeBarajas.getEmail().equals("default")){
-                Toast.makeText(this, "esta baraja no se puede editar", Toast.LENGTH_SHORT).show();
-                textoNombreBaraja.setEnabled(false);
-                textoNombreCreador.setEnabled(false);
-                textoIdioma.setEnabled(false);
-                textoNumCartas.setEnabled(false);
-
+                Toast.makeText(this, getString(R.string.no_editable), Toast.LENGTH_SHORT).show();
                 btnGuardarCanvios.setEnabled(false);
                 btnGuardarCanvios.setVisibility(View.GONE);
                 nuevaBlanca.setEnabled(false);
@@ -91,11 +90,6 @@ public class EditarBaraja extends AppCompatActivity {
                 nuevaNegra.setEnabled(false);
                 nuevaNegra.setVisibility(View.GONE);
             }else{
-                textoNombreBaraja.setEnabled(true);
-                textoNombreCreador.setEnabled(false);
-                textoIdioma.setEnabled(false);
-                textoNumCartas.setEnabled(false);
-
                 btnGuardarCanvios.setEnabled(true);
                 btnGuardarCanvios.setVisibility(View.VISIBLE);
                 nuevaBlanca.setEnabled(true);
@@ -104,11 +98,6 @@ public class EditarBaraja extends AppCompatActivity {
                 nuevaNegra.setVisibility(View.VISIBLE);
             }
         }else{ //read
-            textoNombreBaraja.setEnabled(false);
-            textoNombreCreador.setEnabled(false);
-            textoIdioma.setEnabled(false);
-            textoNumCartas.setEnabled(false);
-
             btnGuardarCanvios.setEnabled(false);
             btnGuardarCanvios.setVisibility(View.GONE);
             nuevaBlanca.setEnabled(false);
@@ -328,7 +317,8 @@ public class EditarBaraja extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     final String a=aa.getText().toString();
-                                    carta.get(pos).setNombre(a);
+                                    if(!a.isEmpty())
+                                        carta.get(pos).setNombre(a);
                                     adapBlancas.notifyItemChanged(pos);
                                 }
                             });
@@ -370,9 +360,29 @@ public class EditarBaraja extends AppCompatActivity {
                                 dialog.dismiss();
                                 final String a=aa.getText().toString();
                                 final int a1= Integer.parseInt(aa1.getText().toString());
+                                boolean aux;
                                 if(!a.isEmpty())
                                     carta.get(pos).setNombre(a);
-                                carta.get(pos).setNumEspacios(a1);
+                                switch (a1){
+                                    case 1:
+                                        aux=true;
+                                        break;
+                                    case 2:
+                                        aux=true;
+                                        break;
+                                    case 3:
+                                        aux=true;
+                                        break;
+                                    default:
+                                        aux=false;
+                                        break;
+                                }
+                                if(!aa1.getText().toString().isEmpty()) {
+                                    if(aux)
+                                        carta.get(pos).setNumEspacios(a1);
+                                    else
+                                        Toast.makeText(EditarBaraja.this, getString(R.string.num_espacios_invalido), Toast.LENGTH_SHORT).show();
+                                }
                                 adapNegras.notifyItemChanged(pos);
                             }
                         });
@@ -394,49 +404,145 @@ public class EditarBaraja extends AppCompatActivity {
     }
 
     public void onClickNewCartaBlanca(View view){
-        Intent in=new Intent(this,CrearCarta.class);
-        in.putExtra("CartaTipo","blanca");
-        startActivityForResult(in,CREAR_CARTA_BLANCA);
-
+       crearCartaBlanca();
     }
     public void onClickNewCartaNegra(View view){
-        Intent in=new Intent(this,CrearCarta.class);
-        in.putExtra("CartaTipo","negra");
-        startActivityForResult(in,CREAR_CARTA_NEGRA);
-
+        crearCartaNegra();
     }
     public void onClickGuardar(View view){
         int total=adapBlancas.carta.size()+adapNegras.carta.size();
         barajaDeBarajas.setNumCartas(total);
-        Intent in=new Intent();
+        final Intent in=new Intent();
         in.putExtra("numCartas",total);
-        Log.d("contenido baraja",barajaDeBarajas.toString());
-        setResult(RESULT_OK,in);
-        finish();
+        final AlertDialog.Builder builder1=new AlertDialog.Builder(this);
+        builder1.setMessage(R.string.internet_dialog_cargando);
+        final AlertDialog alertDialogClickGuardar = builder1.create();
+        Connection.ConnectionThread guardarMazoCartas=Connection.saveBaraja(this,barajaDeBarajas,adapBlancas.carta,adapNegras.carta);
+        guardarMazoCartas.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.dismiss();
+                builder1.setMessage(getString(R.string.mazo_creado_correctamente));
+                builder1.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        setResult(RESULT_OK,in);
+                        finish();                    }
+                });
+                builder1.show();
+            }
+        });
+        guardarMazoCartas.setRunBegin(new Runnable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.show();
+            }
+        });
+        guardarMazoCartas.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
+            @Override
+            public void run() {
+                alertDialogClickGuardar.dismiss();
+                builder1.setMessage(getString(R.string.error_unknown_error));
+                builder1.setPositiveButton(getString(R.string.ok), null);
+                builder1.show();
+            }
+        });
+        guardarMazoCartas.start();
+
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(this, "pepe el grande", Toast.LENGTH_SHORT).show();
+    }
 
-        if (requestCode==CREAR_CARTA_BLANCA && data!=null){
-            String contenidos;
-            contenidos= data.getStringExtra("contenido");
-            String correo= Connection.getEmail();
-            int idC=barajaDeBarajas.getNumCartas()+1;
-            Log.d("cont",contenidos+" holqqqq");
-            Log.d("email",correo+"");
-            Log.d("idc",idC+"");
-            adapBlancas.carta.add(new CartaBlanca(correo,contenidos,idC));
-            adapBlancas.notifyItemInserted(adapBlancas.carta.size());
-        }else if(requestCode==CREAR_CARTA_NEGRA&&data!=null){
-            String contenido=data.getStringExtra("contenido");
-            String correo= Connection.getEmail();
-            int idC=barajaDeBarajas.getNumCartas()+1;
-            int cantEsp=1;
-            cantEsp=data.getIntExtra("cantEsp",cantEsp);
-            adapNegras.carta.add(new CartaNegra(correo,contenido,idC,cantEsp));
-            adapNegras.notifyItemInserted(adapNegras.carta.size());
-        }
+    private void crearCartaBlanca() {
+        final android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
+        builder1.setMessage(getString(R.string.crear_carta));
+        builder1.setCancelable(false);
+        View view =getLayoutInflater().inflate(R.layout.crear_carta_blanca,null);
+        builder1.setView(view);
+        final EditText txtContenido=view.findViewById(R.id.eTxtContenido);
+        builder1.setPositiveButton(getString(R.string.crear_carta), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String contenidos= txtContenido.getText().toString();
+                String correo= Connection.getEmail();
+                int idC=barajaDeBarajas.getNumCartas()+1;
+                barajaDeBarajas.setNumCartas(barajaDeBarajas.getNumCartas()+1);
+                if(!contenidos.isEmpty()) {
+                    adapBlancas.carta.add(new CartaBlanca(correo, contenidos, idC));
+                    adapBlancas.notifyItemInserted(adapBlancas.carta.size());
+                }else
+                    Toast.makeText(EditarBaraja.this, getString(R.string.contenido_vacio), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder1.setNegativeButton(
+                getString(R.string.salida),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialogCrearCarta = builder1.create();
+        alertDialogCrearCarta.show();
+    }
+
+    private void crearCartaNegra() {
+        final android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
+        builder1.setMessage(getString(R.string.crear_carta));
+        builder1.setCancelable(false);
+        View view =getLayoutInflater().inflate(R.layout.crear_carta_negra,null);
+        builder1.setView(view);
+        final EditText txtContenido=view.findViewById(R.id.eTxtContenidoN);
+        final EditText txtCantEsp=view.findViewById(R.id.eTxtCantEsp);
+        builder1.setPositiveButton(getString(R.string.crear_carta), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String contenido=txtContenido.getText().toString();
+                String correo= Connection.getEmail();
+                int idC=barajaDeBarajas.getNumCartas()+1;
+                barajaDeBarajas.setNumCartas(barajaDeBarajas.getNumCartas()+1);
+                boolean aux;
+                int cantEsp=Integer.parseInt(txtCantEsp.getText().toString());
+                switch ( cantEsp){
+                    case 1:
+                        aux=true;
+                        break;
+                    case 2:
+                        aux=true;
+                        break;
+                    case 3:
+                        aux=true;
+                        break;
+                    default:
+                        aux=false;
+                        break;
+                }
+                if(aux) {
+                    if(!contenido.isEmpty()) {
+                        adapNegras.carta.add(new CartaNegra(correo, contenido, idC, cantEsp));
+                        adapNegras.notifyItemInserted(adapNegras.carta.size());
+                    }else
+                        Toast.makeText(EditarBaraja.this, getString(R.string.contenido_vacio), Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(EditarBaraja.this, getString(R.string.num_espacios_invalido), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder1.setNegativeButton(
+                getString(R.string.salida),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialogCrearCarta = builder1.create();
+        alertDialogCrearCarta.show();
     }
 }
