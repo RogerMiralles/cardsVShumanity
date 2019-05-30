@@ -1020,18 +1020,17 @@ public class Connection {
                         if(result == OK){
                             skHandler.enviarString(b.getNombre(), secretKey);
                             skHandler.enviarString(b.getIdioma(), secretKey);
-                            skHandler.enviarInt(b.getNumCartas(), secretKey);
+                            skHandler.enviarInt(cartasBlancas.size()+cartasNegras.size(), secretKey);
+
                             for(CartaNegra c : cartasNegras){
                                 //1 si es carta negra
                                 skHandler.enviarInt(1, secretKey);
-                                skHandler.enviarInt(c.getId(),secretKey);
                                 skHandler.enviarString(c.getNombre(), secretKey);
                                 skHandler.enviarInt(c.getNumEspacios(), secretKey);
                             }
 
                             for(CartaBlanca c: cartasBlancas){
                                 skHandler.enviarInt(0, secretKey);
-                                skHandler.enviarInt(c.getId(),secretKey);
                                 skHandler.enviarString(c.getNombre(), secretKey);
                             }
 

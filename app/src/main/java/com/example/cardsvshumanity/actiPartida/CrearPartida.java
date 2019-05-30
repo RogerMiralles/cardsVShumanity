@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.javaConCod.Connection;
 
 public class CrearPartida extends AppCompatActivity {
 
@@ -13,6 +14,8 @@ public class CrearPartida extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_partida);
         setTitle(getString(R.string.crear_partida));
+
+        Connection.getBarajasUser(this);
 
     }
 
