@@ -621,7 +621,23 @@ public class EditarBaraja extends AppCompatActivity {
             @Override
             public void run() {
                 alertDialogClickGuardar.dismiss();
-                builder1.setMessage(getString(R.string.error_unknown_error));
+                switch (getError()) {
+                    case Connection.UNKOWN_ERROR:
+                        builder1.setMessage(getString(R.string.error_unknown_error));
+                        break;
+                    case Connection.SOCKET_DISCONNECTED:
+                        builder1.setMessage(getString(R.string.noConexion));
+                        break;
+                    case Connection.USER_ERROR_INVALID_PASSWORD:
+                        builder1.setMessage(getString(R.string.invalidPassword));
+                        break;
+                    case Connection.USER_ERROR_NON_EXISTANT_USER:
+                        builder1.setMessage(getString(R.string.error_usuario_no_existe));
+                        break;
+                    case Connection.USER_NOT_LOGINED:
+                        builder1.setMessage(getString(R.string.notLogin));
+                        break;
+                }
                 builder1.setPositiveButton(getString(R.string.ok), null);
                 builder1.show();
             }

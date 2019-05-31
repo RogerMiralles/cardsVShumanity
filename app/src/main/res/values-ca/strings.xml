@@ -89,6 +89,8 @@
     <string name="error_usuario_no_existe">El usuari no existeix</string>
     <string name="emailContraMal">Contrasenya i/o email incorrectes</string>
     <string name="noConexion">No s\'ha pogut connectar amb el servidor</string>
+    <string name="invalidPassword">Contrasenya no es valida.</string>
+    <string name="notLogin">Usuari no registrat.</string>
 
     <!--OTROS + translatable false-->
     <string name="todo" translatable="false">To-Do</string>
