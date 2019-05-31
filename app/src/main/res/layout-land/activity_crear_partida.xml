@@ -11,12 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/contrase_a_partida"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtContraPartida"
         app:layout_constraintTop_toBottomOf="@+id/et_nombrePartida_crearPartida"
         tools:targetApi="o" />
 
@@ -25,18 +26,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/nombre_de_la_partida"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/et_contraPartida_crearPartida"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNomPartida"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="o" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -71,17 +75,58 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reciclerMazo"
-        android:layout_width="213dp"
-        android:layout_height="258dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="116dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintEnd_toStartOf="@+id/txtNomPartida"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtNomPartida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/nombre_de_la_partida"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/txtContraPartida"
+        app:layout_constraintEnd_toStartOf="@+id/et_nombrePartida_crearPartida"
+        app:layout_constraintStart_toEndOf="@+id/reciclerMazo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtContraPartida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/contrase_a_partida"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/txtNumJugadores"
+        app:layout_constraintEnd_toStartOf="@+id/et_contraPartida_crearPartida"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toEndOf="@+id/reciclerMazo"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPartida" />
+
+    <TextView
+        android:id="@+id/txtNumJugadores"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/numero_de_jugadores"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerMazo"
+        app:layout_constraintTop_toBottomOf="@+id/txtContraPartida" />
 
 </android.support.constraint.ConstraintLayout>

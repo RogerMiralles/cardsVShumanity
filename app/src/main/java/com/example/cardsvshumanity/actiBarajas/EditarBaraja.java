@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiPartida.Barajas;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
 import com.example.cardsvshumanity.cosasRecicler.CartaNegra;

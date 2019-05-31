@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.actiBarajas.Barajas;
 
 public class SegundaVentana extends AppCompatActivity {
 

@@ -37,9 +37,10 @@
 
     <Button
         android:id="@+id/btnNewCardBlanca"
-        android:layout_width="188dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="onClickNewCartaBlanca"
         android:text="@string/crear_nueva_carta_blanca"
@@ -50,10 +51,11 @@
 
     <Button
         android:id="@+id/btnNewCardNegra"
-        android:layout_width="188dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:onClick="onClickNewCartaNegra"
         android:text="@string/crear_nueva_carta_negra"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package com.example.cardsvshumanity.actiPartida;
+package com.example.cardsvshumanity.actiBarajas;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
-import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.javaConCod.Connection;
 
