@@ -8,6 +8,7 @@ import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.cardsvshumanity.actiPartida.CrearPartida;
 import com.example.cardsvshumanity.actiPartida.Partida;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
@@ -46,6 +47,8 @@ public class Connection {
     private static final int SAVE_BARAJA = 106;
     private static final int BORRA_BARAJA = 107;
     private static final int COGER_PARTIDA = 108;
+    private static final int CREAR_PARTIDA = 109;
+    private static final int CONNECTAR_PARTIDA = 110;
 
     //ERRORES
     public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
@@ -339,6 +342,10 @@ public class Connection {
         return new ConnectionThread(BORRA_BARAJA, context, baraja);
     }
 
+    public static  ConnectionThread crearPartida(Activity context, String nombrePartida, String contrasena, int numJugadores, ArrayList<Baraja> arrayList){
+        return new ConnectionThread(CREAR_PARTIDA, context, nombrePartida, contrasena, numJugadores, arrayList);
+    }
+
     public static boolean logOut(){
         if(user!=null){
             user=null;
@@ -439,6 +446,10 @@ public class Connection {
 
                 case COGER_PARTIDA:
                     run = null; // TODO Coger partida
+                    break;
+
+                case CREAR_PARTIDA:
+                    run = getRunCrearPartida();
                     break;
 
                 default:
@@ -888,18 +899,16 @@ public class Connection {
                         int error = (result == OK)? 0 : skHandler.recibirInt(secretKey);
                         if(result == OK){
                             int sizeList = skHandler.recibirInt(secretKey);
-                            System.out.println(sizeList);
+
                             ArrayList<Object[]> args = new ArrayList<>();
+
                             for(int i = 0; i<sizeList; i++) {
 
                                 String nombreEmail = skHandler.recibirString(secretKey);
-                                System.out.println("Email: "+nombreEmail);
 
                                 String nombreBaraja = skHandler.recibirString(secretKey);
-                                System.out.println("Baraja: "+nombreBaraja);
 
                                 String nombreUser = skHandler.recibirString(secretKey);
-                                System.out.println("Usuario: "+nombreUser);
 
                                 int cantidadCartas = skHandler.recibirInt(secretKey);
 
@@ -1211,6 +1220,106 @@ public class Connection {
                 }
             };
         }
+
+        private Runnable getRunCrearPartida(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+
+                        Log.d(Connection.class.getSimpleName(), "EMPIEZA -- LogIn");
+
+                        if (user == null) {
+                            if (runNo != null) {
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
+
+                        //Envia orden
+                        dos.writeInt(CREAR_PARTIDA);
+
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+
+                        String nombrePartida = (String) arguments[0];
+                        String contrasena = (String) arguments[1];
+                        int maxPlayers = (int) arguments[2];
+                        ArrayList<Baraja> listaBarajas = (ArrayList<Baraja>) arguments[3];
+
+                        skHandler.enviarString(user.email, secretKey);
+                        skHandler.enviarHex(user.password,secretKey);
+
+                        int result = skHandler.recibirInt(secretKey);
+                        int error = (result == NO)? skHandler.recibirInt(secretKey) : 1;
+
+                        if(result == OK){
+                            skHandler.enviarString(nombrePartida, secretKey);
+                            skHandler.enviarString(contrasena, secretKey);
+                            skHandler.enviarInt(maxPlayers, secretKey);
+                            skHandler.enviarInt(listaBarajas.size(), secretKey);
+
+                            for(Baraja baraja : listaBarajas){
+                                skHandler.enviarString(baraja.getEmail(), secretKey);
+                                skHandler.enviarString(baraja.getNombre(), secretKey);
+                            }
+
+                            result = skHandler.recibirInt(secretKey);
+                            error = (result == NO)? skHandler.recibirInt(secretKey) : 2;
+                            if(result == OK){
+                                if(runOk != null){
+                                    activityContext.runOnUiThread(runOk);
+                                }
+                            }
+                            else{
+                                if(runNo != null){
+                                    runNo.setError(error);
+                                    activityContext.runOnUiThread(runNo);
+                                }
+                            }
+                        }
+                        else{
+                            if(runNo != null){
+                                runNo.setError(error);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if (runNo != null) {
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+        }
+
 
         private static void ConnectSocket(Socket sk) throws IOException {
             sk.connect(new InetSocketAddress(HOST,PORT),10000);
