@@ -346,6 +346,10 @@ public class Connection {
         return new ConnectionThread(CREAR_PARTIDA, context, nombrePartida, contrasena, numJugadores, arrayList);
     }
 
+    public static ConnectionThread unirsePartida(Activity context, String partida, String password){
+        return new ConnectionThread(CONNECTAR_PARTIDA, context, partida, password);
+    }
+
     public static boolean logOut(){
         if(user!=null){
             user=null;
@@ -445,11 +449,15 @@ public class Connection {
                     break;
 
                 case COGER_PARTIDA:
-                    run = null; // TODO Coger partida
+                    run = getRunPartidas(); // TODO Coger partida
                     break;
 
                 case CREAR_PARTIDA:
                     run = getRunCrearPartida();
+                    break;
+
+                case CONNECTAR_PARTIDA:
+                    run  = getRunConectarPartida();
                     break;
 
                 default:
@@ -1290,9 +1298,11 @@ public class Connection {
                             result = skHandler.recibirInt(secretKey);
                             error = (result == NO)? skHandler.recibirInt(secretKey) : 2;
                             if(result == OK){
-                                if(runOk != null){
-                                    activityContext.runOnUiThread(runOk);
-                                }
+                                ConnectionThread hilo = unirsePartida(activityContext, nombrePartida, contrasena);
+                                hilo.setRunOk(runOk);
+                                hilo.setRunNo(runNo);
+                                hilo.setRunEnd(runEnd);
+                                hilo.start();
                             }
                             else{
                                 if(runNo != null){
@@ -1320,6 +1330,86 @@ public class Connection {
             };
         }
 
+        private Runnable getRunConectarPartida(){
+            return new Runnable() {
+                @Override
+                public void run() {
+                    Socket sk = null;
+                    try {
+                        if (activityContext == null)
+                            throw new Exception("No context added");
+
+                        Log.d(Connection.class.getSimpleName(), "EMPIEZA -- Connectartida");
+
+                        if (user == null) {
+                            if (runNo != null) {
+                                runNo.setError(USER_NOT_LOGINED);
+                                activityContext.runOnUiThread(runNo);
+                                throw new Exception("User is not logined");
+                            }
+                        }
+
+                        sk = new Socket();
+                        try {
+                            ConnectSocket(sk);
+                        } catch (IOException ex) {
+                            if (runNo != null) {
+                                runNo.setError(SOCKET_DISCONNECTED);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                            throw new Exception(ex.getMessage());
+                        }
+                        sk.setSoTimeout(0);
+
+                        SocketHandler skHandler = new SocketHandler(sk);
+
+                        DataInputStream dis;
+                        DataOutputStream dos;
+
+                        dis = skHandler.getDis();
+                        dos = skHandler.getDos();
+
+                        //Envia orden
+                        dos.writeInt(CONNECTAR_PARTIDA);
+
+                        SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+
+                        String nombrePartida = (String) arguments[0];
+                        String contraPartida = (String) arguments[1];
+
+                        skHandler.enviarString(user.email, secretKey);
+                        skHandler.enviarHex(user.password, secretKey);
+                        skHandler.enviarString(nombrePartida, secretKey);
+                        skHandler.enviarString(contraPartida, secretKey);
+
+                        int result = skHandler.recibirInt(secretKey);
+                        if(result == OK) {
+                            if(runOk != null){
+                                activityContext.runOnUiThread(runOk);
+                            }
+                        }
+                        else{
+                            int error = skHandler.recibirInt(secretKey);
+                            if(runNo != null){
+                                runNo.setError(error);
+                                activityContext.runOnUiThread(runNo);
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if (runNo != null) {
+                            runNo.setError(UNKOWN_ERROR);
+                            activityContext.runOnUiThread(runNo);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            };
+        }
 
         private static void ConnectSocket(Socket sk) throws IOException {
             sk.connect(new InetSocketAddress(HOST,PORT),10000);
