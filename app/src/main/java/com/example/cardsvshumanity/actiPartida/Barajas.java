@@ -48,7 +48,6 @@ public class Barajas extends AppCompatActivity {
 
         Connection.ConnectionThread thread = Connection.getBarajasUser(this);
 
-
         thread.setRunBegin(new Runnable() {
             @Override
             public void run() {
@@ -123,13 +122,11 @@ public class Barajas extends AppCompatActivity {
         thread.setRunNo(errorRunable);
         thread.setRunOk(successRunnable);
 
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(Barajas.this);
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recicler.setLayoutManager(layoutManager);
         adaptador1=new Adaptador(this, baraja);
         recicler.setAdapter(adaptador1);
-
 
         thread.start();
     }
@@ -138,7 +135,6 @@ public class Barajas extends AppCompatActivity {
 
         private  ArrayList<Baraja> baraja;
         private LayoutInflater mInflater;
-
 
         @NonNull
         @Override
@@ -158,8 +154,6 @@ public class Barajas extends AppCompatActivity {
             String mCurrent = baraja.get(i).getNombre();
             viewHolder.texto.setText(mCurrent);
         }
-
-
 
         public class ViewHolder extends RecyclerView.ViewHolder{
             private TextView texto;
@@ -226,6 +220,7 @@ public class Barajas extends AppCompatActivity {
             this.baraja=bar;
         }
     }
+
     public void borrar(final int pos){
         final AlertDialog.Builder builder1=new AlertDialog.Builder(Barajas.this);
         builder1.setMessage(R.string.internet_dialog_cargando);
@@ -263,7 +258,6 @@ public class Barajas extends AppCompatActivity {
             }
         });
         borrandoBarajas.start();
-
     }
 
     public void onClickNuevaBaraja(View view){
@@ -316,8 +310,6 @@ public class Barajas extends AppCompatActivity {
                                 Toast.makeText(Barajas.this, getString(R.string.nombre_baraja_vacio), Toast.LENGTH_SHORT).show();
                         }
                     });
-
-
         builder1.setNegativeButton(
                 getString(R.string.salida),
                 new DialogInterface.OnClickListener() {
@@ -337,7 +329,6 @@ public class Barajas extends AppCompatActivity {
             if (data != null) {
                 baraja.get(baraja.size()-1).setNumCartas(data.getIntExtra("numCartas",0));
             }
-           // Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
             adaptador1.notifyItemInserted(baraja.size());
         }else if(requestCode==YA_PUEDE_MODICIFAR){
             if (data != null) {

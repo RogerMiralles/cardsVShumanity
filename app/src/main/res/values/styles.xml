@@ -28,4 +28,10 @@
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
+    <style name="btnSegundaVentana">
+        <item name="android:fontFamily">@font/roboto_thin</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@android:color/holo_orange_light</item>
+    </style>
 </resources>

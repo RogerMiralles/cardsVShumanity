@@ -9,36 +9,40 @@
     <Button
         android:id="@+id/btnBaraja"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="16dp"
         android:onClick="onClickBarajas"
         android:text="@string/baraja"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUnirsePartida" />
+        app:layout_constraintTop_toBottomOf="@+id/btnUnirsePartida"
+        style="@style/btnSegundaVentana"/>
 
     <Button
+        style="@style/btnSegundaVentana"
         android:id="@+id/btnCrearPartida"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:onClick="onClickCrearPartida"
         android:text="@string/crear_partida"
         app:layout_constraintBottom_toTopOf="@+id/btnUnirsePartida"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        style="@style/btnSegundaVentana"
         android:id="@+id/btnUnirsePartida"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="onClickUnirsePartida"
