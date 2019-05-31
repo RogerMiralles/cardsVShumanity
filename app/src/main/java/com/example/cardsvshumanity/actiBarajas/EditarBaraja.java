@@ -325,6 +325,7 @@ public class EditarBaraja extends AppCompatActivity {
                                     adapBlancas.notifyItemChanged(pos);
                                 }
                             });
+                            builder1.setNeutralButton(null,null);
                             builder1.show();
                         }
                     });
@@ -415,6 +416,7 @@ public class EditarBaraja extends AppCompatActivity {
                                 adapNegras.notifyItemChanged(pos);
                             }
                         });
+                        builder1.setNeutralButton(null,null);
                         builder1.show();
                     }
                 });
