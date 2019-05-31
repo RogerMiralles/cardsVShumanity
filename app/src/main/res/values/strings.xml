@@ -100,6 +100,6 @@
     <string name="cch" translatable="false">CCH</string>
     <string name="guardar_canvios">Quieres guardar los canvios?</string>
     <string name="opcion_uno">Salir de la ventana</string>
-    <string name="opcion_dos">Mantener en la ventana</string>
+    <string name="opcion_dos">Mantenerse en la ventana</string>
 
 </resources>

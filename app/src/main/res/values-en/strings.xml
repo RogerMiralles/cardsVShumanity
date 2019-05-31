@@ -97,5 +97,8 @@
     <string name="imagenusuario" translatable="false">image user</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="cch" translatable="false">CAH</string>
+    <string name="guardar_canvios">Save changes?</string>
+    <string name="opcion_uno">Exit Window</string>
+    <string name="opcion_dos">Stay on this window</string>
 
 </resources>
