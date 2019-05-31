@@ -8,9 +8,11 @@
 
     <Button
         android:id="@+id/btnBaraja"
+        style="@style/btnSegundaVentana"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:onClick="onClickBarajas"
@@ -19,17 +21,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUnirsePartida"
-        style="@style/btnSegundaVentana"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnUnirsePartida" />
 
     <Button
-        style="@style/btnSegundaVentana"
         android:id="@+id/btnCrearPartida"
+        style="@style/btnSegundaVentana"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:onClick="onClickCrearPartida"
         android:text="@string/crear_partida"
         app:layout_constraintBottom_toTopOf="@+id/btnUnirsePartida"
