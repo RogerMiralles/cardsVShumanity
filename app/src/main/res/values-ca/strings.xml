@@ -103,5 +103,5 @@
     <string name="guardar_canvios">Vols guardar els canvis?</string>
     <string name="opcion_uno">Sortir de la finestra?</string>
     <string name="opcion_dos">Mantenir-se a la finestra</string>
-
+    <string name="minimo_cartas">Minimo 5 cartas negras y 15 blancas</string>
 </resources>

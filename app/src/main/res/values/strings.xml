@@ -103,5 +103,6 @@
     <string name="guardar_canvios">Quieres guardar los canvios?</string>
     <string name="opcion_uno">Salir de la ventana</string>
     <string name="opcion_dos">Mantenerse en la ventana</string>
+    <string name="minimo_cartas">Minimo 5 cartas negras y 15 blancas</string>
 
 </resources>
