@@ -315,7 +315,7 @@ public class EditarBaraja extends AppCompatActivity {
                             builder1.setView(viewCartaBlanca);
                             final EditText aa=viewCartaBlanca.findViewById(R.id.eTxtNomCBlanca);
 
-                            builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            builder1.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -335,7 +335,7 @@ public class EditarBaraja extends AppCompatActivity {
                     final AlertDialog.Builder builder=new AlertDialog.Builder(EditarBaraja.this);
                     builder.setMessage(getString(R.string.confirmar));
                     builder.setCancelable(false);
-                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -425,7 +425,7 @@ public class EditarBaraja extends AppCompatActivity {
                     final AlertDialog.Builder builder=new AlertDialog.Builder(EditarBaraja.this);
                     builder.setMessage(getString(R.string.confirmar));
                     builder.setCancelable(false);
-                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
