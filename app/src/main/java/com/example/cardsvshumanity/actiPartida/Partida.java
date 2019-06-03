@@ -23,6 +23,8 @@ import com.example.cardsvshumanity.cosasRecicler.CartaNegra;
 import com.example.cardsvshumanity.javaConCod.Connection;
 import com.example.cardsvshumanity.javaConCod.GameController;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class Partida extends AppCompatActivity {
@@ -128,7 +130,7 @@ public class Partida extends AppCompatActivity {
                         cartaNegraActual = (CartaNegra) getArgument();
                         Log.d(Partida.class.getSimpleName(), cartaNegraActual.getNombre());
                         mCartaNegraMostrar.removeAllViews();
-                        View v = getLayoutInflater().inflate(R.layout.recicler_cartas_negras, mCartaNegraMostrar, true);
+                        View v = getLayoutInflater().inflate(R.layout.recicler_carta_negra, mCartaNegraMostrar, true);
                         ((TextView)v.findViewById(R.id.etTextoCartasNViewHolder)).setText(cartaNegraActual.getNombre());
                         break;
 
@@ -155,9 +157,12 @@ public class Partida extends AppCompatActivity {
                         Object[] objects = (Object[]) getArgument();
                         String email = (String) objects[0];
                         int puntos = (int) objects[1];
-                        for(Jugador j : jugadores){
+                        for(int i=0;i< jugadores.size();i++){
+                            Jugador j=jugadores.get(i);
                             if(j.getEmail().equals(email)){
-                                j.setPuntos(puntos);
+                                j.setPuntos(puntos);                                 
+                                ((TextView) mRecyclerView_jugadores.getChildAt(i)).setText(j.getNombre()+": "+j.getPuntos());
+                                mRecyclerView_jugadores.invalidate();
                                 if(Connection.getEmail().equals(j.getEmail())){
                                     Toast.makeText(Partida.this, R.string.game_you_win_message, Toast.LENGTH_SHORT).show();
                                 }
@@ -266,7 +271,7 @@ public class Partida extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RAdapter.ViewHolder viewHolder, int i) {
-            viewHolder.editText.setText(jugadores.get(i).getNombre());
+            viewHolder.editText.setText(jugadores.get(i).getNombre()+": "+jugadores.get(i).getPuntos());
         }
 
         @Override

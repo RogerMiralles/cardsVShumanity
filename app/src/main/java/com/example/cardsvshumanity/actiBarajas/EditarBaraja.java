@@ -290,7 +290,8 @@ public class EditarBaraja extends AppCompatActivity {
                 texto.setOnClickListener(this);
                 scroll=itemView.findViewById(R.id.scrollViewCartasNegras);
                 scroll.setOnClickListener(this);
-                cons=itemView.findViewById(R.id.consCartasNegras);cons.setOnClickListener(this);
+                cons=itemView.findViewById(R.id.consCartasNegras);
+                cons.setOnClickListener(this);
                 this.adaptador = adaptador;
                 itemView.setOnClickListener(this);
             }

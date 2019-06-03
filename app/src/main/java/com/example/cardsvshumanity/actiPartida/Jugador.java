@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class Jugador implements Serializable {
     private String nombre, email;
+
+    public int getPuntos() {
+        return puntos;
+    }
+
     private int puntos;
 
     public Jugador(String email, String nombre){
@@ -22,4 +27,5 @@ public class Jugador implements Serializable {
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
+
 }
