@@ -82,10 +82,10 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
             finish();
         }
         else if(ids.length < limite){
-            String texto = "No se han seleccionado " + limite +" cartas.";
+            String texto = getString(R.string.game_selectcards_noselection_f1) + limite +getString(R.string.game_selectcards_noselection_f2);
             Toast.makeText(this,texto, Toast.LENGTH_SHORT).show();
         }else{
-            String texto = "No se han seleccionado " + limite +" cartas.";
+            String texto = getString(R.string.game_selectcards_noselection_f1) + limite +getString(R.string.game_selectcards_noselection_f2);
             Toast.makeText(this,texto, Toast.LENGTH_SHORT).show();
         }
     }

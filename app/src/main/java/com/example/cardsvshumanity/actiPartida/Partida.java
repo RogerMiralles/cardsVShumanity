@@ -159,10 +159,10 @@ public class Partida extends AppCompatActivity {
                             if(j.getEmail().equals(email)){
                                 j.setPuntos(puntos);
                                 if(Connection.getEmail().equals(j.getEmail())){
-                                    Toast.makeText(Partida.this, "Has ganado", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Partida.this, R.string.game_you_win_message, Toast.LENGTH_SHORT).show();
                                 }
                                 else {
-                                    Toast.makeText(Partida.this, "Ha ganado " + j.getNombre(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Partida.this, getString(R.string.game_other_win_message) + j.getNombre(), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             }
@@ -174,7 +174,7 @@ public class Partida extends AppCompatActivity {
                         for(Jugador j : jugadores){
                             if(j.getEmail().equals(email2)){
                                 if(Connection.getEmail().equals(email2)){
-                                    nombre = "tu";
+                                    nombre = getString(R.string.game_winner_you_final_message);
                                 }
                                 else{
                                     nombre = j.getNombre();
@@ -183,7 +183,7 @@ public class Partida extends AppCompatActivity {
                             }
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(Partida.this);
-                        builder.setMessage("¡La partida se ha acabado! Ha ganado "+nombre);
+                        builder.setMessage(getString(R.string.game_winner_name)+nombre);
                         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -197,7 +197,7 @@ public class Partida extends AppCompatActivity {
                         break;
                     case GameController.CERRAR_PARTIDA:
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(Partida.this);
-                        builder1.setMessage("La partida se ha cancelado");
+                        builder1.setMessage(R.string.game_canceled);
                         builder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -229,10 +229,6 @@ public class Partida extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void SelectWinner(){
-        GameController.getInstance().enviarGanador(0);
     }
 
     @Override
@@ -305,7 +301,6 @@ public class Partida extends AppCompatActivity {
             for(int j = 0; j < cantidad_hijos; j++){
                 View v = getLayoutInflater().inflate(R.layout.recicler_cartas_blancas, linearLayout, false);
                 TextView textView = v.findViewById(R.id.etTextoCartasBViewHolder);
-                Log.d(Partida.class.getSimpleName(), "nombreCarta "+j+": " + cartasEscogidas.get(i).get(j).getNombre());
                 textView.setText(cartasEscogidas.get(i).get(j).getNombre());
                 linearLayout.addView(v);
             }

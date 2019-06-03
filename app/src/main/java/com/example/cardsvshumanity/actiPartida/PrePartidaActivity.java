@@ -95,7 +95,7 @@ public class PrePartidaActivity extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case GameController.ERROR_NO_SUFFICIENT_PLAYERS:
-                        Toast.makeText(PrePartidaActivity.this, "No hay suficientes jugadores para empezar", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PrePartidaActivity.this, R.string.not_enough_players, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
