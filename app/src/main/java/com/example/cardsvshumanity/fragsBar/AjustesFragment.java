@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiLogReg.Login;
 import com.example.cardsvshumanity.javaConCod.Connection;
@@ -183,7 +184,9 @@ public class AjustesFragment extends Fragment {
                                                         builder2.setMessage(R.string.error_unknown_error);
                                                         break;
                                                     case Connection.USER_NOT_LOGINED:
-                                                        //TODO anadir que ocurre si no esta logeado
+                                                        Intent intent = new Intent(getContext(), MainActivity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        startActivity(intent);
                                                         break;
                                                 }
                                                 builder2.show();

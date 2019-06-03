@@ -132,4 +132,19 @@ public class SocketHandler {
     public DataOutputStream getDos() {
         return dos;
     }
+
+    public void close(){
+        try{
+            dis.close();
+        }catch (IOException e){}
+
+        try{
+            dos.close();
+        }catch (IOException e){}
+
+
+        try{
+            sk.close();
+        }catch (IOException e){}
+    }
 }

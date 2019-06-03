@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
@@ -105,7 +106,9 @@ public class Barajas extends AppCompatActivity {
                         builder1.setMessage(R.string.noConexion);
                         break;
                     case Connection.USER_NOT_LOGINED:
-                        //TODO anadir que hace si el usuario no esta logeado
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         break;
                 }
 

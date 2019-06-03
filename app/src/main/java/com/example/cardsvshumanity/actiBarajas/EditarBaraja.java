@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.cardsvshumanity.MainActivity;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.actiPartida.Barajas;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
@@ -173,7 +174,9 @@ public class EditarBaraja extends AppCompatActivity {
                                     builder.setMessage(R.string.error_usuario_no_existe);
                                     break;
                                 case Connection.USER_NOT_LOGINED:
-                                    //TODO falta incluir que hace cuando no esta login
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
                                     break;
                             }
                             blanca.add(new CartaBlanca("HOLA"));

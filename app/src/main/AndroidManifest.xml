@@ -20,12 +20,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".actiPartida.PartidaEscogeCartasActivity"
+            android:screenOrientation="sensorLandscape" ></activity>
         <activity
             android:name=".actiPartida.PrePartidaActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".actiPartida.Partida"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".actiBarajas.EditarBaraja"
             android:screenOrientation="sensorLandscape" />

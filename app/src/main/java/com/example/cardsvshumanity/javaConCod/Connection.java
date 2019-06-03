@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.cardsvshumanity.actiPartida.CrearPartida;
+import com.example.cardsvshumanity.actiPartida.Jugador;
 import com.example.cardsvshumanity.actiPartida.Partida;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.cosasRecicler.CartaBlanca;
@@ -36,7 +37,7 @@ public class Connection {
     public static final int NO = -1;
     private static final int PORT = 55555;
     private static final String HOST = "192.168.137.1";
-    public static final int BLOCK_SIZE = 1024;
+    public static final int BLOCK_SIZE = 4096;
 
     //ORDENES
     private static final int CREATE_USER = 101;
@@ -60,6 +61,9 @@ public class Connection {
     public static final int CREATE_USER_ERROR_LONG_EMAIL = -7;
     public static final int CREATE_USER_ERROR_LONG_USERNAME = -8;
     public static final int CREATE_USER_ERROR_INVALID_USERNAME = -9;
+    public static final int PARTIDA_ERROR_NON_EXISTANT_PARTIDA = -10;
+    public static final int PARTIDA_ERROR_EXISTING_PARTIDA = -11;
+    public static final int PARTIDA_ERROR_NO_ENTRAR_DENIED = -12;
 
     public static final int SOCKET_DISCONNECTED = -102;
     public static final int USER_NOT_LOGINED = -101;
@@ -1298,11 +1302,10 @@ public class Connection {
                             result = skHandler.recibirInt(secretKey);
                             error = (result == NO)? skHandler.recibirInt(secretKey) : 2;
                             if(result == OK){
-                                ConnectionThread hilo = unirsePartida(activityContext, nombrePartida, contrasena);
-                                hilo.setRunOk(runOk);
-                                hilo.setRunNo(runNo);
-                                hilo.setRunEnd(runEnd);
-                                hilo.start();
+                                if(runOk != null){
+                                    runOk.setArgument(new Object[]{skHandler, secretKey});
+                                    activityContext.runOnUiThread(runOk);
+                                }
                             }
                             else{
                                 if(runNo != null){
@@ -1382,9 +1385,22 @@ public class Connection {
                         skHandler.enviarString(nombrePartida, secretKey);
                         skHandler.enviarString(contraPartida, secretKey);
 
-                        int result = skHandler.recibirInt(secretKey);
+                        ArrayList<Jugador> jugadores = new ArrayList<>();
+                        int result;
+                        do{
+                            result = skHandler.recibirInt(secretKey);
+                            Log.d(Connection.class.getSimpleName(), String.valueOf(result));
+                            if(result == GameController.NEW_PLAYER){
+                                jugadores.add(new Jugador(skHandler.recibirString(secretKey), skHandler.recibirString(secretKey)));
+                            }
+                        }while(result == GameController.NEW_PLAYER);
                         if(result == OK) {
                             if(runOk != null){
+                                Object[] objects = new Object[3];
+                                objects[0] = jugadores;
+                                objects[1] = skHandler;
+                                objects[2] = secretKey;
+                                runOk.setArgument(objects);
                                 activityContext.runOnUiThread(runOk);
                             }
                         }

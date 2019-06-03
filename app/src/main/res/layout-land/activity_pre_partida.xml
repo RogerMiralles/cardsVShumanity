@@ -7,7 +7,7 @@
     tools:context=".actiPartida.PrePartidaActivity">
 
     <TextView
-        android:id="@+id/txtSala"
+        android:id="@+id/txtSala_prepartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="314dp"
@@ -15,13 +15,13 @@
         android:layout_marginEnd="91dp"
         android:layout_marginBottom="157dp"
         android:text="Estas en la sala: x"
-        app:layout_constraintBottom_toTopOf="@+id/idComenzar"
+        app:layout_constraintBottom_toTopOf="@+id/btnComenzar_prepartida"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtPlayers"
+        app:layout_constraintStart_toEndOf="@+id/txtPlayers_prepartida"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtPlayers"
+        android:id="@+id/txtPlayers_prepartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
@@ -29,12 +29,12 @@
         android:layout_marginBottom="286dp"
         android:text="Jugadores en sala:"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtSala"
+        app:layout_constraintEnd_toStartOf="@+id/txtSala_prepartida"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/idComenzar"
+        android:id="@+id/btnComenzar_prepartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="490dp"
@@ -44,5 +44,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSala" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSala_prepartida" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recView_prepartida"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlayers_prepartida"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtPlayers_prepartida"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlayers_prepartida"
+        app:layout_constraintVertical_bias="1.0" />
+
 </android.support.constraint.ConstraintLayout>

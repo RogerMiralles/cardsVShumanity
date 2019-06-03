@@ -16,8 +16,12 @@ import android.widget.Toast;
 import com.example.cardsvshumanity.R;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.javaConCod.Connection;
+import com.example.cardsvshumanity.javaConCod.GameController;
+import com.example.cardsvshumanity.javaConCod.SocketHandler;
 
 import java.util.ArrayList;
+
+import javax.crypto.SecretKey;
 
 public class CrearPartida extends AppCompatActivity {
 
@@ -130,7 +134,7 @@ public class CrearPartida extends AppCompatActivity {
     }
 
     public void creaPartida(View v){
-        String nomPartida = mNombrePartida.getText().toString();
+        final String nomPartida = mNombrePartida.getText().toString();
         String cGame = mContraPartida.getText().toString();
         boolean noValid = false;
         if(nomPartida.trim().isEmpty() || nomPartida.length() > 20){
@@ -161,7 +165,10 @@ public class CrearPartida extends AppCompatActivity {
                     public void run() {
                         alertDialog1.dismiss();
                         Intent intent = new Intent(CrearPartida.this, PrePartidaActivity.class);
-                        intent.putExtra("autoEnter", true);
+                        Object[] objects = (Object[]) getArguments();
+                        GameController.GenerateGameController((SocketHandler)objects[0], (SecretKey)objects[1]);
+                        intent.putExtra("salaName", nomPartida);
+                        intent.putExtra("creator", true);
                         startActivity(intent);
                     }
                 });
@@ -176,7 +183,7 @@ public class CrearPartida extends AppCompatActivity {
                     public void run() {
                         alertDialog1.dismiss();
                         builder.setPositiveButton(R.string.ok, null);
-                        builder.setMessage(R.string.error_unknown_error);
+                        builder.setMessage(Integer.toString(getError()));
                         builder.show();
                         Log.d(CrearPartida.class.getSimpleName(), "Error: "+getError());
                     }
