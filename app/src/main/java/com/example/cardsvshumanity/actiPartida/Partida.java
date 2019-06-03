@@ -266,7 +266,9 @@ public class Partida extends AppCompatActivity {
         @NonNull
         @Override
         public RAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new RAdapter.ViewHolder(new TextView(getBaseContext()));
+            TextView texto=new TextView(getBaseContext());
+            texto.setTextSize(20);
+            return new RAdapter.ViewHolder(texto);
         }
 
         @Override

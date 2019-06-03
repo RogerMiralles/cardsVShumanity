@@ -104,7 +104,7 @@ public class GameController {
 
                             GameController.class.wait();
                         }
-                    } while (result != CERRAR_PARTIDA);
+                    } while (result != CERRAR_PARTIDA||result!=YA_HAY_GANADOR);
 
                 }catch(IOException | InterruptedException e){
                     runnable.order = Connection.SOCKET_DISCONNECTED;
