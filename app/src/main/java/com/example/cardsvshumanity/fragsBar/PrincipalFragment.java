@@ -102,7 +102,7 @@ public class PrincipalFragment extends Fragment {
         txt.setText(getString(R.string.app_name));
         if(!Connection.isLogined()){
             mJuegaIniciaSes.setText(getString(R.string.inicia_session));
-            mSalir.setVisibility(View.INVISIBLE);
+            mSalir.setVisibility(View.GONE);
         }
         else{
             mJuegaIniciaSes.setText(getString(R.string.jugar));

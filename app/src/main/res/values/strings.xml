@@ -104,5 +104,6 @@
     <string name="opcion_uno">Salir de la ventana</string>
     <string name="opcion_dos">Mantenerse en la ventana</string>
     <string name="minimo_cartas">Minimo 5 cartas negras y 15 blancas</string>
+    <string name="numero_de_jugadores">Numero de jugadores</string>
 
 </resources>

@@ -1,11 +1,17 @@
 package com.example.cardsvshumanity.actiPartida;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cardsvshumanity.R;
+import com.example.cardsvshumanity.actiBarajas.EditarBaraja;
 import com.example.cardsvshumanity.cosasRecicler.Baraja;
 import com.example.cardsvshumanity.javaConCod.Connection;
 import com.example.cardsvshumanity.javaConCod.GameController;
@@ -30,8 +37,9 @@ public class CrearPartida extends AppCompatActivity {
     private EditText mNombrePartida, mContraPartida;
     private TextView seekBarText;
     private SeekBar limiteJugadores;
-
+    private AdaptadorMazos adaptadorMazos;
     private int maxPlayers;
+    private RecyclerView reciclerMazos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +47,7 @@ public class CrearPartida extends AppCompatActivity {
         setContentView(R.layout.activity_crear_partida);
         setTitle(getString(R.string.crear_partida));
 
-        linearLayout_listaBarajas = findViewById(R.id.scr_layout_escogerBaraja_crearPartida);
+        //linearLayout_listaBarajas = findViewById(R.id.scr_layout_escogerBaraja_crearPartida);
         mNombrePartida = findViewById(R.id.et_nombrePartida_crearPartida);
         mContraPartida = findViewById(R.id.et_contraPartida_crearPartida);
         limiteJugadores = findViewById(R.id.skBar_maximumPlayer_crearPartida);
@@ -73,6 +81,15 @@ public class CrearPartida extends AppCompatActivity {
 
         listaBarajas = new ArrayList<>();
 
+        reciclerMazos=findViewById(R.id.reciclerMazo);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(CrearPartida.this);
+
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        reciclerMazos.setLayoutManager(layoutManager);
+        adaptadorMazos = new AdaptadorMazos(this, listaBarajas);
+        reciclerMazos.setAdapter(adaptadorMazos);
+
         Connection.ConnectionThread hilo = Connection.getBarajasUser(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.internet_dialog_cargando);
@@ -88,6 +105,7 @@ public class CrearPartida extends AppCompatActivity {
             @Override
             public void run() {
                 ArrayList<Object[]> list = (ArrayList<Object[]>) getArguments();
+                listaBarajas.clear();
                 for(Object[] obj : list){
                     String nombreBaraja, nombreEmail, userName, idioma;
                     int cantidad;
@@ -96,18 +114,10 @@ public class CrearPartida extends AppCompatActivity {
                     userName = (String) obj[2];
                     cantidad = (int) obj[3];
                     idioma = (String) obj[4];
-
-                    listaBarajas.add(new Baraja(nombreBaraja,nombreEmail, userName, cantidad, idioma));
+                    adaptadorMazos.baraja.add(new Baraja(nombreBaraja,nombreEmail, userName, cantidad, idioma));
                 }
 
-                linearLayout_listaBarajas.removeAllViews();
-                for(Baraja b : listaBarajas){
-                    System.out.println(b.getNombre());
-                    CheckBox checkBox = new CheckBox(CrearPartida.this);
-                    String strCb = b.getNombre() + " -- " + b.getIdioma();
-                    checkBox.setText(strCb);
-                    linearLayout_listaBarajas.addView(checkBox);
-                }
+                adaptadorMazos.notifyDataSetChanged();
                 primerDialog.dismiss();
             }
         });
@@ -148,8 +158,8 @@ public class CrearPartida extends AppCompatActivity {
 
         if(!noValid){
             ArrayList<Baraja> listaAceptada = new ArrayList<>();
-            for(int i = 0; i<linearLayout_listaBarajas.getChildCount(); i++ ){
-                CheckBox c = (CheckBox) linearLayout_listaBarajas.getChildAt(i);
+            for(int i = 0; i<reciclerMazos.getChildCount(); i++ ){
+                CheckBox c =reciclerMazos.getChildAt(i).findViewById(R.id.cBMazo);
                 if(c.isChecked()){
                     listaAceptada.add(listaBarajas.get(i));
                 }
@@ -197,6 +207,51 @@ public class CrearPartida extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "NO VALID", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public class AdaptadorMazos extends RecyclerView.Adapter<AdaptadorMazos.ViewHolder>{
+        private  ArrayList<Baraja> baraja;
+        private LayoutInflater mInflater;
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View mItemView = mInflater.inflate(
+                    R.layout.recicler_mazos, viewGroup, false);
+            return new AdaptadorMazos.ViewHolder(mItemView,this);
+        }
+
+        @Override
+        public int getItemCount() {
+            return baraja.size();
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull AdaptadorMazos.ViewHolder viewHolder, int i) {
+            String mCurrent = baraja.get(i).getNombre();
+            viewHolder.texto.setText(mCurrent);
+        }
+
+        public AdaptadorMazos(Context context, ArrayList<Baraja> bar){
+            mInflater = LayoutInflater.from(context);
+            this.baraja=bar;
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+            private CheckBox texto;
+            final AdaptadorMazos adaptador;
+
+            public ViewHolder(@NonNull View itemView, AdaptadorMazos adaptador) {
+                super(itemView);
+                texto = itemView.findViewById(R.id.cBMazo);
+                texto.setOnClickListener(this);
+                this.adaptador=adaptador;
+            }
+
+            public void onClick(View view){
+
+            }
         }
     }
 }

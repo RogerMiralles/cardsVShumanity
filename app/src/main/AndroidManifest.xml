@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".actiPartida.Barajas"
+            android:name=".actiBarajas.Barajas"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".actiPartida.SegundaVentana"
