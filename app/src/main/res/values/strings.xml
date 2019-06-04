@@ -62,7 +62,7 @@
     <string name="idioma_no_valido">El idioma es incorrecto. Valores validos es,ca,en.</string>
     <string name="num_espacios_invalido">El numero de espacios vacios es muy elevado. Maximo 3, minimo 1.</string>
     <string name="contenido_vacio">El contenido de la carta esta vacio</string>
-    <string name="nombre_baraja_vacio">EL nombre de la baraja esta vacio</string>
+    <string name="nombre_baraja_vacio">El nombre de la baraja esta vacio</string>
     <string name="no_editable">Esta baraja no se puede editar</string>
     <string name="borrar_baraja">Borrar baraja</string>
     <string name="no_borrable">Esta baraja no se puede borrar</string>
@@ -94,10 +94,10 @@
 
     <!--OTROS + translatable false-->
     <string name="todo" translatable="false">To-Do</string>
-    <string name="idiomaboton" translatable="false">Boton de Idioma</string>
-    <string name="logear" translatable="false">Entrar </string>
-    <string name="imagenatras" translatable="false">imagenAtras</string>
-    <string name="imagenusuario" translatable="false">imagen usuario</string>
+    <string name="idiomaboton">Boton de Idioma</string>
+    <string name="logear">Entrar </string>
+    <string name="imagenatras">imagenAtras</string>
+    <string name="imagenusuario">imagen usuario</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="cch" translatable="false">CCH</string>
     <string name="guardar_canvios">Quieres guardar los canvios?</string>
@@ -109,7 +109,7 @@
     <string name="game_winner_name">¡La partida se ha acabado! Ha ganado</string>
     <string name="game_canceled">La partida se ha cancelado</string>
     <string name="game_you_win_message">Has ganado</string>
-    <string name="game_other_win_message">Ha ganado</string>
+    <string name="game_other_win_message">"Ha ganado "</string>
     <string name="game_winner_you_final_message">Tu</string>
     <string name="game_selectcards_noselection_f1">No se han seleccionado</string>
     <string name="game_selectcards_noselection_f2">cartas.</string>
