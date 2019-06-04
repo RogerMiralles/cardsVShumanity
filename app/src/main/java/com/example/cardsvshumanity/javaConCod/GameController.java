@@ -181,6 +181,7 @@ public class GameController {
                 } catch (IOException e) {
                     e.printStackTrace();
                     runnable.order = Connection.SOCKET_DISCONNECTED;
+                    activity.runOnUiThread(runnable);
                 }
             }
         }).start();
