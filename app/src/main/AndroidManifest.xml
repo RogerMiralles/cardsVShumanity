@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.cardsvshumanity">
+    package="com.xokundevs.cardsvshumanity">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -20,25 +20,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".actiPartida.PartidaEscogeCartasActivity"
+        <activity android:name="com.xokundevs.cardsvshumanity.actiPartida.PartidaEscogeCartasActivity"
             android:screenOrientation="sensorLandscape" ></activity>
         <activity
-            android:name=".actiPartida.PrePartidaActivity"
+            android:name="com.xokundevs.cardsvshumanity.actiPartida.PrePartidaActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.Partida"
+            android:name="com.xokundevs.cardsvshumanity.actiPartida.Partida"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiBarajas.EditarBaraja"
+            android:name="com.xokundevs.cardsvshumanity.actiBarajas.EditarBaraja"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.UnirsePartida"
+            android:name="com.xokundevs.cardsvshumanity.actiPartida.UnirsePartida"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.CrearPartida"
+            android:name="com.xokundevs.cardsvshumanity.actiPartida.CrearPartida"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.xokundevs.cardsvshumanity.MainActivity"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,16 +47,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".actiBarajas.Barajas"
+            android:name="com.xokundevs.cardsvshumanity.actiBarajas.Barajas"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiPartida.SegundaVentana"
+            android:name="com.xokundevs.cardsvshumanity.actiPartida.SegundaVentana"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiLogReg.Registre"
+            android:name="com.xokundevs.cardsvshumanity.actiLogReg.Registre"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".actiLogReg.Login"
+            android:name="com.xokundevs.cardsvshumanity.actiLogReg.Login"
             android:screenOrientation="sensorLandscape" />
     </application>
 
