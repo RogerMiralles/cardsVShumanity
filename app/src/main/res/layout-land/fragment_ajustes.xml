@@ -10,6 +10,7 @@
 
     <Button
         android:id="@+id/btnIdioma"
+        style="@style/btnSegundaVentana"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -24,6 +25,7 @@
 
     <Button
         android:id="@+id/btnDatos"
+        style="@style/btnSegundaVentana"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -36,6 +38,7 @@
 
     <Button
         android:id="@+id/btnCuenta"
+        style="@style/btnSegundaVentana"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

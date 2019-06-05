@@ -33,12 +33,14 @@
 
     <Button
         android:id="@+id/btn_escoger_cartas"
+        style="@style/btnSegundaVentana"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:onClick="clickedEnviarCartas"
-        android:text="Button"
+        android:text="@string/guardar"
         app:layout_constraintBottom_toTopOf="@+id/rv_cartasblancas_escoger"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/guardar" />
 </android.support.constraint.ConstraintLayout>
