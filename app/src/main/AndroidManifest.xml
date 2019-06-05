@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.xokundevs.cardsvshumanity.actiPartida.PartidaEscogeCartasActivity"
-            android:screenOrientation="sensorLandscape" ></activity>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.PrePartidaActivity"
             android:screenOrientation="sensorLandscape" />

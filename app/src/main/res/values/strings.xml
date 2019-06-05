@@ -112,7 +112,9 @@
     <string name="game_you_win_message">Has ganado </string>
     <string name="game_other_win_message">"Ha ganado "</string>
     <string name="game_winner_you_final_message">Tu</string>
-    <string name="game_selectcards_noselection_f1">No se han seleccionado </string>
-    <string name="game_selectcards_noselection_f2"> cartas.</string>
+    <string name="game_selectcards_noselection_f1">No se han seleccionado</string>
+    <string name="game_selectcards_noselection_f2">cartas.</string>
+    <string name="enviar_cartas">Enviar cartas</string>
+
 
 </resources>

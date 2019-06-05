@@ -10,13 +10,12 @@
         android:id="@+id/rv_cartas_escoger_winner"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearlayout_mostrarcartanegra_partida"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,14 +36,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_jugadores_partida"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/background_view_holder_blancas"
-        android:paddingLeft="3dp"
+        android:paddingHorizontal="3dp"
         app:layout_constraintBottom_toTopOf="@+id/linearlayout_mostrarcartanegra_partida"
         app:layout_constraintEnd_toStartOf="@+id/rv_cartas_escoger_winner"
         app:layout_constraintStart_toStartOf="parent"
