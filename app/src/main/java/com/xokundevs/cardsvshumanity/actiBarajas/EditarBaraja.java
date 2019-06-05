@@ -662,6 +662,7 @@ public class EditarBaraja extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });

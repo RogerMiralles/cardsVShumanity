@@ -336,8 +336,13 @@ public class Barajas extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==YA_PUEDE_ACTUALIZAR){
-            if (data != null) {
-                baraja.get(baraja.size()-1).setNumCartas(data.getIntExtra("numCartas",0));
+            if(resultCode == RESULT_OK) {
+                if (data != null) {
+                    baraja.get(baraja.size() - 1).setNumCartas(data.getIntExtra("numCartas", 0));
+                }
+            }
+            else{
+                baraja.remove(baraja.size()-1);
             }
            // Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
             adaptador1.notifyItemInserted(baraja.size());

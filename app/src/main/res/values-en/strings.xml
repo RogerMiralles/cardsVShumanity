@@ -114,6 +114,8 @@
     <string name="game_selectcards_noselection_f1">"You have to select "</string>
     <string name="game_selectcards_noselection_f2">" cards."</string>
     <string name="enviar_cartas">Send cards</string>
+    <string name="sala_player_title">Players in lobby:</string>
+    <string name="start_game_prepartida">START</string>
 
 
 </resources>
