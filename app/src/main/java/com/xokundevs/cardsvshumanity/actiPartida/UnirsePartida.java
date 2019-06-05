@@ -160,13 +160,20 @@ public class UnirsePartida extends AppCompatActivity {
                     connectionThread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
                         @Override
                         public void run() {
+                            AlertDialog.Builder erroresbuild = new AlertDialog.Builder(UnirsePartida.this);
+                            erroresbuild.setPositiveButton(R.string.ok,null);
                             switch (getError()){
                                 case Connection.USER_ERROR_INVALID_PASSWORD:
+                                    erroresbuild.setMessage(R.string.invalidPassword);
+                                    break;
                                 case Connection.USER_ERROR_NON_EXISTANT_USER:
+                                    erroresbuild.setMessage(R.string.error_usuario_no_existe);
                                     break;
                                 case Connection.PARTIDA_ERROR_NO_ENTRAR_DENIED:
+                                    erroresbuild.setMessage(R.string.error_partida_no_existe);
                                     break;
                                 case Connection.PARTIDA_ERROR_NON_EXISTANT_PARTIDA:
+                                    erroresbuild.setMessage(R.string.error_partida_no_existe);
                                     break;
                             }
                             Toast.makeText(getBaseContext(), Integer.toString(getError()), Toast.LENGTH_SHORT).show();

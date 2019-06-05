@@ -86,6 +86,7 @@
     <string name="error_password_diff">La contrasenya no concorda</string>
     <string name="error_erase_user_nouser">El usuari que intentas esborrar no existeix</string>
     <string name="error_no_existe_baraja">La baralla no existeix</string>
+    <string name="error_partida_no_existe">La partida no existeix</string>
     <string name="error_usuario_no_existe">El usuari no existeix</string>
     <string name="emailContraMal">Contrasenya i/o email incorrectes</string>
     <string name="noConexion">No s\'ha pogut connectar amb el servidor</string>

@@ -106,6 +106,7 @@
     <string name="numero_de_jugadores">Player\'s number</string>
     <string name="not_enough_players">There aren\'t enough players to start</string>
     <string name="game_winner_name">"The game has ended! The winner is "</string>
+    <string name="error_partida_no_existe">Game don\'t exist</string>
     <string name="game_canceled">The game has been canceled</string>
     <string name="game_you_win_message">You won</string>
     <string name="game_other_win_message">"The winner is "</string>

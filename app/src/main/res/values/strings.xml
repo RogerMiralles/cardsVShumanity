@@ -87,6 +87,7 @@
     <string name="error_erase_user_nouser">El usuario que intentas borrar no existe</string>
     <string name="error_no_existe_baraja">La baraja no existe</string>
     <string name="error_usuario_no_existe">El usuario no existe</string>
+    <string name="error_partida_no_existe">La partida no existe</string>
     <string name="emailContraMal">Contraseña y/o email incorrectos</string>
     <string name="noConexion">No se ha podido conectar al servidor</string>
     <string name="invalidPassword">Contraseña no valida.</string>
