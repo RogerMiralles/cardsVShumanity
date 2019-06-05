@@ -101,31 +101,9 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final CartaAdapter.ViewHolder viewHolder, int i) {
             viewHolder.textoCarta.setText(cartasBlancas.get(i));
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Integer integer = orden.get(viewHolder.getAdapterPosition());
+            //viewHolder.itemView.setOnClickListener(this);
 
-                    if(integer == null){
-                        orden.put(viewHolder.getAdapterPosition(), cuenta);
-                        cuenta++;
-                        viewHolder.textoCarta.setTextColor(0xFFFFEF00);
-                    }
-                    else{
-                        orden.remove(viewHolder.getAdapterPosition());
-                        Iterator<Map.Entry<Integer, Integer>> iterator = orden.entrySet().iterator();
-                        while(iterator.hasNext()){
-                            Map.Entry<Integer, Integer> it = iterator.next();
-                            if(it.getValue() > integer){
-                                it.setValue(it.getValue()-1);
-                            }
-                        }
-                        cuenta--;
-                        viewHolder.textoCarta.setTextColor(0xFF000000);
-                    }
 
-                }
-            });
         }
 
         @Override
@@ -133,11 +111,37 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
             return cartasBlancas.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             private TextView textoCarta;
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 textoCarta = itemView.findViewById(R.id.etTextoCartasBViewHolder);
+                textoCarta.setOnClickListener(this);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Integer integer = orden.get(getAdapterPosition());
+
+                if(integer == null){
+                    orden.put(getAdapterPosition(), cuenta);
+                    cuenta++;
+                    textoCarta.setTextColor(0xFFFFEF00);
+                }
+                else{
+                    orden.remove(getAdapterPosition());
+                    Iterator<Map.Entry<Integer, Integer>> iterator = orden.entrySet().iterator();
+                    while(iterator.hasNext()){
+                        Map.Entry<Integer, Integer> it = iterator.next();
+                        if(it.getValue() > integer){
+                            it.setValue(it.getValue()-1);
+                        }
+                    }
+                    cuenta--;
+                    textoCarta.setTextColor(0xFF000000);
+                }
+
             }
         }
     }

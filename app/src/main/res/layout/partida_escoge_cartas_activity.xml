@@ -39,8 +39,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:onClick="clickedEnviarCartas"
-        android:text="@string/guardar"
+        android:text="@string/enviar_cartas"
         app:layout_constraintBottom_toTopOf="@+id/rv_cartasblancas_escoger"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@string/guardar" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

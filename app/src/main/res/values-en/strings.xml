@@ -112,6 +112,7 @@
     <string name="game_winner_you_final_message">You</string>
     <string name="game_selectcards_noselection_f1">"You have to select "</string>
     <string name="game_selectcards_noselection_f2">" cards."</string>
+    <string name="enviar_cartas">Send cards</string>
 
 
 </resources>

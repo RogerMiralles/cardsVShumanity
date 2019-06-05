@@ -113,4 +113,5 @@
     <string name="game_winner_you_final_message">Tu</string>
     <string name="game_selectcards_noselection_f1">No s\'han seleccionat</string>
     <string name="game_selectcards_noselection_f2">" cartes."</string>
+    <string name="enviar_cartas">Envia cartes</string>
 </resources>

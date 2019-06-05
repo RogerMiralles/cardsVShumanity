@@ -308,6 +308,15 @@ public class Partida extends AppCompatActivity {
                 TextView textView = v.findViewById(R.id.etTextoCartasBViewHolder);
                 textView.setText(cartasEscogidas.get(i).get(j).getNombre());
                 linearLayout.addView(v);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(eresCzar){
+                            eresCzar = false;
+                            GameController.getInstance().enviarGanador(viewHolder.getAdapterPosition());
+                        }
+                    }
+                });
             }
             if(eresCzar) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +328,7 @@ public class Partida extends AppCompatActivity {
                         }
                     }
                 });
+
             }
         }
 
@@ -329,9 +339,11 @@ public class Partida extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
             LinearLayout linearLayout;
+
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 linearLayout = itemView.findViewById(R.id.ll_recicler_chosen_cards_partida);
+
             }
         }
     }
