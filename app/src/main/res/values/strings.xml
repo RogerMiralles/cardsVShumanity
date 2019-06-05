@@ -98,21 +98,21 @@
     <string name="idiomaboton">Boton de Idioma</string>
     <string name="logear">Entrar </string>
     <string name="imagenatras">imagenAtras</string>
-    <string name="imagenusuario">imagen usuario</string>
+    <string name="imagenusuario">imagen usuario </string>
     <string name="ok" translatable="false">Ok</string>
     <string name="cch" translatable="false">CCH</string>
-    <string name="guardar_canvios">Quieres guardar los canvios?</string>
-    <string name="opcion_uno">Salir de la ventana</string>
-    <string name="opcion_dos">Mantenerse en la ventana</string>
-    <string name="minimo_cartas">Minimo 5 cartas negras y 15 blancas</string>
-    <string name="numero_de_jugadores">Numero de jugadores</string>
-    <string name="not_enough_players">No hay suficientes jugadores para empezar</string>
-    <string name="game_winner_name">¡La partida se ha acabado! Ha ganado</string>
-    <string name="game_canceled">La partida se ha cancelado</string>
-    <string name="game_you_win_message">Has ganado</string>
+    <string name="guardar_canvios">Quieres guardar los canvios? </string>
+    <string name="opcion_uno">Salir de la ventana </string>
+    <string name="opcion_dos">Mantenerse en la ventana </string>
+    <string name="minimo_cartas">Minimo 5 cartas negras y 15 blancas </string>
+    <string name="numero_de_jugadores">Numero de jugadores </string>
+    <string name="not_enough_players">No hay suficientes jugadores para empezar </string>
+    <string name="game_winner_name">¡La partida se ha acabado! Ha ganado </string>
+    <string name="game_canceled">La partida se ha cancelado </string>
+    <string name="game_you_win_message">Has ganado </string>
     <string name="game_other_win_message">"Ha ganado "</string>
     <string name="game_winner_you_final_message">Tu</string>
-    <string name="game_selectcards_noselection_f1">No se han seleccionado</string>
-    <string name="game_selectcards_noselection_f2">cartas.</string>
+    <string name="game_selectcards_noselection_f1">No se han seleccionado </string>
+    <string name="game_selectcards_noselection_f2"> cartas.</string>
 
 </resources>

@@ -109,9 +109,9 @@
     <string name="not_enough_players">No hi han suficients jugadors per començar</string>
     <string name="game_winner_name">"La partida ha acabat! Ha guanyat "</string>
     <string name="game_canceled">La partida s\'ha cancelat</string>
-    <string name="game_you_win_message">Has guanyat</string>
-    <string name="game_other_win_message">"Ha guanyat "</string>
+    <string name="game_you_win_message">Has guanyat </string>
+    <string name="game_other_win_message">"Ha guanyat " </string>
     <string name="game_winner_you_final_message">Tu</string>
-    <string name="game_selectcards_noselection_f1">No s\'han seleccionat</string>
-    <string name="game_selectcards_noselection_f2">" cartes."</string>
+    <string name="game_selectcards_noselection_f1"> No s\'han seleccionat </string>
+    <string name="game_selectcards_noselection_f2"> " cartes." </string>
 </resources>
