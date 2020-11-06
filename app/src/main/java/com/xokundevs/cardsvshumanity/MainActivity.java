@@ -1,11 +1,11 @@
 package com.xokundevs.cardsvshumanity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.xokundevs.cardsvshumanity.fragsBar.AjustesFragment;
@@ -25,6 +25,27 @@ public class MainActivity extends AppCompatActivity {
         //Connection.crearCon();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        boolean bool = true;
+        if(savedInstanceState != null){
+            window = savedInstanceState.getInt("window");
+            bool = false;
+        }
+        else {
+            window = 1;
+        }
+
+        bindViews();
+        setUpViews();
+
+        UpdateFragment(bool);
+    }
+
+    public void bindViews(){
+        navView = findViewById(R.id.navigationView);
+    }
+
+    private void setUpViews(){
         this.setTitle(getString(R.string.cch));
         mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -48,25 +69,16 @@ public class MainActivity extends AppCompatActivity {
                 return bool;
             }
         };
-        navView = findViewById(R.id.navigationView);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        boolean bool = true;
-        if(savedInstanceState != null){
-            window = savedInstanceState.getInt("window");
-            bool = false;
-        }
-        else {
-            window = 1;
-        }
-        navView.getMenu().getItem(window).setChecked(true);
-        UpdateFragment(bool);
-    }
 
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        navView.getMenu().getItem(window).setChecked(true);
+    }
 
     /**
      * Nombre: UpdateFragment
      * Desc: Usa la funcion CargarFragmente para enseñar el fragment correspondiente
-     * @param bool
+     * @param bool primera vez que se muestra pantalla
      */
     private void UpdateFragment(boolean bool){
         switch (window){
@@ -90,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
      * Nombre: CargarFragmente
      * Desc: Remplaza el contenido de un Relative Layout llamado "contenedorFragmento"
      *       por el contenido de un fragment
-     * @param fragment
+     * @param fragment fragmento a cargar
      */
     private void CargarFragmente(Fragment fragment){
         FragmentManager manager=getSupportFragmentManager();

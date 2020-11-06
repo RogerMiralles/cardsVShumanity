@@ -2,12 +2,12 @@ package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,7 +133,7 @@ public class CrearPartida extends AppCompatActivity {
                         break;
                     case Connection.USER_ERROR_NON_EXISTANT_USER:
                         break;
-                    case Connection.USER_ERROR_INVALID_PASSWORD:
+                    case Connection.INVALID_CREDENTIALS_ERROR:
                         break;
                 }
                 primerDialog.dismiss();

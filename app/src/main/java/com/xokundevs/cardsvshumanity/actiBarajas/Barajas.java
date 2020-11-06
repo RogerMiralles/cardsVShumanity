@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.app.AlertDialog;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.os.LocaleListCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,9 @@ import com.xokundevs.cardsvshumanity.cosasRecicler.Baraja;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class Barajas extends AppCompatActivity {
+public class Barajas extends AppCompatActivity implements Connection.ConnectionThread.OnConnectionListener {
 
     private RecyclerView recicler;
     private static final int YA_PUEDE_ACTUALIZAR=0;
@@ -41,90 +43,9 @@ public class Barajas extends AppCompatActivity {
         setContentView(R.layout.activity_barajas);
         recicler=findViewById(R.id.reciclerBaraja);
 
-        final AlertDialog builder = new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.internet_dialog_cargando))
-                .setCancelable(false)
-                .create();
+        final
 
         Connection.ConnectionThread thread = Connection.getBarajasUser(this);
-
-
-        thread.setRunBegin(new Runnable() {
-            @Override
-            public void run() {
-                builder.show();
-            }
-        });
-
-        Connection.ConnectionThread.SuccessRunnable successRunnable = new Connection.ConnectionThread.SuccessRunnable() {
-            @Override
-            public void run() {
-                String nombreBaraja = null, email = null, username = null, idioma = null;
-                Integer cantidadCartas = null;
-                try {
-                    ArrayList<Object[]> objects = (ArrayList<Object[]>) getArguments();
-                    for (Object[] obj : objects) {
-                        nombreBaraja = (String) obj[0];
-                        email = (String) obj[1];
-                        username = (String) obj[2];
-                        cantidadCartas = (int) obj[3];
-                        idioma = (String) obj[4];
-                        baraja.add(new Baraja(nombreBaraja, email, username, cantidadCartas, idioma));
-                    }
-                    adaptador1.notifyDataSetChanged();
-                    builder.dismiss();
-                }catch(ClassCastException | NullPointerException ex){
-                    AlertDialog alertDialog = new AlertDialog.Builder(Barajas.this)
-                            .setMessage(R.string.error_unknown_error)
-                            .setPositiveButton(R.string.ok, null)
-                            .setCancelable(false)
-                            .create();
-                    alertDialog.show();
-                    if(builder.isShowing())
-                        builder.dismiss();
-                    ex.printStackTrace();
-                }
-            }
-        };
-
-        Connection.ConnectionThread.ErrorRunable errorRunable = new Connection.ConnectionThread.ErrorRunable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(Barajas.this);
-                builder1.setPositiveButton(R.string.ok, null)
-                        .setCancelable(false);
-                switch (getError()){
-                    case Connection.USER_ERROR_INVALID_PASSWORD:
-                    case Connection.USER_ERROR_NON_EXISTANT_USER:
-                        builder1.setMessage(R.string.emailContraMal);
-                        break;
-                    case Connection.UNKOWN_ERROR:
-                        builder1.setMessage(R.string.error_unknown_error);
-                        break;
-                    case Connection.SOCKET_DISCONNECTED:
-                        builder1.setMessage(R.string.noConexion);
-                        break;
-                    case Connection.USER_NOT_LOGINED:
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        break;
-                }
-
-                Log.d(Barajas.class.getSimpleName(), String.valueOf(getError()));
-                baraja.add(new Baraja("pepe"));
-                baraja.add(new Baraja("antonio el grande"));
-                baraja.add(new Baraja("raul ha hecho la web"));
-                baraja.add(new Baraja("test"));
-
-                builder1.show();
-                builder.dismiss();
-            }
-        };
-
-        thread.setRunNo(errorRunable);
-        thread.setRunOk(successRunnable);
-
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(Barajas.this);
         //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -134,6 +55,80 @@ public class Barajas extends AppCompatActivity {
 
 
         thread.start();
+    }
+
+    @Override
+    public void onConnectionSuccess(Object result) {
+        String nombreBaraja = null, email = null, username = null, idioma = null;
+        Integer cantidadCartas = null;
+        try {
+            ArrayList<Object[]> objects = (ArrayList<Object[]>) result;
+            for (Object[] obj : objects) {
+                nombreBaraja = (String) obj[0];
+                email = (String) obj[1];
+                username = (String) obj[2];
+                cantidadCartas = (int) obj[3];
+                idioma = (String) obj[4];
+                baraja.add(new Baraja(nombreBaraja, email, username, cantidadCartas, idioma));
+            }
+            adaptador1.notifyDataSetChanged();
+            builder.dismiss();
+        }catch(ClassCastException | NullPointerException ex){
+            AlertDialog alertDialog = new AlertDialog.Builder(Barajas.this)
+                    .setMessage(R.string.error_unknown_error)
+                    .setPositiveButton(R.string.ok, null)
+                    .setCancelable(false)
+                    .create();
+            alertDialog.show();
+            if(builder.isShowing())
+                builder.dismiss();
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onConnectionError(int error) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Barajas.this);
+        builder1.setPositiveButton(R.string.ok, null)
+                .setCancelable(false);
+        switch (error){
+            case Connection.INVALID_CREDENTIALS_ERROR:
+                builder1.setMessage(R.string.emailContraMal);
+                break;
+            case Connection.UNKOWN_ERROR:
+                builder1.setMessage(R.string.error_unknown_error);
+                break;
+            case Connection.SOCKET_DISCONNECTED:
+                builder1.setMessage(R.string.noConexion);
+                break;
+            case Connection.USER_NOT_LOGINED:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+            default:
+                builder1.setMessage(String.format(Locale.getDefault(),"%s %d",getString(R.string.noConexion), error));
+                break;
+        }
+
+        Log.d(Barajas.class.getSimpleName(), String.valueOf(error));
+
+        builder1.show();
+    }
+
+    @Override
+    public void onConnectionStart() {
+        AlertDialog builder = new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.internet_dialog_cargando))
+                .setCancelable(false)
+                .create();
+
+        builder.show();
+    }
+
+    @Override
+    public void onConnectionFinishes() {
+
     }
 
     public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
@@ -228,12 +223,13 @@ public class Barajas extends AppCompatActivity {
             this.baraja=bar;
         }
     }
+
     public void borrar(final int pos){
-        final AlertDialog.Builder builder1=new AlertDialog.Builder(Barajas.this);
+        final AlertDialog.Builder builder1=new AlertDialog.Builder(this);
         builder1.setMessage(R.string.internet_dialog_cargando);
         builder1.setCancelable(false);
         final AlertDialog alertDialogBorrandoBarajas = builder1.create();
-        Connection.ConnectionThread borrandoBarajas = Connection.borraBaraja(Barajas.this, baraja.get(pos).getNombre());
+        Connection.ConnectionThread borrandoBarajas = Connection.borraBaraja(this, baraja.get(pos).getNombre());
         borrandoBarajas.setRunBegin(new Runnable() {
             @Override
             public void run() {

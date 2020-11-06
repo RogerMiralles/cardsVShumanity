@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.actiLogReg.Login;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
@@ -34,7 +35,7 @@ public class PerfilFragment extends Fragment {
     private static final int INICIAR_SESION = 101;
 
     private EditText eTxtNom, eTxtCorreu, eTxtPass, eTxtPartGan;
-    private ImageView imageView;
+
     public PerfilFragment() {
         // Required empty public constructor
     }
@@ -45,13 +46,16 @@ public class PerfilFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView=inflater.inflate(R.layout.fragment_perfil, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloPerfil));
-        imageView = rootView.findViewById(R.id.imgUsuario3);
+        bindViews(rootView);
+        UpdateUI();
+        return rootView;
+    }
+
+    private void bindViews(View rootView){
         eTxtNom=rootView.findViewById(R.id.eTxtNombreU3);
         eTxtCorreu=rootView.findViewById(R.id.eTxtCorreo4);
         eTxtPass=rootView.findViewById(R.id.eTxtPass4);
         eTxtPartGan=rootView.findViewById(R.id.eTxtPartGana2);
-        UpdateUI();
-        return rootView;
     }
 
     private void noUsuari(){
@@ -98,13 +102,6 @@ public class PerfilFragment extends Fragment {
     private void UpdateUI(){
         if(Connection.isLogined()){
 
-            if(Connection.getImage() != null) {
-                imageView.setImageBitmap(BitmapFactory.decodeFile(Connection.getImage().getAbsolutePath()));
-            }
-            else{
-                imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
-            }
-
             if(Connection.getName()!=null){
                 eTxtNom.setText(Connection.getName());
             }
@@ -120,7 +117,6 @@ public class PerfilFragment extends Fragment {
             }
         }
         else{
-            imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_black_24dp));
             noUsuari();
         }
     }

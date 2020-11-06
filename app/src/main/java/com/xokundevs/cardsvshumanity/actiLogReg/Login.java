@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity {
                     builder.setCancelable(false);
                     builder.setPositiveButton(R.string.ok, null);
                     switch (getError()){
-                        case Connection.USER_ERROR_INVALID_PASSWORD:
+                        case Connection.INVALID_CREDENTIALS_ERROR:
                         case Connection.USER_ERROR_NON_EXISTANT_USER:
                             builder.setMessage(R.string.emailContraMal);
                             break;
