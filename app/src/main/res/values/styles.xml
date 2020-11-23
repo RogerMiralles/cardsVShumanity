@@ -34,4 +34,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:background">@android:color/holo_orange_light</item>
     </style>
+
+    <style name="MyProgressIndeterminate" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/custom_progress_bar_anim</item>
+    </style>
 </resources>

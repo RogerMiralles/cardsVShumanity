@@ -2,30 +2,24 @@ package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.javaConCod.Connection;
-import com.xokundevs.cardsvshumanity.javaConCod.GameController;
-import com.xokundevs.cardsvshumanity.javaConCod.SocketHandler;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 import java.util.ArrayList;
 
-import javax.crypto.SecretKey;
-
-public class UnirsePartida extends AppCompatActivity {
+public class UnirsePartida extends BaseActivity {
 
     private ArrayList<String[]> infoPartidas;
     private RecyclerView mRecyclerView;
@@ -49,7 +43,7 @@ public class UnirsePartida extends AppCompatActivity {
         builder.setCancelable(false);
         final AlertDialog alertDialog = builder.create();
 
-        Connection.ConnectionThread thread = Connection.CogerPartida(this);
+        /*Connection.ConnectionThread thread = Connection.CogerPartida(this);
         thread.setRunBegin(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +77,10 @@ public class UnirsePartida extends AppCompatActivity {
 
             }
         });
-        thread.start();
+        thread.start();*/
+        // TODO: 08/11/2020
+
+        throw new RuntimeException("Not implemented yet");
     }
 
     public class AdapterRec extends RecyclerView.Adapter<AdapterRec.ViewHolder> {
@@ -134,7 +131,7 @@ public class UnirsePartida extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == Dialog.BUTTON_POSITIVE) {
-                    Connection.ConnectionThread connectionThread = Connection.unirsePartida(UnirsePartida.this, nombreSala, editText.getText().toString());
+                    /*Connection.ConnectionThread connectionThread = Connection.unirsePartida(UnirsePartida.this, nombreSala, editText.getText().toString());
                     connectionThread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
                         @Override
                         public void run() {
@@ -180,7 +177,9 @@ public class UnirsePartida extends AppCompatActivity {
                         }
                     });
 
-                    connectionThread.start();
+                    connectionThread.start();*/
+
+                    throw new RuntimeException("Not implemented yet");
                 }else if(which == Dialog.BUTTON_NEGATIVE){
                     dialog.dismiss();
                 }

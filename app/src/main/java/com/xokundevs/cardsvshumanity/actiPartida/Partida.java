@@ -2,13 +2,7 @@ package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,26 +10,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.xokundevs.cardsvshumanity.MainActivity;
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaBlanca;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaNegra;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 import com.xokundevs.cardsvshumanity.javaConCod.GameController;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCardBlackInfoOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCardWhiteInfoOutput;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 import java.util.ArrayList;
 
-public class Partida extends AppCompatActivity {
+public class Partida extends BaseActivity {
 
     private static int ENVIA_CARTAS = 1;
     RecyclerView mRecyclerView_jugadores, mRecyclerView_cartas;
     LinearLayout mCartaNegraMostrar;
 
-    CartaNegra cartaNegraActual;
+    ServiceCardBlackInfoOutput serviceCardBlackInfoOutputActual;
     ArrayList<Jugador> jugadores;
-    ArrayList<CartaBlanca> cartasEnMano;
+    ArrayList<ServiceCardWhiteInfoOutput> cartasEnMano;
     ArrayList<Boolean> isCartaSelected;
-    ArrayList<ArrayList<CartaBlanca>> cartasEscogidas;
+    ArrayList<ArrayList<ServiceCardWhiteInfoOutput>> cartasEscogidas;
     boolean eresCzar = false;
 
     RAdapter mAdapterPlayers;
@@ -48,7 +49,7 @@ public class Partida extends AppCompatActivity {
         jugadores = new ArrayList<>();
         cartasEnMano = new ArrayList<>();
         cartasEscogidas = new ArrayList<>();
-        cartaNegraActual = new CartaNegra("");
+        serviceCardBlackInfoOutputActual = new ServiceCardBlackInfoOutput("");
 
         mRecyclerView_jugadores = findViewById(R.id.rv_jugadores_partida);
         mRecyclerView_cartas = findViewById(R.id.rv_cartas_escoger_winner);
@@ -116,7 +117,7 @@ public class Partida extends AppCompatActivity {
                         break;
 
                     case GameController.REPARTIR_CARTAS:
-                        cartasEnMano = (ArrayList<CartaBlanca>) getArgument();
+                        cartasEnMano = (ArrayList<ServiceCardWhiteInfoOutput>) getArgument();
                         isCartaSelected = new ArrayList<>();
                         for(int i = 0; i<cartasEnMano.size(); i++){
                             isCartaSelected.add(false);
@@ -125,20 +126,20 @@ public class Partida extends AppCompatActivity {
                         break;
 
                     case GameController.MUESTRA_CARTA_NEGRA:
-                        cartaNegraActual = (CartaNegra) getArgument();
-                        Log.d(Partida.class.getSimpleName(), cartaNegraActual.getNombre());
+                        serviceCardBlackInfoOutputActual = (ServiceCardBlackInfoOutput) getArgument();
+                        Log.d(Partida.class.getSimpleName(), serviceCardBlackInfoOutputActual.getNombre());
                         mCartaNegraMostrar.removeAllViews();
                         View v = getLayoutInflater().inflate(R.layout.recicler_carta_negra, mCartaNegraMostrar, true);
-                        ((TextView)v.findViewById(R.id.etTextoCartasNViewHolder)).setText(cartaNegraActual.getNombre());
+                        ((TextView)v.findViewById(R.id.vh_editcard_bc_textview)).setText(serviceCardBlackInfoOutputActual.getNombre());
                         break;
 
                     case GameController.ESCOGER_CARTAS:
                         if(!eresCzar) {
                             Intent intent1 = new Intent(Partida.this, PartidaEscogeCartasActivity.class);
-                            intent1.putExtra("cartaNegraText", cartaNegraActual.getNombre());
-                            intent1.putExtra("cartaNegraEspacios", cartaNegraActual.getNumEspacios());
+                            intent1.putExtra("cartaNegraText", serviceCardBlackInfoOutputActual.getNombre());
+                            intent1.putExtra("cartaNegraEspacios", serviceCardBlackInfoOutputActual.getNumEspacios());
                             ArrayList<String> cartastexto = new ArrayList<>();
-                            for (CartaBlanca c : cartasEnMano) {
+                            for (ServiceCardWhiteInfoOutput c : cartasEnMano) {
                                 cartastexto.add(c.getNombre());
                             }
                             intent1.putStringArrayListExtra("cartasBlancas", cartastexto);
@@ -146,7 +147,7 @@ public class Partida extends AppCompatActivity {
                         }
                         break;
                     case GameController.TZAR_ESCOGE_GANADOR:
-                        cartasEscogidas.addAll((ArrayList<ArrayList<CartaBlanca>>) getArgument());
+                        cartasEscogidas.addAll((ArrayList<ArrayList<ServiceCardWhiteInfoOutput>>) getArgument());
                         mAdapterCartas.notifyDataSetChanged();
                         break;
                     case GameController.TZAR_YA_HA_ESCOGIDO_GANADOR:

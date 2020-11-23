@@ -34,7 +34,7 @@
                 android:text="@string/nombre_de_usuario"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/eTxtNombreU3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,9 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="34dp"
                 android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                tools:targetApi="o" />
+                android:importantForAutofill="no"/>
 
             <TextView
                 android:id="@+id/txtCorreo4"
@@ -56,17 +54,14 @@
                 android:text="@string/correo"
                 android:textColor="@android:color/black"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/eTxtCorreo4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="34dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="34dp"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
-                tools:targetApi="o" />
+                android:ems="10" />
 
             <TextView
                 android:id="@+id/txtPass4"
@@ -78,17 +73,14 @@
                 android:text="@string/contrase_a"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/eTxtPass4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="34dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="34dp"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPassword"
-                tools:targetApi="o" />
+                android:ems="10"/>
 
             <TextView
                 android:id="@+id/txtPartGana2"
@@ -100,7 +92,7 @@
                 android:text="@string/partidas_ganadas"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/eTxtPartGana2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,10 +100,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="34dp"
                 android:layout_marginBottom="100dp"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                tools:targetApi="o" />
+                android:ems="10"/>
 
         </LinearLayout>
     </ScrollView>

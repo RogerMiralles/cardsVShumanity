@@ -4,22 +4,21 @@ package com.xokundevs.cardsvshumanity.fragsBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.actiLogReg.Login;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseFragment;
 
-import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
@@ -29,12 +28,12 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PerfilFragment extends Fragment {
+public class PerfilFragment extends BaseFragment {
 
 
     private static final int INICIAR_SESION = 101;
 
-    private EditText eTxtNom, eTxtCorreu, eTxtPass, eTxtPartGan;
+    private TextView eTxtNom, eTxtCorreu, eTxtPass, eTxtPartGan;
 
     public PerfilFragment() {
         // Required empty public constructor

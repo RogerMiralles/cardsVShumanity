@@ -4,9 +4,6 @@
     package="com.xokundevs.cardsvshumanity">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
     <application
@@ -18,25 +15,25 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.xokundevs.cardsvshumanity.actiPartida.PartidaEscogeCartasActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.PrePartidaActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.Partida"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiBarajas.EditarBaraja"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.UnirsePartida"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.CrearPartida"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.MainActivity"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,16 +42,16 @@
         </activity>
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiBarajas.Barajas"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiPartida.SegundaVentana"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiLogReg.Registre"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.xokundevs.cardsvshumanity.actiLogReg.Login"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

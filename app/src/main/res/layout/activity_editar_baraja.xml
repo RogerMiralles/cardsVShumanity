@@ -6,28 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".actiBarajas.EditarBaraja">
 
-    <TextView
-        android:id="@+id/txtNombreBarajaEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="txte"
-        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerCartasBlancas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+
         app:layout_constraintBottom_toTopOf="@+id/reciclerCartasNegras"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCardBlanca"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreBarajaEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewBaraja" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerCartasNegras"
@@ -37,8 +28,169 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCardNegra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reciclerCartasBlancas" />
+
+
+    <Button
+        android:id="@+id/btnNewCardBlanca"
+        style="@style/btnSegundaVentana"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="2dp"
+        android:onClick="onClickNewCartaBlanca"
+        android:text="@string/crear_nueva_carta_blanca"
+        app:layout_constraintBottom_toBottomOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintTop_toTopOf="@+id/reciclerCartasBlancas" />
+
+    <Button
+        android:id="@+id/btnNewCardNegra"
+        style="@style/btnSegundaVentana"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="onClickNewCartaNegra"
+        android:text="@string/crear_nueva_carta_negra"
+        app:layout_constraintBottom_toBottomOf="@+id/reciclerCartasNegras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reciclerCartasNegras"
+        app:layout_constraintTop_toTopOf="@+id/reciclerCartasNegras" />
+
+    <Button
+        android:id="@+id/btnGuardarCanvios"
+        style="@style/btnSegundaVentana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="onClickGuardar"
+        android:text="@string/guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scrollViewBaraja"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <HorizontalScrollView
+        android:id="@+id/scrollViewBaraja"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/reciclerCartasBlancas"
+        app:layout_constraintEnd_toStartOf="@+id/btnGuardarCanvios"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/txtNombreBaraja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_de_la_baraja"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtNombreBarajaEdit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtNombreBarajaEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtNombreUserBaraja"
+                app:layout_constraintStart_toEndOf="@+id/txtNombreBaraja"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/txtNombreUserBaraja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/nom_creador"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtNombreCreadorBaraja"
+                app:layout_constraintStart_toEndOf="@+id/txtNombreBarajaEdit"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtNombreCreadorBaraja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtIdiomaBaraja"
+                app:layout_constraintStart_toEndOf="@+id/txtNombreUserBaraja"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/txtIdiomaBaraja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/idioma"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtIdioma"
+                app:layout_constraintStart_toEndOf="@+id/txtNombreCreadorBaraja"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtIdioma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtNumCartasBaraja"
+                app:layout_constraintStart_toEndOf="@+id/txtIdiomaBaraja"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/txtNumCartasBaraja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/numero_de_cartas"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtNumCartas"
+                app:layout_constraintStart_toEndOf="@+id/txtIdioma"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/txtNumCartas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txtNumCartasBaraja"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="o" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

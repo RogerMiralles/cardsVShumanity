@@ -11,15 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.xokundevs.cardsvshumanity.R;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Registre extends AppCompatActivity {
+public class Registre extends BaseActivity {
 
     private EditText correo;
     private EditText contra;
@@ -61,7 +62,7 @@ public class Registre extends AppCompatActivity {
                 AlertDialog.Builder builder = chivato(getString(R.string.internet_dialog_cargando));
                 final AlertDialog alertDialog = builder.create();
 
-                Connection.ConnectionThread thread = Connection.RegistrarUsuario(this, correo.getText().toString(),
+                /*Connection.ConnectionThread thread = Connection.RegistrarUsuario(this, correo.getText().toString(),
                         contra.getText().toString(), nom.getText().toString(), iUsuari.getDrawable());
 
                 thread.setRunBegin(new Runnable() {
@@ -125,7 +126,9 @@ public class Registre extends AppCompatActivity {
                             alertDialog.dismiss();
                     }
                 });
-                thread.start();
+                thread.start();*/
+                // TODO: 08/11/2020
+                Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
             }
         }else{
 

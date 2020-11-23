@@ -1,19 +1,20 @@
 package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaNegra;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCardBlackInfoOutput;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class PartidaEscogeCartasActivity extends AppCompatActivity {
+public class PartidaEscogeCartasActivity extends BaseActivity {
 
     private RecyclerView mCartasblancas;
     private LinearLayout mCartanegra;
@@ -29,7 +30,7 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
     private ArrayList<String> cartasBlancas;
     private HashMap<Integer, Integer> orden;
     private int cuenta = 0;
-    private CartaNegra cartaNegra;
+    private ServiceCardBlackInfoOutput serviceCardBlackInfoOutput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +51,12 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
             finish();
         }
         else{
-            cartaNegra = new CartaNegra(cartaNegraTexto);
-            cartaNegra.setNumEspacios(cartaNegraEspacios);
+            serviceCardBlackInfoOutput = new ServiceCardBlackInfoOutput(cartaNegraTexto);
+            serviceCardBlackInfoOutput.setNumEspacios(cartaNegraEspacios);
 
             View view = getLayoutInflater().inflate(R.layout.recicler_cartas_negras, mCartanegra);
-            TextView textView = view.findViewById(R.id.etTextoCartasNViewHolder);
-            textView.setText(cartaNegra.getNombre());
+            TextView textView = view.findViewById(R.id.vh_editcard_bc_textview);
+            textView.setText(serviceCardBlackInfoOutput.getNombre());
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -65,7 +66,7 @@ public class PartidaEscogeCartasActivity extends AppCompatActivity {
     }
 
     public void clickedEnviarCartas(View v){
-        int limite = cartaNegra.getNumEspacios();
+        int limite = serviceCardBlackInfoOutput.getNumEspacios();
         int[] ids = new int[orden.size()];
         Iterator<Map.Entry<Integer, Integer>> entryIterator = orden.entrySet().iterator();
 

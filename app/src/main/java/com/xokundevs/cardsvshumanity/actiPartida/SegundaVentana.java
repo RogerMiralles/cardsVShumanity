@@ -2,13 +2,13 @@ package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.actiBarajas.Barajas;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
-public class SegundaVentana extends AppCompatActivity {
+public class SegundaVentana extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

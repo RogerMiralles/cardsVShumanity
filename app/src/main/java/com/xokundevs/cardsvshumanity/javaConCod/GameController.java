@@ -1,14 +1,6 @@
 package com.xokundevs.cardsvshumanity.javaConCod;
 
 import android.app.Activity;
-import android.util.Log;
-
-import com.xokundevs.cardsvshumanity.actiPartida.Jugador;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaBlanca;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaNegra;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
 
@@ -44,8 +36,8 @@ public class GameController {
         return INSTANCE;
     }
 
-    public void StartListeningGame(final Activity activity, final ArgumentableRunnable runnable){
-        new Thread(new Runnable() {
+    public void StartListeningGame(final Activity activity, ArgumentableRunnable runnable){
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -111,11 +103,13 @@ public class GameController {
                     activity.runOnUiThread(runnable);
                 }
             }
-        }).start();
+        }).start();*/
+        // TODO: 08/11/2020
+        throw new RuntimeException("Not implemented yet");
     }
 
     public void enviarCartasEscogidas(final int[] cartasEscogidas){
-        new Thread(
+        /*new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -129,11 +123,13 @@ public class GameController {
                         }
                     }
                 }
-        ).start();
+        ).start();*/
+        // TODO: 08/11/2020
+        throw new RuntimeException("Not implemented yet");
     }
 
     public void enviarComenzarPartida(){
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -142,11 +138,12 @@ public class GameController {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }).start();*/
+        throw new RuntimeException("Not implemented yet");
     }
 
     public void enviarGanador(final int winner){
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -155,11 +152,12 @@ public class GameController {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }).start();*/
+        throw new RuntimeException("Not implemented yet");
     }
 
     public void waitUntilGameStarts(final Activity activity, final ArgumentableRunnable runnable){
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -184,7 +182,7 @@ public class GameController {
                     activity.runOnUiThread(runnable);
                 }
             }
-        }).start();
+        }).start();*/
     }
 
     public static abstract class ArgumentableRunnable implements Runnable{

@@ -1,13 +1,9 @@
 package com.xokundevs.cardsvshumanity.actiPartida;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +15,31 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.cosasRecicler.Baraja;
+import com.xokundevs.cardsvshumanity.adapter.AdaptadorMazos;
+import com.xokundevs.cardsvshumanity.adapter.items.AdaptadorMazosItem;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 import com.xokundevs.cardsvshumanity.javaConCod.GameController;
 import com.xokundevs.cardsvshumanity.javaConCod.SocketHandler;
+import com.xokundevs.cardsvshumanity.presenter.CreateGamePresenter;
+import com.xokundevs.cardsvshumanity.presenter.impl.CreateGamePresenterImpl;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceCreateGameDeckDataInput;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceCreateGameInput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCreateGameOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetCardsDeckOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoListOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoOutput;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BasePresenterActivity;
 
 import java.util.ArrayList;
 
-import javax.crypto.SecretKey;
+public class CrearPartida extends BasePresenterActivity<CreateGamePresenter> implements CreateGamePresenter.View {
 
-public class CrearPartida extends AppCompatActivity {
-
-    private ArrayList<Baraja> listaBarajas;
+    private ArrayList<AdaptadorMazosItem> listDeckCards;
     private LinearLayout linearLayout_listaBarajas;
     private EditText mNombrePartida, mContraPartida;
     private TextView seekBarText;
@@ -45,6 +53,7 @@ public class CrearPartida extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_partida);
         setTitle(getString(R.string.crear_partida));
+        setPresenter(new CreateGamePresenterImpl(this));
 
         //linearLayout_listaBarajas = findViewById(R.id.scr_layout_escogerBaraja_crearPartida);
         mNombrePartida = findViewById(R.id.et_nombrePartida_crearPartida);
@@ -61,8 +70,8 @@ public class CrearPartida extends AppCompatActivity {
         limiteJugadores.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser){
-                    maxPlayers = 3+progress;
+                if (fromUser) {
+                    maxPlayers = 3 + progress;
                     seekBarText.setText(Integer.toString(maxPlayers));
                 }
             }
@@ -78,18 +87,20 @@ public class CrearPartida extends AppCompatActivity {
             }
         });
 
-        listaBarajas = new ArrayList<>();
+        listDeckCards = new ArrayList<>();
 
-        reciclerMazos=findViewById(R.id.reciclerMazo);
+        reciclerMazos = findViewById(R.id.reciclerMazo);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(CrearPartida.this);
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         reciclerMazos.setLayoutManager(layoutManager);
-        adaptadorMazos = new AdaptadorMazos(this, listaBarajas);
+        adaptadorMazos = new AdaptadorMazos(this, listDeckCards);
         reciclerMazos.setAdapter(adaptadorMazos);
 
-        Connection.ConnectionThread hilo = Connection.getBarajasUser(this);
+        getPresenter().getSimpleDeck();
+
+        /*Connection.ConnectionThread hilo = Connection.getBarajasUser(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.internet_dialog_cargando);
         builder.setCancelable(false);
@@ -139,32 +150,41 @@ public class CrearPartida extends AppCompatActivity {
                 primerDialog.dismiss();
             }
         });
-        hilo.start();
+        hilo.start();*/
     }
 
-    public void creaPartida(View v){
+    public void creaPartida(View v) {
         final String nomPartida = mNombrePartida.getText().toString();
         String cGame = mContraPartida.getText().toString();
         boolean noValid = false;
-        if(nomPartida.trim().isEmpty() || nomPartida.length() > 20){
+        if (nomPartida.trim().isEmpty() || nomPartida.length() > 20) {
             mNombrePartida.setText("");
             noValid = true;
         }
-        if(mContraPartida.length() > 20){
+        if (mContraPartida.length() > 20) {
             mContraPartida.setText("");
             noValid = true;
         }
 
-        if(!noValid){
-            ArrayList<Baraja> listaAceptada = new ArrayList<>();
-            for(int i = 0; i<reciclerMazos.getChildCount(); i++ ){
-                CheckBox c =reciclerMazos.getChildAt(i).findViewById(R.id.cBMazo);
-                if(c.isChecked()){
-                    listaAceptada.add(listaBarajas.get(i));
+
+        if (!noValid) {
+            ArrayList<ServiceCreateGameDeckDataInput> deckDataInputArrayList = new ArrayList<>();
+            for(AdaptadorMazosItem item : listDeckCards){
+                if(item.isChecked()){
+                    deckDataInputArrayList.add(new ServiceCreateGameDeckDataInput(item.getDeckName(),item.getDeckEmail()));
                 }
             }
-            if(!listaAceptada.isEmpty()) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            if (!deckDataInputArrayList.isEmpty()) {
+                ServiceCreateGameInput serviceCreateGameInput = new ServiceCreateGameInput();
+                serviceCreateGameInput.setGameName(mNombrePartida.getText().toString());
+                serviceCreateGameInput.setGamePass(mContraPartida.getText().toString());
+                serviceCreateGameInput.setMaxPlayers(maxPlayers);
+                serviceCreateGameInput.setDeckData(deckDataInputArrayList);
+
+                getPresenter().createGame(serviceCreateGameInput);
+
+                /*final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setCancelable(false);
                 builder.setMessage(R.string.internet_dialog_cargando);
                 final AlertDialog alertDialog1 = builder.create();
@@ -199,58 +219,59 @@ public class CrearPartida extends AppCompatActivity {
                 });
 
                 hilo.start();
-            }
-            else{
+
+                 */
+                // TODO: 08/11/2020
+                throw new RuntimeException("Not implemented yet");
+            } else {
                 Toast.makeText(this, R.string.camposVacios, Toast.LENGTH_SHORT).show();
             }
-        }
-        else{
+        } else {
             Toast.makeText(this, "NO VALID", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public class AdaptadorMazos extends RecyclerView.Adapter<AdaptadorMazos.ViewHolder>{
-        private  ArrayList<Baraja> baraja;
-        private LayoutInflater mInflater;
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View mItemView = mInflater.inflate(
-                    R.layout.recicler_mazos, viewGroup, false);
-            return new AdaptadorMazos.ViewHolder(mItemView,this);
+    @Override
+    public void onGetSimpleDeckSuccess(ServiceSimpleDeckInfoListOutput receivedData) {
+        listDeckCards.clear();
+        for(ServiceSimpleDeckInfoOutput deckInfo : receivedData.getListBarajas()){
+            listDeckCards.add(new AdaptadorMazosItem(deckInfo.getDeckEmail(), deckInfo.getDeckName(), false));
         }
 
-        @Override
-        public int getItemCount() {
-            return baraja.size();
+        adaptadorMazos.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetSimpleDeckError(int error) {
+        switch (error){
+            case Connection.SOCKET_DISCONNECTED:
+                break;
+            case Connection.USER_NOT_LOGINED:
+                break;
+            case Connection.UNKOWN_ERROR:
+                break;
+            case Connection.USER_ERROR_NON_EXISTANT_USER:
+                break;
+            case Connection.INVALID_CREDENTIALS_ERROR:
+                break;
         }
+    }
 
-        @Override
-        public void onBindViewHolder(@NonNull AdaptadorMazos.ViewHolder viewHolder, int i) {
-            String mCurrent = baraja.get(i).getNombre();
-            viewHolder.texto.setText(mCurrent);
-        }
+    @Override
+    public void onCreateGameSuccess(ServiceCreateGameOutput output) {
+        Intent intent = new Intent(CrearPartida.this, PrePartidaActivity.class);
+        GameController.GenerateGameController(output.getSocketHandler(), output.getSecretKey());
+        intent.putExtra("salaName", mNombrePartida.getText().toString());
+        intent.putExtra("creator", true);
+        startActivity(intent);
+    }
 
-        public AdaptadorMazos(Context context, ArrayList<Baraja> bar){
-            mInflater = LayoutInflater.from(context);
-            this.baraja=bar;
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-            private CheckBox texto;
-            final AdaptadorMazos adaptador;
-
-            public ViewHolder(@NonNull View itemView, AdaptadorMazos adaptador) {
-                super(itemView);
-                texto = itemView.findViewById(R.id.cBMazo);
-                texto.setOnClickListener(this);
-                this.adaptador=adaptador;
-            }
-
-            public void onClick(View view){
-
-            }
-        }
+    @Override
+    public void onCreateGameError(int error) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.ok, null);
+        builder.setMessage(Integer.toString(error));
+        builder.show();
     }
 }

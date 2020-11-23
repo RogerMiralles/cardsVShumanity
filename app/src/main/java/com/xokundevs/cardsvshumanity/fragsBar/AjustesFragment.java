@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.xokundevs.cardsvshumanity.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.actiLogReg.Login;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseFragment;
 
 import java.io.File;
 import java.util.Locale;
@@ -32,7 +33,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AjustesFragment extends Fragment {
+public class AjustesFragment extends BaseFragment {
 
     private Button mIdioma;
     private Button mDatos;
@@ -149,7 +150,7 @@ public class AjustesFragment extends Fragment {
                             public void onClick(final DialogInterface dialog, int which) {
                                 if(which == DialogInterface.BUTTON_POSITIVE) {
                                     if (!password.getText().toString().isEmpty()) {
-                                        Connection.ConnectionThread thread = Connection.borrarCuenta(getActivity(), password.getText().toString());
+                                        /*Connection.ConnectionThread thread = Connection.borrarCuenta(getActivity(), password.getText().toString());
                                         thread.setRunBegin(new Runnable() {
                                             @Override
                                             public void run() {
@@ -209,7 +210,9 @@ public class AjustesFragment extends Fragment {
                                             }
                                         });
 
-                                        thread.start();
+                                        thread.start();*/
+
+                                        throw new RuntimeException("Not implemented yet");
                                     }
                                     else{
                                        Toast.makeText(getContext(), R.string.camposVacios, Toast.LENGTH_SHORT).show();

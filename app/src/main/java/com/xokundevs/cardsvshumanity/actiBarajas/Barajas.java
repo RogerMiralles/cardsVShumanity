@@ -1,97 +1,84 @@
 package com.xokundevs.cardsvshumanity.actiBarajas;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import android.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.os.LocaleListCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xokundevs.cardsvshumanity.MainActivity;
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.cosasRecicler.Baraja;
+import com.xokundevs.cardsvshumanity.adapter.DeckAdapter;
+import com.xokundevs.cardsvshumanity.cosasRecicler.DeckInfo;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.presenter.BarajasPresenter;
+import com.xokundevs.cardsvshumanity.presenter.impl.BarajasPresenterImpl;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceEraseDeckInput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoListOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoOutput;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BasePresenterActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Barajas extends AppCompatActivity implements Connection.ConnectionThread.OnConnectionListener {
+public class Barajas extends BasePresenterActivity<BarajasPresenter> implements BarajasPresenter.View, DeckAdapter.OnDeckClickListener {
 
     private RecyclerView recicler;
-    private static final int YA_PUEDE_ACTUALIZAR=0;
-    private static final int YA_PUEDE_MODICIFAR=1;
-    private ArrayList<Baraja> baraja=new ArrayList<>();
-    private Adaptador adaptador1;
+    private static final int YA_PUEDE_ACTUALIZAR = 0;
+    private static final int YA_PUEDE_MODIFICAR = 1;
+    private ArrayList<DeckInfo> deckInfoList;
+    private DeckAdapter adaptador1;
     private AlertDialog alertDialogCrearMazo;
+    DialogFragment dialogFragment;
+    private int eraseDeck = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barajas);
-        recicler=findViewById(R.id.reciclerBaraja);
+        bindViews();
+        setupViews();
+        setPresenter(new BarajasPresenterImpl(this));
 
-        final
+        getPresenter().getBaraja();
+    }
 
-        Connection.ConnectionThread thread = Connection.getBarajasUser(this);
+    private void bindViews() {
+        recicler = findViewById(R.id.reciclerBaraja);
+        deckInfoList = new ArrayList<>();
+        adaptador1 = new DeckAdapter(this,deckInfoList);
+    }
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(Barajas.this);
-        //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+    private void setupViews() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recicler.setLayoutManager(layoutManager);
-        adaptador1=new Adaptador(this, baraja);
         recicler.setAdapter(adaptador1);
-
-
-        thread.start();
     }
 
     @Override
-    public void onConnectionSuccess(Object result) {
-        String nombreBaraja = null, email = null, username = null, idioma = null;
-        Integer cantidadCartas = null;
-        try {
-            ArrayList<Object[]> objects = (ArrayList<Object[]>) result;
-            for (Object[] obj : objects) {
-                nombreBaraja = (String) obj[0];
-                email = (String) obj[1];
-                username = (String) obj[2];
-                cantidadCartas = (int) obj[3];
-                idioma = (String) obj[4];
-                baraja.add(new Baraja(nombreBaraja, email, username, cantidadCartas, idioma));
-            }
-            adaptador1.notifyDataSetChanged();
-            builder.dismiss();
-        }catch(ClassCastException | NullPointerException ex){
-            AlertDialog alertDialog = new AlertDialog.Builder(Barajas.this)
-                    .setMessage(R.string.error_unknown_error)
-                    .setPositiveButton(R.string.ok, null)
-                    .setCancelable(false)
-                    .create();
-            alertDialog.show();
-            if(builder.isShowing())
-                builder.dismiss();
-            ex.printStackTrace();
+    public void onGetBarajasSuccess(ServiceSimpleDeckInfoListOutput serviceSimpleDeckInfoListOutput) {
+        deckInfoList.clear();
+        for (ServiceSimpleDeckInfoOutput baraja : serviceSimpleDeckInfoListOutput.getListBarajas()) {
+            deckInfoList.add(new DeckInfo(baraja.getDeckEmail(), baraja.getDeckName(), baraja.getDeckLanguage(), baraja.getDeckUsername(), baraja.getDeckSize(), baraja.isEditable()));
         }
+        adaptador1.notifyDataSetChanged();
     }
 
     @Override
-    public void onConnectionError(int error) {
+    public void onGetBarajaFailure(int error) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(Barajas.this);
         builder1.setPositiveButton(R.string.ok, null)
                 .setCancelable(false);
-        switch (error){
+        switch (error) {
             case Connection.INVALID_CREDENTIALS_ERROR:
                 builder1.setMessage(R.string.emailContraMal);
                 break;
@@ -107,7 +94,7 @@ public class Barajas extends AppCompatActivity implements Connection.ConnectionT
                 startActivity(intent);
                 break;
             default:
-                builder1.setMessage(String.format(Locale.getDefault(),"%s %d",getString(R.string.noConexion), error));
+                builder1.setMessage(String.format(Locale.getDefault(), "%s %d", getString(R.string.noConexion), error));
                 break;
         }
 
@@ -117,204 +104,86 @@ public class Barajas extends AppCompatActivity implements Connection.ConnectionT
     }
 
     @Override
-    public void onConnectionStart() {
-        AlertDialog builder = new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.internet_dialog_cargando))
-                .setCancelable(false)
-                .create();
-
+    public void onBorrarBarajaSuccess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.internet_dialog_cargando);
+        builder.setCancelable(false);
+        builder.setMessage(getString(R.string.mazo_borrado_correctamente));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                deckInfoList.remove(eraseDeck);
+                adaptador1.notifyItemRemoved(eraseDeck);
+                eraseDeck = -1;
+            }
+        });
         builder.show();
     }
 
     @Override
-    public void onConnectionFinishes() {
-
-    }
-
-    public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
-
-        private  ArrayList<Baraja> baraja;
-        private LayoutInflater mInflater;
-
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View mItemView = mInflater.inflate(
-                    R.layout.adap, viewGroup, false);
-            return new ViewHolder(mItemView,this);
-        }
-
-        @Override
-        public int getItemCount() {
-            return baraja.size();
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            String mCurrent = baraja.get(i).getNombre();
-            viewHolder.texto.setText(mCurrent);
-        }
-
-
-
-        public class ViewHolder extends RecyclerView.ViewHolder{
-            private TextView texto;
-            private Button editarBaraja;
-            private Button verBaraja;
-            private Button borrarBaraja;
-            final Adaptador adaptador;
-            public ViewHolder(@NonNull final View itemView, Adaptador adaptador) {
-                super(itemView);
-                texto=itemView.findViewById(R.id.etTextoViewHolder);
-                editarBaraja=itemView.findViewById(R.id.btnEditarBaraja);
-                editarBaraja.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
-                        in.putExtra("baraja",baraja.get(getAdapterPosition()));
-                        in.putExtra("editOread",true);
-                        in.putExtra("posicion",getAdapterPosition());
-                        startActivityForResult(in,YA_PUEDE_MODICIFAR);
-                    }
-                });
-                verBaraja=itemView.findViewById(R.id.btnVerBaraja);
-                verBaraja.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent in=new Intent(getApplicationContext(), EditarBaraja.class);
-                        in.putExtra("baraja",baraja.get(getAdapterPosition()));
-                        in.putExtra("editOread",false);
-                        startActivity(in);
-                    }
-                });
-                borrarBaraja=itemView.findViewById(R.id.btnBorrarBaraja);
-                borrarBaraja.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(!baraja.get(getAdapterPosition()).getEmail().equals("default")) {
-                            final AlertDialog.Builder builder=new AlertDialog.Builder(Barajas.this);
-                            builder.setMessage(getString(R.string.confirmar));
-                            builder.setCancelable(false);
-                            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                    borrar(getAdapterPosition());
-                                }
-                            });
-                            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            final AlertDialog alertDialogConfirmacion=builder.create();
-                            alertDialogConfirmacion.show();
-                        }else
-                            Toast.makeText(Barajas.this, getString(R.string.no_borrable), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                this.adaptador=adaptador;
-            }
-        }
-        public Adaptador(Context context,ArrayList<Baraja> bar){
-            mInflater = LayoutInflater.from(context);
-            this.baraja=bar;
-        }
-    }
-
-    public void borrar(final int pos){
-        final AlertDialog.Builder builder1=new AlertDialog.Builder(this);
+    public void onBorrarBarajaFailure(int error) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(R.string.internet_dialog_cargando);
         builder1.setCancelable(false);
-        final AlertDialog alertDialogBorrandoBarajas = builder1.create();
-        Connection.ConnectionThread borrandoBarajas = Connection.borraBaraja(this, baraja.get(pos).getNombre());
-        borrandoBarajas.setRunBegin(new Runnable() {
-            @Override
-            public void run() {
-                alertDialogBorrandoBarajas.show();
-            }
-        });
-        borrandoBarajas.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
-            @Override
-            public void run() {
-                alertDialogBorrandoBarajas.dismiss();
-                builder1.setMessage(getString(R.string.mazo_borrado_correctamente));
-                builder1.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        adaptador1.notifyItemRemoved(pos);
-                    }
-                });
-                builder1.show();
-            }
-        });
-        borrandoBarajas.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
-            @Override
-            public void run() {
-                alertDialogBorrandoBarajas.dismiss();
-                builder1.setMessage(getString(R.string.error_unknown_error));
-                builder1.setPositiveButton(getString(R.string.ok), null);
-                builder1.show();
-            }
-        });
-        borrandoBarajas.start();
-
+        builder1.setMessage(getString(R.string.error_unknown_error));
+        builder1.setPositiveButton(getString(R.string.ok), null);
+        builder1.show();
     }
 
-    public void onClickNuevaBaraja(View view){
-        creandoBaraja(baraja);
+    private void borrar(int pos) {
+        eraseDeck = pos;
+        getPresenter().borrarBaraja(new ServiceEraseDeckInput(Connection.getEmail(), Connection.getPassword(), deckInfoList.get(pos).getDeckName()));
     }
 
-    private void creandoBaraja(final ArrayList<Baraja> baraja) {
+    public void onClickNuevaBaraja(View view) {
+        creandoBaraja(deckInfoList);
+    }
+
+    private void creandoBaraja(final ArrayList<DeckInfo> serviceGetCardsDeckOutput) {
         final android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
         builder1.setMessage(getString(R.string.crear_mazo));
         builder1.setCancelable(false);
-        View view=getLayoutInflater().inflate(R.layout.crear_mazo,null);
+        View view = getLayoutInflater().inflate(R.layout.crear_mazo, null);
         builder1.setView(view);
-        final EditText txtNombreMazo=view.findViewById(R.id.eTxtNombreMazo);
-        final EditText txtIdiomaMazo=view.findViewById(R.id.eTxtIdiomaMazo);
-            builder1.setPositiveButton(
-                    getString(R.string.crear_mazo),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            boolean idiomaB;
-                            String nombreMazo=txtNombreMazo.getText().toString();
-                            String idiomaMazo=txtIdiomaMazo.getText().toString();
-                            switch (idiomaMazo){
-                                case "es":
-                                    idiomaB=true;
-                                    break;
-                                case "ca":
-                                    idiomaB=true;
-                                    break;
-                                case "en":
-                                    idiomaB=true;
-                                    break;
-                                default:
-                                    idiomaB=false;
-                                    break;
-                            }if(!nombreMazo.isEmpty()) {
-                                if (idiomaB) {
-                                    String email = Connection.getEmail();
-                                    String nombre = Connection.getName();
-                                    baraja.add(new Baraja(nombreMazo, email, nombre, idiomaMazo));
-                                    Intent in = new Intent(getApplicationContext(), EditarBaraja.class);
-                                    in.putExtra("baraja", baraja.get(baraja.size() - 1));
-                                    in.putExtra("editOread",true);
-                                    in.putExtra("crearMazo",true);
-                                    startActivityForResult(in, YA_PUEDE_ACTUALIZAR);
-                                } else {
-                                    Toast.makeText(Barajas.this, getString(R.string.idioma_no_valido), Toast.LENGTH_SHORT).show();
-                                }
-                            }else
-                                Toast.makeText(Barajas.this, getString(R.string.nombre_baraja_vacio), Toast.LENGTH_SHORT).show();
+        final EditText txtNombreMazo = view.findViewById(R.id.eTxtNombreMazo);
+        final EditText txtIdiomaMazo = view.findViewById(R.id.eTxtIdiomaMazo);
+        builder1.setPositiveButton(
+                getString(R.string.crear_mazo),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        boolean idiomaB;
+                        String nombreMazo = txtNombreMazo.getText().toString();
+                        String idiomaMazo = txtIdiomaMazo.getText().toString();
+                        switch (idiomaMazo) {
+                            case "es":
+                            case "ca":
+                            case "en":
+                                idiomaB = true;
+                                break;
+                            default:
+                                idiomaB = false;
+                                break;
                         }
-                    });
-
+                        if (!nombreMazo.isEmpty()) {
+                            if (idiomaB) {
+                                String email = Connection.getEmail();
+                                String nombre = Connection.getName();
+                                DeckInfo deckInfo = new DeckInfo(email, nombreMazo, idiomaMazo, nombre, 0, true);
+                                deckInfoList.add(deckInfo);
+                                Intent in = new Intent(getApplicationContext(), EditarBaraja.class);
+                                in.putExtra(EditarBaraja.ARG_DECK_INFO, deckInfo);
+                                in.putExtra(EditarBaraja.ARG_MODIFICABLE, true);
+                                in.putExtra(EditarBaraja.ARG_NEW_DECK, true);
+                                startActivityForResult(in, YA_PUEDE_ACTUALIZAR);
+                            } else {
+                                Toast.makeText(Barajas.this, getString(R.string.idioma_no_valido), Toast.LENGTH_SHORT).show();
+                            }
+                        } else
+                            Toast.makeText(Barajas.this, getString(R.string.nombre_baraja_vacio), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         builder1.setNegativeButton(
                 getString(R.string.salida),
@@ -322,7 +191,8 @@ public class Barajas extends AppCompatActivity implements Connection.ConnectionT
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
-                });
+                }
+        );
 
         alertDialogCrearMazo = builder1.create();
         alertDialogCrearMazo.show();
@@ -331,21 +201,63 @@ public class Barajas extends AppCompatActivity implements Connection.ConnectionT
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==YA_PUEDE_ACTUALIZAR){
-            if(resultCode == RESULT_OK) {
+        if (requestCode == YA_PUEDE_ACTUALIZAR) {
+            if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    baraja.get(baraja.size() - 1).setNumCartas(data.getIntExtra("numCartas", 0));
+                    deckInfoList.get(deckInfoList.size() - 1).setDeckSize(data.getIntExtra("numCartas", 0));
                 }
+            } else {
+                deckInfoList.remove(deckInfoList.size() - 1);
             }
-            else{
-                baraja.remove(baraja.size()-1);
-            }
-           // Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
-            adaptador1.notifyItemInserted(baraja.size());
-        }else if(requestCode==YA_PUEDE_MODICIFAR){
+            // Log.d("contenido baraja 2",baraja.get(baraja.size()-1).toString());
+            adaptador1.notifyItemInserted(deckInfoList.size());
+        } else if (requestCode == YA_PUEDE_MODIFICAR) {
             if (data != null) {
-                baraja.get(data.getIntExtra("posicion",0)).setNumCartas(data.getIntExtra("numCartas",0));
+                deckInfoList.get(data.getIntExtra("posicion", 0)).setDeckSize(data.getIntExtra("numCartas", 0));
             }
+        }
+    }
+
+    @Override
+    public void onEditDeckClicked(DeckInfo deckInfo, int adapterPos) {
+        Intent in = new Intent(this, EditarBaraja.class);
+        in.putExtra(EditarBaraja.ARG_DECK_INFO, deckInfo);
+        in.putExtra(EditarBaraja.ARG_MODIFICABLE, true);
+        in.putExtra(EditarBaraja.ARG_DECK_POSITION, adapterPos);
+        startActivityForResult(in, YA_PUEDE_MODIFICAR);
+    }
+
+    @Override
+    public void onReadDeckClicked(DeckInfo deckInfo) {
+        Intent in = new Intent(getApplicationContext(), EditarBaraja.class);
+        in.putExtra(EditarBaraja.ARG_DECK_INFO, deckInfo);
+        in.putExtra(EditarBaraja.ARG_MODIFICABLE, false);
+        startActivity(in);
+    }
+
+    @Override
+    public void onEraseDeckClicked(DeckInfo deckInfo, int pos) {
+        if (deckInfo.getDeckEmailOwner().equals(Connection.getEmail())) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(Barajas.this);
+            builder.setMessage(getString(R.string.confirmar));
+            builder.setCancelable(false);
+            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    borrar(pos);
+                }
+            });
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialogConfirmacion = builder.create();
+            alertDialogConfirmacion.show();
+        } else {
+            Toast.makeText(Barajas.this, getString(R.string.no_borrable), Toast.LENGTH_SHORT).show();
         }
     }
 }

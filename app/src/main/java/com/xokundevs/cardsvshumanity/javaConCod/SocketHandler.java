@@ -12,13 +12,14 @@ public class SocketHandler {
     private Socket sk;
     private DataInputStream dis;
     private DataOutputStream dos;
+    private SecretKey secretKey;
 
     public SocketHandler(Socket s) throws IOException {
         sk = s;
         dis = new DataInputStream(sk.getInputStream());
         dos = new DataOutputStream(sk.getOutputStream());
     }
-    public void enviarInt(int num, SecretKey secretKey) throws IOException {
+    public void enviarInt(int num) throws IOException {
         dos.writeUTF(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -30,7 +31,7 @@ public class SocketHandler {
         );
     }
 
-    public void enviarLong(long num, SecretKey secretKey) throws IOException {
+    public void enviarLong(long num) throws IOException {
         dos.writeUTF(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -41,7 +42,7 @@ public class SocketHandler {
         );
     }
 
-    public void enviarHex(String hexString, SecretKey secretKey) throws IOException {
+    public void enviarHex(String hexString) throws IOException {
         dos.writeUTF(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -53,7 +54,7 @@ public class SocketHandler {
         );
     }
 
-    public void enviarString(String frase, SecretKey secretKey) throws IOException {
+    public void enviarString(String frase) throws IOException {
         dos.writeUTF(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -65,7 +66,7 @@ public class SocketHandler {
         );
     }
 
-    public int recibirInt(SecretKey secretKey) throws IOException {
+    public int recibirInt() throws IOException {
         return Codification.parseHexToInt(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -77,7 +78,7 @@ public class SocketHandler {
         );
     }
 
-    public String recibirHex(SecretKey secretKey) throws IOException {
+    public String recibirHex() throws IOException {
         return Codification.toHex(
                 Codification.encodeWithSimetricKey(
                         Codification.fromHex(dis.readUTF()),
@@ -87,7 +88,7 @@ public class SocketHandler {
         );
     }
 
-    public String recibirString(SecretKey secretKey) throws IOException {
+    public String recibirString() throws IOException {
         return new String(
                 Codification.encodeWithSimetricKey(
                         Codification.fromHex(dis.readUTF()),
@@ -98,7 +99,7 @@ public class SocketHandler {
         );
     }
 
-    public long recibirLong(SecretKey secretKey) throws IOException {
+    public long recibirLong() throws IOException {
         return Codification.parseHexToLong(
                 Codification.toHex(
                         Codification.encodeWithSimetricKey(
@@ -120,6 +121,7 @@ public class SocketHandler {
 
         //Envia simmetric key
         dos.writeUTF(secretKeyCoded);
+        this.secretKey = secretKey;
         return secretKey;
     }
 

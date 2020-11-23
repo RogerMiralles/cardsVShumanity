@@ -1,52 +1,24 @@
 package com.xokundevs.cardsvshumanity.javaConCod;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-
-import androidx.annotation.NonNull;
-
-import android.util.Log;
-
-import com.xokundevs.cardsvshumanity.actiPartida.Jugador;
-import com.xokundevs.cardsvshumanity.cosasRecicler.Baraja;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaBlanca;
-import com.xokundevs.cardsvshumanity.cosasRecicler.CartaNegra;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
-import javax.crypto.SecretKey;
-
 public class Connection {
 
     public static final int OK = 1;
     public static final int NO = -1;
-    private static final int PORT = 55555;
-    private static final String HOST = "192.168.137.1";
+    public static final int PORT = 55555;
+    public static final String HOST = "192.168.1.91";
     public static final int BLOCK_SIZE = 4096;
 
     //ORDENES
-    private static final int CREATE_USER = 101;
-    private static final int LOGIN_USER = 102;
-    private static final int ERASE_USER = 103;
-    private static final int GET_BASIC_INFO_BARAJA = 104;
-    private static final int GET_CARTAS_BARAJA = 105;
-    private static final int SAVE_BARAJA = 106;
-    private static final int BORRA_BARAJA = 107;
-    private static final int COGER_PARTIDA = 108;
-    private static final int CREAR_PARTIDA = 109;
-    private static final int CONNECTAR_PARTIDA = 110;
+    public static final int CREATE_USER = 101;
+    public static final int LOGIN_USER = 102;
+    public static final int ERASE_USER = 103;
+    public static final int GET_BASIC_INFO_BARAJA = 104;
+    public static final int GET_CARTAS_BARAJA = 105;
+    public static final int SAVE_BARAJA = 106;
+    public static final int BORRA_BARAJA = 107;
+    public static final int COGER_PARTIDA = 108;
+    public static final int CREAR_PARTIDA = 109;
+    public static final int CONNECTAR_PARTIDA = 110;
 
     //ERRORES
     public static final int CREATE_USER_ERROR_EXISTING_USER = -1;
@@ -71,9 +43,9 @@ public class Connection {
     /**
      *
      */
-    public static ConnectionThread CogerPartida(Activity context) {
+    /*public static ConnectionThread CogerPartida(Activity context) {
         return new ConnectionThread(COGER_PARTIDA, context);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo el registrar a un usuario.
@@ -131,10 +103,10 @@ public class Connection {
      * @param image    Imagen del usuario a guardar
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread RegistrarUsuario(Activity context, String email, String password,
+    /*public static ConnectionThread RegistrarUsuario(Activity context, String email, String password,
                                                     String name, Drawable image) {
         return new ConnectionThread(CREATE_USER, context, email, password, name, image);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo pedir la confirmaci&oacute;n de que la
@@ -165,9 +137,9 @@ public class Connection {
      * @param password Contrase&ntilde;a del usuario
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread LogInUsuario(Activity context, final String email, final String password) {
+    /*public static ConnectionThread LogInUsuario(Activity context, final String email, final String password) {
         return new ConnectionThread(LOGIN_USER, context, email, password);
-    }
+    }*/
 
 
     /**
@@ -201,9 +173,9 @@ public class Connection {
      * @param password contrase&ntilde;a que ha escrito el usuario
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread borrarCuenta(Activity context, String password) {
+    /*public static ConnectionThread borrarCuenta(Activity context, String password) {
         return new ConnectionThread(ERASE_USER, context, password);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar el obtener la información
@@ -236,9 +208,9 @@ public class Connection {
      * @param context Actividad en la que se ejecutará el hilo devuelto
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread getBarajasUser(Activity context) {
+    /*public static ConnectionThread getBarajasUser(Activity context) {
         return new ConnectionThread(GET_BASIC_INFO_BARAJA, context);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
@@ -276,9 +248,9 @@ public class Connection {
      * @param baraja  Baraja al que pertenecen las cartas
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread getCartasUser(Activity context, Baraja baraja) {
+    /*public static ConnectionThread getCartasUser(Activity context, Baraja baraja) {
         return new ConnectionThread(GET_CARTAS_BARAJA, context, baraja);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
@@ -312,9 +284,9 @@ public class Connection {
      * @param cartasNegras  cartas negras a guarder
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread saveBaraja(Activity context, Baraja baraja, ArrayList<CartaBlanca> cartasBlancas, ArrayList<CartaNegra> cartasNegras) {
+    /*public static ConnectionThread saveBaraja(Activity context, Baraja baraja, ArrayList<CartaBlanca> cartasBlancas, ArrayList<CartaNegra> cartasNegras) {
         return new ConnectionThread(SAVE_BARAJA, context, baraja, cartasBlancas, cartasNegras);
-    }
+    }*/
 
     /**
      * Este metodo devuelve un Hilo especial que tiene como objetivo comunicar al servidor la orden
@@ -342,11 +314,9 @@ public class Connection {
      * </li>
      * </ul>
      *
-     * @param context Actividad en la que se ejecuta este hilo
-     * @param baraja  Baraja a borrar del servidor
      * @return Hilo especial preparado para ejecutar la orden
      */
-    public static ConnectionThread borraBaraja(Activity context, String baraja) {
+    /*public static ConnectionThread borraBaraja(Activity context, String baraja) {
         return new ConnectionThread(BORRA_BARAJA, context, baraja);
     }
 
@@ -356,6 +326,10 @@ public class Connection {
 
     public static ConnectionThread unirsePartida(Activity context, String partida, String password) {
         return new ConnectionThread(CONNECTAR_PARTIDA, context, partida, password);
+    }*/
+
+    public static void setUser(String email, String password, String name, int wins){
+        Connection.user = new Usuario(email,password,name,wins);
     }
 
     public static boolean logOut() {
@@ -374,8 +348,8 @@ public class Connection {
         return (user == null) ? null : user.email;
     }
 
-    public static File getImage() {
-        return (user == null) ? null : user.drawable;
+    public static Usuario getUser(){
+        return user;
     }
 
     public static String getName() {
@@ -386,21 +360,53 @@ public class Connection {
         return (user == null) ? null : user.wins;
     }
 
-    private static class Usuario {
+    public static String getPassword(){return (user == null) ? null : user.password;}
+
+    public static class Usuario {
         private String email, password, name;
-        private File drawable;
         private int wins;
 
-        private Usuario(String email, String password, String name, File drawable, int wins) {
+        private Usuario(String email, String password, String name, int wins) {
             this.email = email;
             this.name = name;
             this.password = password;
-            this.drawable = drawable;
+            this.wins = wins;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        private void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        private void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        private void setName(String name) {
+            this.name = name;
+        }
+
+        public int getWins() {
+            return wins;
+        }
+
+        private void setWins(int wins) {
             this.wins = wins;
         }
     }
 
-    public static class ConnectionThread extends Thread {
+    /*public static class ConnectionThread extends Thread {
 
         private OnConnectionListener mListener;
         private int command;
@@ -1288,7 +1294,7 @@ public class Connection {
         }
 
 
-    }
+    }*/
 }
 
 

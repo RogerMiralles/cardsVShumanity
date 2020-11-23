@@ -1,19 +1,20 @@
 package com.xokundevs.cardsvshumanity;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.xokundevs.cardsvshumanity.fragsBar.AjustesFragment;
 import com.xokundevs.cardsvshumanity.fragsBar.PerfilFragment;
 import com.xokundevs.cardsvshumanity.fragsBar.PrincipalFragment;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private int window;
     private BottomNavigationView navView;

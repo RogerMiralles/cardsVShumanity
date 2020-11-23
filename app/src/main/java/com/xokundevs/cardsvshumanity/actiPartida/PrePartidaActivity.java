@@ -1,11 +1,7 @@
 package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +9,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 import com.xokundevs.cardsvshumanity.javaConCod.GameController;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
 
 import java.util.ArrayList;
 
-public class PrePartidaActivity extends AppCompatActivity {
+public class PrePartidaActivity extends BaseActivity {
 
     private ArrayList<Jugador> jugadores;
     private TextView mSalaNombre;
