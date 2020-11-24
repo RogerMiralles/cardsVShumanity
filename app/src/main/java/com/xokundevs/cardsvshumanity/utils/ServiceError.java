@@ -12,8 +12,8 @@ public class ServiceError extends Throwable {
     }
 
     public ServiceError() {
-        super(getErrorMessage(Connection.UNKOWN_ERROR));
-        errorCode = Connection.UNKOWN_ERROR;
+        super(getErrorMessage(Connection.UNKNOWN_ERROR));
+        errorCode = Connection.UNKNOWN_ERROR;
     }
 
     private static String getErrorMessage(int errorCode) {
@@ -55,7 +55,7 @@ public class ServiceError extends Throwable {
             case Connection.PARTIDA_ERROR_NO_ENTRAR_DENIED:
                 msg = "You could not enter in the lobby";
                 break;
-            case Connection.UNKOWN_ERROR:
+            case Connection.UNKNOWN_ERROR:
                 msg = "Unkown error";
                 break;
             case Connection.SOCKET_DISCONNECTED:

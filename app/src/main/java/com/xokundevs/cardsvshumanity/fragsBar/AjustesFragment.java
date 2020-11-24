@@ -18,13 +18,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.xokundevs.cardsvshumanity.MainActivity;
 import com.xokundevs.cardsvshumanity.R;
 import com.xokundevs.cardsvshumanity.actiLogReg.Login;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.presenter.EraseUserPresenter;
+import com.xokundevs.cardsvshumanity.presenter.impl.EraseUserPresenterImpl;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceEraseUserInput;
 import com.xokundevs.cardsvshumanity.utils.baseutils.BaseFragment;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BasePresenterFragment;
 
 import java.io.File;
 import java.util.Locale;
@@ -33,7 +39,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AjustesFragment extends BaseFragment {
+public class AjustesFragment extends BasePresenterFragment<EraseUserPresenter> implements EraseUserPresenter.View {
 
     private Button mIdioma;
     private Button mDatos;
@@ -43,35 +49,39 @@ public class AjustesFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setPresenter(new EraseUserPresenterImpl(this));
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView=inflater.inflate(R.layout.fragment_ajustes, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_ajustes, container, false);
         Objects.requireNonNull(getActivity()).setTitle(getString(R.string.tituloAjustes));
-        mIdioma= rootView.findViewById(R.id.btnIdioma);
+        mIdioma = rootView.findViewById(R.id.btnIdioma);
         mIdioma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showChangeLanguageDialog();
             }
         });
-        mDatos= rootView.findViewById(R.id.btnDatos);
+        mDatos = rootView.findViewById(R.id.btnDatos);
         mDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteCache(getActivity());
-                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.lDatos),Toast.LENGTH_LONG).show();
+                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.lDatos), Toast.LENGTH_LONG).show();
             }
         });
-        mCuenta= rootView.findViewById(R.id.btnCuenta);
+        mCuenta = rootView.findViewById(R.id.btnCuenta);
         mCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Connection.isLogined()) {
+                if (Connection.isLogined()) {
                     confirmar();
-                }
-                else{
+                } else {
                     noUsuari();
                 }
 
@@ -85,7 +95,9 @@ public class AjustesFragment extends BaseFragment {
         try {
             File dir = context.getCacheDir();
             deleteDir(dir);
-        } catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean deleteDir(File dir) {
@@ -98,14 +110,14 @@ public class AjustesFragment extends BaseFragment {
                 }
             }
             return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;
         }
     }
 
-    private void noUsuari(){
+    private void noUsuari() {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage(getString(R.string.noUsuari));
         builder1.setCancelable(false);
@@ -115,7 +127,7 @@ public class AjustesFragment extends BaseFragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent=new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class);
+                        Intent intent = new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class);
                         startActivity(intent);
                     }
                 });
@@ -132,7 +144,7 @@ public class AjustesFragment extends BaseFragment {
         alert11.show();
     }
 
-    private void confirmar(){
+    private void confirmar() {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage(getString(R.string.confirmar));
         builder1.setCancelable(false);
@@ -148,77 +160,15 @@ public class AjustesFragment extends BaseFragment {
                         DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, int which) {
-                                if(which == DialogInterface.BUTTON_POSITIVE) {
+                                if (which == DialogInterface.BUTTON_POSITIVE) {
                                     if (!password.getText().toString().isEmpty()) {
-                                        /*Connection.ConnectionThread thread = Connection.borrarCuenta(getActivity(), password.getText().toString());
-                                        thread.setRunBegin(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                dialog.dismiss();
-                                            }
-                                        });
 
-                                        thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
-                                            @Override
-                                            public void run() {
-                                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                                                builder2.setPositiveButton(R.string.ok, null);
+                                        getPresenter().onEraseUser(new ServiceEraseUserInput(password.getText().toString()));
 
-                                                switch (getError()){
-                                                    case Connection.INVALID_CREDENTIALS_ERROR:
-                                                        builder2.setMessage(R.string.error_password_diff);
-                                                        break;
-                                                    case Connection.USER_ERROR_NON_EXISTANT_USER:
-                                                        builder2.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.dismiss();
-                                                                Connection.logOut();
-                                                            }
-                                                        });
-                                                        builder2.setMessage(R.string.error_erase_user_nouser);
-                                                        break;
-                                                    case Connection.SOCKET_DISCONNECTED:
-                                                        builder2.setMessage(R.string.noConexion);
-                                                        break;
-                                                    case Connection.UNKOWN_ERROR:
-                                                        builder2.setMessage(R.string.error_unknown_error);
-                                                        break;
-                                                    case Connection.USER_NOT_LOGINED:
-                                                        Intent intent = new Intent(getContext(), MainActivity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                        startActivity(intent);
-                                                        break;
-                                                }
-                                                builder2.show();
-                                            }
-                                        });
-
-                                        thread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
-                                            @Override
-                                            public void run() {
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                        Connection.logOut();
-                                                    }
-                                                })
-                                                        .setMessage(R.string.borrar_cuenta_success)
-                                                        .create().show();
-                                            }
-                                        });
-
-                                        thread.start();*/
-
-                                        throw new RuntimeException("Not implemented yet");
+                                    } else {
+                                        Toast.makeText(getContext(), R.string.camposVacios, Toast.LENGTH_SHORT).show();
                                     }
-                                    else{
-                                       Toast.makeText(getContext(), R.string.camposVacios, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else{
+                                } else {
                                     dialog.dismiss();
                                 }
                             }
@@ -228,9 +178,6 @@ public class AjustesFragment extends BaseFragment {
                                 .setPositiveButton(R.string.ok, clickListener)
                                 .setNegativeButton(R.string.cancel, clickListener)
                                 .create().show();
-                        //Connection.borrarCuenta(getActivity());
-                        //Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),getString(R.string.bCuenta),Toast.LENGTH_LONG).show();
-                        //Toast.makeText(getActivity().getApplicationContext(), "todavia no", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -247,13 +194,13 @@ public class AjustesFragment extends BaseFragment {
     }
 
     private void showChangeLanguageDialog() {
-        final String[] listItems={"Castellano","Catalan","English"};
-        AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
+        final String[] listItems = {"Castellano", "Catalan", "English"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         mBuilder.setTitle(getString(R.string.eligeIdioma));
         mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(i==0){
+                if (i == 0) {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.espanol), Toast.LENGTH_SHORT).show();
                     setLocale("es");
                     Fragment fragment = AjustesFragment.this;
@@ -261,8 +208,7 @@ public class AjustesFragment extends BaseFragment {
                     ft.detach(fragment);
                     ft.attach(fragment);
                     ft.commit();
-                }
-                else if(i==1){
+                } else if (i == 1) {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.catalan), Toast.LENGTH_SHORT).show();
                     setLocale("ca");
                     Fragment fragment = AjustesFragment.this;
@@ -270,8 +216,7 @@ public class AjustesFragment extends BaseFragment {
                     ft.detach(fragment);
                     ft.attach(fragment);
                     ft.commit();
-                }
-                else if(i==2){
+                } else if (i == 2) {
                     Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.ingles), Toast.LENGTH_SHORT).show();
                     setLocale("en");
                     Fragment fragment = AjustesFragment.this;
@@ -283,12 +228,12 @@ public class AjustesFragment extends BaseFragment {
                 dialogInterface.dismiss();
             }
         });
-        AlertDialog mDialog=mBuilder.create();
+        AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
 
     private void setLocale(String s) {
-        Locale locale=new Locale(s);
+        Locale locale = new Locale(s);
         Locale.setDefault(locale);
         Configuration config = Objects.requireNonNull(getActivity()).getBaseContext().getResources().getConfiguration();
         config.locale = locale;
@@ -297,14 +242,63 @@ public class AjustesFragment extends BaseFragment {
                 getActivity().getBaseContext().getResources().getDisplayMetrics()
         );
 
-        SharedPreferences.Editor editor=getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
-        editor.putString("My_Lang",s);
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang", s);
         editor.apply();
 
     }
-    public void loadLocale(){
+
+    public void loadLocale() {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", Activity.MODE_PRIVATE);
-        String language=prefs.getString("My_Lang","");
+        String language = prefs.getString("My_Lang", "");
         setLocale(language);
+    }
+
+    @Override
+    public void onEraseUserSuccess() {
+        Connection.logOut();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        })
+                .setMessage(R.string.borrar_cuenta_success)
+                .create().show();
+    }
+
+    @Override
+    public void onEraseUserError(int error) {
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+        builder2.setPositiveButton(R.string.ok, null);
+
+        switch (error) {
+            case Connection.INVALID_CREDENTIALS_ERROR:
+                builder2.setMessage(R.string.error_password_diff);
+                break;
+            case Connection.USER_ERROR_NON_EXISTANT_USER:
+                builder2.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Connection.logOut();
+                    }
+                });
+                builder2.setMessage(R.string.error_erase_user_nouser);
+                break;
+            case Connection.SOCKET_DISCONNECTED:
+                builder2.setMessage(R.string.noConexion);
+                break;
+            case Connection.UNKNOWN_ERROR:
+                builder2.setMessage(R.string.error_unknown_error);
+                break;
+            case Connection.USER_NOT_LOGINED:
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        builder2.show();
     }
 }

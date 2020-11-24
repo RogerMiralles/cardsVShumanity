@@ -21,16 +21,22 @@ public class CreateGamePresenterImpl extends BasePresenterImpl<CreateGamePresent
 
     @Override
     public void getSimpleDeck() {
+        view.showProgress();
         barajaUseCase.setParameters(null).execute(new CreateGameGetDeckObservableCallback(view));
     }
 
     @Override
     public void createGame(ServiceCreateGameInput param) {
+        view.showProgress();
         createGameUseCase.setParameters(param).execute(new CreateGameObservableCallback(view));
     }
 
     @Override
     public void onDestroy() {
         barajaUseCase.dispose();
+        createGameUseCase.dispose();
+
+        barajaUseCase = null;
+        createGameUseCase = null;
     }
 }

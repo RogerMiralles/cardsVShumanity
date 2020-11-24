@@ -2,6 +2,7 @@ package com.xokundevs.cardsvshumanity.actiPartida;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -15,13 +16,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xokundevs.cardsvshumanity.R;
-import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
+import com.xokundevs.cardsvshumanity.adapter.AdapterRec;
+import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.javaConCod.GameController;
+import com.xokundevs.cardsvshumanity.presenter.JoinLobbyPresenter;
+import com.xokundevs.cardsvshumanity.presenter.impl.JoinLobbyPresenterImpl;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceJoinGameInput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetGameDataItemOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetGameDataOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceJoinGameOutput;
+import com.xokundevs.cardsvshumanity.utils.baseutils.BasePresenterActivity;
 
 import java.util.ArrayList;
 
-public class UnirsePartida extends BaseActivity {
+public class UnirsePartida extends BasePresenterActivity<JoinLobbyPresenter> implements JoinLobbyPresenter.View, AdapterRec.OnAdapterRecItemClick {
 
-    private ArrayList<String[]> infoPartidas;
+    private ArrayList<ServiceGetGameDataItemOutput> infoPartidas;
     private RecyclerView mRecyclerView;
     private AdapterRec mAdapter;
     @Override
@@ -29,97 +39,82 @@ public class UnirsePartida extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unirse_partida);
         setTitle(getString(R.string.unirse_partida));
-
-        mRecyclerView = findViewById(R.id.rv_unirse_partida);
-        mAdapter = new AdapterRec();
+        setPresenter(new JoinLobbyPresenterImpl(this));
 
         infoPartidas = new ArrayList<>();
 
+        bindViews();
+        setUpViews();
+
+        getPresenter().getAvailableLobbies();
+    }
+
+    private void bindViews(){
+        mRecyclerView = findViewById(R.id.rv_unirse_partida);
+    }
+
+    private void setUpViews(){
+        mAdapter = new AdapterRec(this, infoPartidas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.internet_dialog_cargando);
-        builder.setCancelable(false);
-        final AlertDialog alertDialog = builder.create();
-
-        /*Connection.ConnectionThread thread = Connection.CogerPartida(this);
-        thread.setRunBegin(new Runnable() {
-            @Override
-            public void run() {
-                alertDialog.show();
-            }
-        });
-        thread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
-            @Override
-            public void run() {
-                alertDialog.dismiss();
-                infoPartidas.clear();
-                infoPartidas.addAll((ArrayList<String[]>)getArguments());
-                mAdapter.notifyDataSetChanged();
-                Toast.makeText(UnirsePartida.this, Integer.toString(infoPartidas.size()), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        thread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
-            @Override
-            public void run() {
-                builder.setMessage(R.string.error_unknown_error);
-                builder.setPositiveButton(R.string.ok, null);
-                switch (getError()){
-                    case Connection.UNKOWN_ERROR:
-                        break;
-                    case Connection.SOCKET_DISCONNECTED:
-                        break;
-                }
-                builder.show();
-                alertDialog.dismiss();
-
-            }
-        });
-        thread.start();*/
-        // TODO: 08/11/2020
-
-        throw new RuntimeException("Not implemented yet");
     }
 
-    public class AdapterRec extends RecyclerView.Adapter<AdapterRec.ViewHolder> {
+    @Override
+    public void onGetAvailableLobbiesSuccess(ServiceGetGameDataOutput output) {
+        infoPartidas.clear();
+        infoPartidas.addAll(output.getGameDataList());
+        mAdapter.notifyDataSetChanged();
+    }
 
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View v = getLayoutInflater().inflate(R.layout.rv_unirsepartida_viewholder_layout, mRecyclerView, false);
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-            String[] info = infoPartidas.get(i);
-            viewHolder.nombreSala.setText(info[0]);
-            viewHolder.nombreCreador.setText(info[1]);
-        }
-
-        @Override
-        public int getItemCount() {
-            return infoPartidas.size();
-        }
-
-        private class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-            private TextView nombreSala, nombreCreador;
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                nombreCreador = itemView.findViewById(R.id.tv__vhcreador_partida);
-                nombreSala = itemView.findViewById(R.id.tv_namePartida_vh_unirsePartida);
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                CreaAlertDialog(nombreCreador.getText().toString(), nombreSala.getText().toString());
-            }
+    @Override
+    public void onGetAvailableLobbiesError(int error) {
+        switch (error){
+            case Connection.UNKNOWN_ERROR:
+                break;
+            case Connection.SOCKET_DISCONNECTED:
+                break;
         }
     }
+
+    @Override
+    public void onJoinLobbySuccess(ServiceJoinGameOutput output) {
+        Intent intent = new Intent(getBaseContext(), PrePartidaActivity.class);
+        ArrayList<String> emails = new ArrayList<>()
+                , noms = new ArrayList<>();
+
+        for(Jugador j : output.getJugadors()){
+            emails.add(j.getEmail());
+            noms.add(j.getNombre());
+        }
+
+        intent.putParcelableArrayListExtra(PrePartidaActivity.PLAYERS_INTENT_ARG,output.getJugadors());
+        intent.putExtra(PrePartidaActivity.CREATOR_CHECK_ARG, false);
+        intent.putExtra(PrePartidaActivity.LOBBY_NAME_ARG, output.getLobbyName());
+        GameController.GenerateGameController(output.getSocketHandler(), output.getSecretKey());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onJoinLobbyError(int error) {
+        AlertDialog.Builder erroresbuild = new AlertDialog.Builder(UnirsePartida.this);
+        erroresbuild.setPositiveButton(R.string.ok,null);
+        switch (error){
+            case Connection.INVALID_CREDENTIALS_ERROR:
+                erroresbuild.setMessage(R.string.invalidPassword);
+                break;
+            case Connection.USER_ERROR_NON_EXISTANT_USER:
+                erroresbuild.setMessage(R.string.error_usuario_no_existe);
+                break;
+            case Connection.PARTIDA_ERROR_NO_ENTRAR_DENIED:
+                erroresbuild.setMessage(R.string.error_partida_no_existe);
+                break;
+            case Connection.PARTIDA_ERROR_NON_EXISTANT_PARTIDA:
+                erroresbuild.setMessage(R.string.error_partida_no_existe);
+                break;
+        }
+        erroresbuild.show();
+    }
+
 
     private void CreaAlertDialog(final String nombreCreador, final String nombreSala){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,55 +126,7 @@ public class UnirsePartida extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == Dialog.BUTTON_POSITIVE) {
-                    /*Connection.ConnectionThread connectionThread = Connection.unirsePartida(UnirsePartida.this, nombreSala, editText.getText().toString());
-                    connectionThread.setRunOk(new Connection.ConnectionThread.SuccessRunnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getBaseContext(), PrePartidaActivity.class);
-                            Object[] objects = (Object[]) getArguments();
-                            ArrayList<Jugador> strings = (ArrayList<Jugador>) objects[0];
-                            ArrayList<String> emails = new ArrayList<>()
-                                    , noms = new ArrayList<>();
-
-                            for(Jugador j : strings){
-                                emails.add(j.getEmail());
-                                noms.add(j.getNombre());
-                            }
-                            intent.putStringArrayListExtra("peopleEmail", emails);
-                            intent.putStringArrayListExtra("peopleName", noms);
-                            intent.putExtra("creator", false);
-                            intent.putExtra("salaName", nombreSala);
-                            GameController.GenerateGameController((SocketHandler) objects[1], (SecretKey) objects[2]);
-                            startActivity(intent);
-                        }
-                    });
-
-                    connectionThread.setRunNo(new Connection.ConnectionThread.ErrorRunable() {
-                        @Override
-                        public void run() {
-                            AlertDialog.Builder erroresbuild = new AlertDialog.Builder(UnirsePartida.this);
-                            erroresbuild.setPositiveButton(R.string.ok,null);
-                            switch (getError()){
-                                case Connection.INVALID_CREDENTIALS_ERROR:
-                                    erroresbuild.setMessage(R.string.invalidPassword);
-                                    break;
-                                case Connection.USER_ERROR_NON_EXISTANT_USER:
-                                    erroresbuild.setMessage(R.string.error_usuario_no_existe);
-                                    break;
-                                case Connection.PARTIDA_ERROR_NO_ENTRAR_DENIED:
-                                    erroresbuild.setMessage(R.string.error_partida_no_existe);
-                                    break;
-                                case Connection.PARTIDA_ERROR_NON_EXISTANT_PARTIDA:
-                                    erroresbuild.setMessage(R.string.error_partida_no_existe);
-                                    break;
-                            }
-                            Toast.makeText(getBaseContext(), Integer.toString(getError()), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    connectionThread.start();*/
-
-                    throw new RuntimeException("Not implemented yet");
+                    getPresenter().joinLobby(new ServiceJoinGameInput(nombreSala, nombreCreador));
                 }else if(which == Dialog.BUTTON_NEGATIVE){
                     dialog.dismiss();
                 }
@@ -188,5 +135,10 @@ public class UnirsePartida extends BaseActivity {
         builder.setPositiveButton(R.string.ok, onCListener);
         builder.setNegativeButton(R.string.cancel, onCListener);
         builder.create().show();
+    }
+
+    @Override
+    public void onItemClick(ServiceGetGameDataItemOutput info) {
+        CreaAlertDialog(info.getOwnerUsername(), info.getGameName());
     }
 }

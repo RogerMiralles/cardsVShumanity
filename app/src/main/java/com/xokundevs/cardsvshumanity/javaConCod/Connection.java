@@ -16,7 +16,7 @@ public class Connection {
     public static final int GET_CARTAS_BARAJA = 105;
     public static final int SAVE_BARAJA = 106;
     public static final int BORRA_BARAJA = 107;
-    public static final int COGER_PARTIDA = 108;
+    public static final int AVALIABLE_LOBBIES = 108;
     public static final int CREAR_PARTIDA = 109;
     public static final int CONNECTAR_PARTIDA = 110;
 
@@ -36,7 +36,7 @@ public class Connection {
 
     public static final int SOCKET_DISCONNECTED = -102;
     public static final int USER_NOT_LOGINED = -101;
-    public static final int UNKOWN_ERROR = -100;
+    public static final int UNKNOWN_ERROR = -100;
 
     private static Usuario user;
 
@@ -327,9 +327,8 @@ public class Connection {
     public static ConnectionThread unirsePartida(Activity context, String partida, String password) {
         return new ConnectionThread(CONNECTAR_PARTIDA, context, partida, password);
     }*/
-
-    public static void setUser(String email, String password, String name, int wins){
-        Connection.user = new Usuario(email,password,name,wins);
+    public static void setUser(String email, String password, String name, int wins) {
+        Connection.user = new Usuario(email, password, name, wins);
     }
 
     public static boolean logOut() {
@@ -348,7 +347,7 @@ public class Connection {
         return (user == null) ? null : user.email;
     }
 
-    public static Usuario getUser(){
+    public static Usuario getUser() {
         return user;
     }
 
@@ -360,7 +359,13 @@ public class Connection {
         return (user == null) ? null : user.wins;
     }
 
-    public static String getPassword(){return (user == null) ? null : user.password;}
+    public static String getPassword() {
+        return (user == null) ? null : user.password;
+    }
+
+    public static void newLoginUser(String email, String password, String username, int wins) {
+        user = new Usuario(email, password, username, wins);
+    }
 
     public static class Usuario {
         private String email, password, name;

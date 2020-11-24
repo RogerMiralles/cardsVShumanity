@@ -26,7 +26,7 @@ public class CreateGameObservableCallback extends BaseObservableCallback<Service
             view.onCreateGameError(((ServiceError) e).getErrorCode());
         }
         else{
-            view.onCreateGameError(Connection.UNKOWN_ERROR);
+            view.onCreateGameError(Connection.UNKNOWN_ERROR);
         }
         view.hideProgress();
     }

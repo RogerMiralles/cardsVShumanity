@@ -22,11 +22,13 @@ public class ModifyDeckPresenterImpl extends BasePresenterImpl<ModifyDeckPresent
 
     @Override
     public void getCardDeck(ServiceGetCardsDeckInput input) {
+        view.showProgress();
         modifyDeckUseCase.setParameters(input).execute(new GetCardDeckObservableCallback(view));
     }
 
     @Override
     public void saveCardDeck(ServiceSaveDeckInput input) {
+        view.showProgress();
         saveDeckUseCase.setParameters(input).execute(new SaveBarajaCallback(view));
     }
 

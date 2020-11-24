@@ -22,11 +22,13 @@ public class BarajasPresenterImpl extends BasePresenterImpl<BarajasPresenter.Vie
 
     @Override
     public void getBaraja() {
+        view.showProgress();
         barajaUseCase.setParameters(null).execute(new GetBarajaObservableCallback(view));
     }
 
     @Override
     public void borrarBaraja(ServiceEraseDeckInput param) {
+        view.showProgress();
         eraseDeckUseCase.setParameters(param).execute(new EraseDeckCallback(view));
     }
 

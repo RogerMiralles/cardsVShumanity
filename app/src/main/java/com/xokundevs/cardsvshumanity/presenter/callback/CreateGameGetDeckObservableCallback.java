@@ -27,7 +27,7 @@ public class CreateGameGetDeckObservableCallback extends BaseObservableCallback<
             view.onGetSimpleDeckError(((ServiceError) e).getErrorCode());
         }
         else {
-            view.onGetSimpleDeckError(Connection.UNKOWN_ERROR);
+            view.onGetSimpleDeckError(Connection.UNKNOWN_ERROR);
         }
     }
 }

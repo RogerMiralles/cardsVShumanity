@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/txtCorreo3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/correo"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/eTxtCorreo3"
@@ -25,8 +25,8 @@
         android:id="@+id/eTxtCorreo3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/correo"
         android:importantForAutofill="no"
@@ -40,16 +40,16 @@
 
     <TextView
         android:id="@+id/txtPass3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/contrase_a"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/eTxtPass3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTxtCorreo3" />
 
@@ -57,13 +57,13 @@
         android:id="@+id/eTxtPass3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/contrase_a"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/txtImagen"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegistrado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,17 +75,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="29dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
         android:onClick="onClickRegistrarse"
         android:text="@string/registrarse"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgUsuario" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
+        android:id="@+id/imageButton2"
         android:layout_width="57dp"
         android:layout_height="57dp"
         android:layout_marginStart="16dp"
@@ -103,15 +101,16 @@
 
     <TextView
         android:id="@+id/txtNombreU"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/nombre_de_usuario"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/eTxtNombreU"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,8 +118,8 @@
         android:id="@+id/eTxtNombreU"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/nombre_de_usuario"
         android:importantForAutofill="no"
@@ -131,48 +130,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNombreU"
         tools:targetApi="o" />
-
-    <TextView
-        android:id="@+id/txtImagen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/foto_perfil"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/imgUsuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtPass3" />
-
-    <ImageView
-        android:id="@+id/imgUsuario"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/imagenusuario"
-
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistrado"
-        app:layout_constraintEnd_toStartOf="@+id/btnSelecImg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtImagen"
-        app:srcCompat="@drawable/ic_person_black_24dp"
-        tools:src="@tools:sample/avatars"
-        tools:srcCompat="@drawable/ic_person_black_24dp" />
-
-    <Button
-        android:id="@+id/btnSelecImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="onClickImagen"
-        android:text="@string/selecciona_imagen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toEndOf="@+id/imgUsuario"
-        app:layout_constraintTop_toBottomOf="@+id/txtImagen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xokundevs.cardsvshumanity.R;
+import com.xokundevs.cardsvshumanity.adapter.RAdapter;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
 import com.xokundevs.cardsvshumanity.javaConCod.GameController;
 import com.xokundevs.cardsvshumanity.utils.baseutils.BaseActivity;
@@ -22,7 +23,15 @@ import java.util.ArrayList;
 
 public class PrePartidaActivity extends BaseActivity {
 
+    public static final String PLAYERS_INTENT_ARG = "jugadores_arraylist";
+    public static final String LOBBY_NAME_ARG = "lobby_name";
+    public static final String CREATOR_CHECK_ARG = "creator_check";
+
+
     private ArrayList<Jugador> jugadores;
+    private String lobbyName;
+    private boolean isCreator;
+
     private TextView mSalaNombre;
     private RecyclerView mReciclerView;
     private Button mEmpezar;
@@ -37,31 +46,20 @@ public class PrePartidaActivity extends BaseActivity {
         mEmpezar = findViewById(R.id.btnComenzar_prepartida);
 
         jugadores = new ArrayList<>();
+        mAdapter = new RAdapter(this, jugadores);
+
         Intent intent = getIntent();
-        ArrayList<String> emails = intent.getStringArrayListExtra("peopleEmail");
-        ArrayList<String> nombres = intent.getStringArrayListExtra("peopleName");
 
-        if(emails != null && nombres != null) {
-            for (int i = 0; i < emails.size(); i++) {
-                jugadores.add(new Jugador(emails.get(i), nombres.get(i)));
-            }
-        }
-        jugadores.add(new Jugador(Connection.getEmail(), Connection.getName()));
-
-
-        mAdapter = new RAdapter();
+        getArguments();
 
         mReciclerView.setLayoutManager(new LinearLayoutManager(this));
         mReciclerView.setAdapter(mAdapter);
 
-        Log.d(PrePartidaActivity.class.getSimpleName(), Integer.toString(jugadores.size()));
-        String nombreSala = intent.getStringExtra("salaName");
-        if(nombreSala != null){
-            mSalaNombre.setText(nombreSala);
+        if(lobbyName != null){
+            mSalaNombre.setText(lobbyName);
         }
 
-        boolean creator = intent.getBooleanExtra("creator", false);
-        if(!creator){
+        if(!isCreator){
             mEmpezar.setVisibility(View.GONE);
         }
         else{
@@ -103,39 +101,14 @@ public class PrePartidaActivity extends BaseActivity {
         });
     }
 
-    public void empezarPartida(View v){
-        GameController.getInstance().enviarComenzarPartida();
+    private void getArguments(){
+        jugadores = getIntent().getParcelableArrayListExtra(PLAYERS_INTENT_ARG);
+        lobbyName = getIntent().getStringExtra(LOBBY_NAME_ARG);
+        isCreator = getIntent().getBooleanExtra(CREATOR_CHECK_ARG, false);
     }
 
-    private class RAdapter extends RecyclerView.Adapter<RAdapter.ViewHolder>{
-
-
-
-        @NonNull
-        @Override
-        public RAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View v = getLayoutInflater().inflate(R.layout.viewholder_prepartida_rv_jugadores_layout, viewGroup, false);
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RAdapter.ViewHolder viewHolder, int i) {
-            viewHolder.editText.setText(jugadores.get(i).getNombre());
-        }
-
-        @Override
-        public int getItemCount() {
-            return jugadores.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView editText;
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                editText = itemView.findViewById(R.id.viewholder_prepartida_rv_jugadores_muestrajugador);
-            }
-        }
+    public void empezarPartida(View v){
+        GameController.getInstance().enviarComenzarPartida();
     }
 
     @Override

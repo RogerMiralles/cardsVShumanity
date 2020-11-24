@@ -169,7 +169,7 @@ public class EditarBaraja extends BasePresenterActivity<ModifyDeckPresenter> imp
         builder.setPositiveButton(R.string.ok, null)
                 .setCancelable(false);
         switch (error) {
-            case Connection.UNKOWN_ERROR:
+            case Connection.UNKNOWN_ERROR:
                 builder.setMessage(R.string.error_unknown_error);
                 break;
             case Connection.SOCKET_DISCONNECTED:
@@ -207,7 +207,7 @@ public class EditarBaraja extends BasePresenterActivity<ModifyDeckPresenter> imp
         builder.setPositiveButton(R.string.ok, null)
                 .setCancelable(false);
         switch (error) {
-            case Connection.UNKOWN_ERROR:
+            case Connection.UNKNOWN_ERROR:
                 builder.setMessage(R.string.error_unknown_error);
                 break;
             case Connection.SOCKET_DISCONNECTED:

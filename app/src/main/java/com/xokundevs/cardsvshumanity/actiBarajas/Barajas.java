@@ -82,7 +82,7 @@ public class Barajas extends BasePresenterActivity<BarajasPresenter> implements 
             case Connection.INVALID_CREDENTIALS_ERROR:
                 builder1.setMessage(R.string.emailContraMal);
                 break;
-            case Connection.UNKOWN_ERROR:
+            case Connection.UNKNOWN_ERROR:
                 builder1.setMessage(R.string.error_unknown_error);
                 break;
             case Connection.SOCKET_DISCONNECTED:

@@ -2,13 +2,18 @@ package com.xokundevs.cardsvshumanity.repository;
 
 import android.util.Log;
 
+import com.xokundevs.cardsvshumanity.actiPartida.Jugador;
 import com.xokundevs.cardsvshumanity.javaConCod.Codification;
 import com.xokundevs.cardsvshumanity.javaConCod.Connection;
+import com.xokundevs.cardsvshumanity.javaConCod.GameController;
 import com.xokundevs.cardsvshumanity.javaConCod.SocketHandler;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceCreateGameDeckDataInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceCreateGameInput;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceCreateUserInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceEraseDeckInput;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceEraseUserInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceGetCardsDeckInput;
+import com.xokundevs.cardsvshumanity.serviceinput.ServiceJoinGameInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceLoginInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceSaveDeckBlackCardInput;
 import com.xokundevs.cardsvshumanity.serviceinput.ServiceSaveDeckInput;
@@ -17,6 +22,9 @@ import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCardBlackInfoOutput;
 import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCardWhiteInfoOutput;
 import com.xokundevs.cardsvshumanity.serviceoutput.ServiceCreateGameOutput;
 import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetCardsDeckOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetGameDataOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceGetGameDataItemOutput;
+import com.xokundevs.cardsvshumanity.serviceoutput.ServiceJoinGameOutput;
 import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoListOutput;
 import com.xokundevs.cardsvshumanity.serviceoutput.ServiceSimpleDeckInfoOutput;
 import com.xokundevs.cardsvshumanity.utils.ServiceError;
@@ -40,6 +48,8 @@ import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.BORRA_BARAJA;
+import static com.xokundevs.cardsvshumanity.javaConCod.Connection.AVALIABLE_LOBBIES;
+import static com.xokundevs.cardsvshumanity.javaConCod.Connection.CONNECTAR_PARTIDA;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.CREAR_PARTIDA;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.GET_BASIC_INFO_BARAJA;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.GET_CARTAS_BARAJA;
@@ -49,7 +59,7 @@ import static com.xokundevs.cardsvshumanity.javaConCod.Connection.OK;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.PORT;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.SAVE_BARAJA;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.SOCKET_DISCONNECTED;
-import static com.xokundevs.cardsvshumanity.javaConCod.Connection.UNKOWN_ERROR;
+import static com.xokundevs.cardsvshumanity.javaConCod.Connection.UNKNOWN_ERROR;
 import static com.xokundevs.cardsvshumanity.javaConCod.Connection.USER_NOT_LOGINED;
 
 
@@ -142,7 +152,7 @@ public class CcaRepository {
                 } catch (ServiceError e) {
                     emitter.onError(e);
                 } catch (Exception e) {
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                     e.printStackTrace();
                 }
             }
@@ -190,7 +200,7 @@ public class CcaRepository {
                 } catch (ServiceError e) {
                     emitter.onError(e);
                 } catch (Exception e) {
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                     e.printStackTrace();
                 }
             }
@@ -257,7 +267,7 @@ public class CcaRepository {
                     emitter.onError(ex);
                 } catch (Exception e) {
                     Log.e(Connection.class.getSimpleName(), e.getMessage());
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                 }
             }
         });
@@ -313,9 +323,110 @@ public class CcaRepository {
                     emitter.onError(ex);
                 } catch (Exception e) {
                     Log.e(Connection.class.getSimpleName(), e.getMessage());
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                 }
                 Log.d(Connection.class.getSimpleName(), "ACABA -- LogIn");
+            }
+        });
+    }
+
+    public Completable createUser(ServiceCreateUserInput param) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter emitter) throws Throwable {
+
+                try (Socket sk = new Socket()) {
+
+                    ConnectSocket(sk);
+
+                    sk.setSoTimeout(0);
+                    //sk = new Socket("192.168.137.1", PORT);
+                    SocketHandler skHandler = new SocketHandler(sk);
+                    DataInputStream dis;
+                    DataOutputStream dos;
+
+                    dis = skHandler.getDis();
+                    dos = skHandler.getDos();
+
+                    //Envia orden
+                    dos.writeInt(Connection.CREATE_USER);
+
+                    skHandler.recibePublicKeyEnviaSecretKey();
+
+                    //envia email contrasenya y nombre codificados con clave simetrica
+                    skHandler.enviarString(param.getEmail());
+                    String hexPassword = Codification.toHex(Codification.generateHashCode(param.getPassword().getBytes(StandardCharsets.UTF_8)));
+                    skHandler.enviarHex(hexPassword);
+
+                    skHandler.enviarString(param.getUsername());
+
+                    if (skHandler.recibirInt() == OK) {
+
+                        Connection.newLoginUser(param.getEmail(), hexPassword, param.getUsername(), 0);
+                        emitter.onComplete();
+
+                    } else {
+                        int error = skHandler.recibirInt();
+                        throw new ServiceError(error);
+                    }
+                } catch (IOException e) {
+                    emitter.onError(new ServiceError(SOCKET_DISCONNECTED));
+                    e.printStackTrace();
+                } catch (ServiceError e) {
+                    emitter.onError(e);
+                } catch (Exception e) {
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Completable eraseUser(ServiceEraseUserInput params) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter emitter) throws Throwable {
+
+                try (Socket socket = new Socket()) {
+
+                    if(!Connection.isLogined()){
+                        throw new ServiceError(USER_NOT_LOGINED);
+                    }
+
+                    ConnectSocket(socket);
+
+                    SocketHandler skHandler = new SocketHandler(socket);
+                    DataOutputStream dos = skHandler.getDos();
+                    DataInputStream dis = skHandler.getDis();
+
+                    //Envia la order
+                    dos.writeInt(Connection.ERASE_USER);
+
+                    skHandler.recibePublicKeyEnviaSecretKey();
+
+                    String password = Codification.toHex(
+                            Codification.generateHashCode(params.getPassword().getBytes(StandardCharsets.UTF_8))
+                    );
+
+                    skHandler.enviarHex(password);
+
+                    skHandler.enviarString(Connection.getEmail());
+
+                    int result = skHandler.recibirInt();
+                    if (result == OK) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onError(new ServiceError(skHandler.recibirInt()));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    emitter.onError(new ServiceError(SOCKET_DISCONNECTED));
+                } catch(ServiceError e){
+                    emitter.onError(e);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
+                }
             }
         });
     }
@@ -392,7 +503,7 @@ public class CcaRepository {
                 } catch (ServiceError e) {
                     emitter.onError(e);
                 } catch (Exception e) {
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                 }
             }
         });
@@ -465,7 +576,133 @@ public class CcaRepository {
                     emitter.onError(e);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    emitter.onError(new ServiceError(UNKOWN_ERROR));
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
+                }
+            }
+        });
+    }
+
+    public Observable<ServiceGetGameDataOutput> getAvaliableLobbies() {
+        return Observable.create(new ObservableOnSubscribe<ServiceGetGameDataOutput>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<ServiceGetGameDataOutput> emitter) throws Throwable {
+                Log.d(Connection.class.getSimpleName(), "Connection code: " + AVALIABLE_LOBBIES);
+                try (Socket sk = new Socket()) {
+                    if (!Connection.isLogined()) {
+                        throw new ServiceError(USER_NOT_LOGINED);
+                    }
+
+                    Log.d(Connection.class.getSimpleName(), "Obtener partida");
+                    ConnectSocket(sk);
+                    sk.setSoTimeout(0);
+
+                    SocketHandler skHandler = new SocketHandler(sk);
+
+
+                    DataInputStream dis;
+                    DataOutputStream dos;
+
+                    dis = skHandler.getDis();
+                    dos = skHandler.getDos();
+
+                    dos.writeInt(AVALIABLE_LOBBIES);
+                    skHandler.recibePublicKeyEnviaSecretKey();
+                    int CantPartidas = skHandler.recibirInt();
+
+                    ArrayList<ServiceGetGameDataItemOutput> listPartidas = new ArrayList<>();
+                    for (int i = 0; i < CantPartidas; i++) {
+                        String gameName = skHandler.recibirString();
+                        String userName = skHandler.recibirString();
+                        int userList = skHandler.recibirInt();
+                        int maxPlayers = skHandler.recibirInt();
+
+                        listPartidas.add(new ServiceGetGameDataItemOutput(gameName, userName, userList, maxPlayers));
+                    }
+
+                    ServiceGetGameDataOutput gameDataOutput = new ServiceGetGameDataOutput();
+                    gameDataOutput.setGameDataList(listPartidas);
+
+                    emitter.onNext(gameDataOutput);
+
+                } catch (IOException e) {
+                    ServiceError serviceError = new ServiceError(SOCKET_DISCONNECTED);
+                    serviceError.initCause(e);
+                    emitter.onError(serviceError);
+                    e.printStackTrace();
+                } catch (ServiceError e) {
+                    emitter.onError(e);
+                    e.printStackTrace();
+                } catch (Exception ex) {
+                    ServiceError serviceError = new ServiceError(UNKNOWN_ERROR);
+                    serviceError.initCause(ex);
+                    emitter.onError(serviceError);
+                    serviceError.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Observable<ServiceJoinGameOutput> joinGame(ServiceJoinGameInput params) {
+        return Observable.create(new ObservableOnSubscribe<ServiceJoinGameOutput>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<ServiceJoinGameOutput> emitter) throws Throwable {
+
+                Log.d(Connection.class.getSimpleName(), "Connection code: " + CONNECTAR_PARTIDA);
+                try (Socket sk = new Socket()) {
+
+
+                    if (!Connection.isLogined()) {
+                        throw new ServiceError(USER_NOT_LOGINED);
+                    }
+
+                    ConnectSocket(sk);
+
+                    sk.setSoTimeout(0);
+
+                    SocketHandler skHandler = new SocketHandler(sk);
+
+                    DataInputStream dis;
+                    DataOutputStream dos;
+
+                    dis = skHandler.getDis();
+                    dos = skHandler.getDos();
+
+                    //Envia orden
+                    dos.writeInt(CONNECTAR_PARTIDA);
+
+                    SecretKey secretKey = skHandler.recibePublicKeyEnviaSecretKey();
+
+                    skHandler.enviarString(Connection.getEmail());
+                    skHandler.enviarHex(Connection.getPassword());
+                    skHandler.enviarString(params.getGameName());
+                    skHandler.enviarString(params.getPasswordName());
+
+                    ArrayList<Jugador> jugadores = new ArrayList<>();
+                    int result;
+                    do {
+                        result = skHandler.recibirInt();
+                        Log.d(Connection.class.getSimpleName(), String.valueOf(result));
+                        if (result == GameController.NEW_PLAYER) {
+                            jugadores.add(new Jugador(skHandler.recibirString(), skHandler.recibirString()));
+                        }
+                    } while (result == GameController.NEW_PLAYER);
+                    if (result == OK) {
+                        ServiceJoinGameOutput output = new ServiceJoinGameOutput(jugadores, skHandler, secretKey, params.getGameName());
+                        emitter.onNext(output);
+                    } else {
+                        int error = skHandler.recibirInt();
+                        throw new ServiceError(error);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    emitter.onError(new ServiceError(SOCKET_DISCONNECTED));
+                } catch (ServiceError e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    emitter.onError(new ServiceError(UNKNOWN_ERROR));
                 }
             }
         });

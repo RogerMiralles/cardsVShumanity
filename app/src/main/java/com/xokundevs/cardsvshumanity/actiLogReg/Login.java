@@ -112,7 +112,7 @@ public class Login extends BasePresenterActivity<LoginPresenter> implements Logi
             case Connection.SOCKET_DISCONNECTED:
                 builder.setMessage(R.string.noConexion);
                 break;
-            case Connection.UNKOWN_ERROR:
+            case Connection.UNKNOWN_ERROR:
                 builder.setMessage(R.string.error_unknown_error);
                 break;
         }
